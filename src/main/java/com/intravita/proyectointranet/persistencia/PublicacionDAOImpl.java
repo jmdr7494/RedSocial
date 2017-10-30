@@ -23,8 +23,12 @@ public class PublicacionDAOImpl {
 		MongoBroker broker = MongoBroker.get();
 		MongoCollection<BsonDocument> usuarios = broker.getCollection("Publicaciones");
 		BsonDocument criterio = new BsonDocument();
-		criterio.append("autor", new BsonString(publicacion.getUsuario().getNombre()));
-		criterio.append("texto", new BsonString(publicacion.getTexto()));
+		if(publicacion.getId()!=null)
+			criterio.append("_id", new BsonObjectId(new ObjectId(publicacion.getId())));
+		else {
+			criterio.append("autor", new BsonString(publicacion.getUsuario().getNombre()));
+			criterio.append("texto", new BsonString(publicacion.getTexto()));
+		}
 		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
 		BsonDocument usuarioBson = resultado.first();
 		if (usuarioBson==null) {
@@ -75,6 +79,29 @@ public class PublicacionDAOImpl {
 		BsonDocument publicacionBson = resultado.first();		
 		publicaciones.deleteOne(publicacionBson);
 	}
+	/**
+	 * 
+	 * @param usuario del que queremos obtener publicaciones publicas
+	 * @return lista de publicaciones
+	 */
+	public Publicacion selectOne(String id) {
+		MongoBroker broker = MongoBroker.get();
+		MongoCollection<BsonDocument> publicaciones = broker.getCollection("Publicaciones");
+		BsonDocument criterio = new BsonDocument();
+		criterio.append("_id", new BsonObjectId(new ObjectId(id)));
+		FindIterable<BsonDocument> resultado=publicaciones.find(criterio);
+		BsonDocument aux = resultado.first();
+		if(aux==null)
+			return null;
+		String autor=aux.getString("autor").getValue();
+		String texto=aux.getString("texto").getValue();
+		String privacidad=aux.getString("privacidad").getValue();
+		long fecha=aux.getDateTime("fecha").getValue();
+		Publicacion publicacion=new Publicacion(new Usuario(autor), texto, privacidad, fecha);
+		publicacion.setId(aux.getObjectId("_id").getValue().toString());
+		return publicacion;
+	}
+	
 	/**
 	 * 
 	 * @param usuario del que queremos obtener publicaciones publicas

@@ -17,23 +17,21 @@ public class editarPublicacionBDTest {
 	PublicacionDAOImpl publiDao= new PublicacionDAOImpl();
 	Usuario usuario;
 	Publicacion publicacion;
+	String id="59ef6b52495cf514643075fb";
 	
 	@Given("^El usuario quiere editar una publicacion$")
 	public void El_usuario_quiere_editar_una_publicacion() {
-		usuario = new Usuario("jose.maria");
+		
 	}
 
 	@When("^Edicion correcta$")
 	public void Edicion_correcta() {
-		publicacion = new Publicacion(usuario, "Publicacion EDICION");
-		publiDao.insert(publicacion);
-	    publiDao.update(publicacion,"Texto EDICION MODIFICADO");
-	    publicacion = new Publicacion(usuario, "Texto EDICION MODIFICADO");
-	    
+		assertTrue(publiDao.selectOne(id).getTexto().equals("Texto a publicar"));
+	    publiDao.update(id,"Texto EDICION MODIFICADO");   
 	}
 
 	@Then("^Mensaje de exito en la edicion de la publicacion$")
 	public void Mensaje_de_exito_en_la_edicion_de_la_publicacion() {
-		assertTrue(publiDao.existe(publicacion));
+		assertTrue(publiDao.selectOne(id).getTexto().equals("Texto EDICION MODIFICADO"));
 	}
 }

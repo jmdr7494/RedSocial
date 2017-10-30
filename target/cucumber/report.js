@@ -39,22 +39,22 @@ formatter.match({
   "location": "crearCuentaTest.Usuario_en_pagina_de_creacion()"
 });
 formatter.result({
-  "duration": 382226900,
+  "duration": 331551500,
   "status": "passed"
 });
 formatter.match({
   "location": "crearCuentaTest.Nombre_email_contrase_a_y_confirmacion_validos()"
 });
 formatter.result({
-  "duration": 843100,
+  "duration": 646100,
   "status": "passed"
 });
 formatter.match({
   "location": "crearCuentaTest.Mensaje_de_validacion_y_usuario_insertado()"
 });
 formatter.result({
-  "duration": 4436196100,
-  "error_message": "java.lang.AssertionError\r\n\tat org.junit.Assert.fail(Assert.java:92)\r\n\tat org.junit.Assert.assertTrue(Assert.java:43)\r\n\tat org.junit.Assert.assertTrue(Assert.java:54)\r\n\tat cucumberJava.crearCuentaTest.Mensaje_de_validacion_y_usuario_insertado(crearCuentaTest.java:54)\r\n\tat ✽.Then Mensaje de validacion y usuario insertado(cucumberJava\\CreacionUsuario.feature:7)\r\n",
+  "duration": 3054137400,
+  "error_message": "java.lang.AssertionError\r\n\tat org.junit.Assert.fail(Assert.java:92)\r\n\tat org.junit.Assert.assertTrue(Assert.java:43)\r\n\tat org.junit.Assert.assertTrue(Assert.java:54)\r\n\tat cucumberJava.crearCuentaTest.Mensaje_de_validacion_y_usuario_insertado(crearCuentaTest.java:50)\r\n\tat ✽.Then Mensaje de validacion y usuario insertado(cucumberJava\\CreacionUsuario.feature:7)\r\n",
   "status": "failed"
 });
 formatter.scenario({
@@ -90,21 +90,21 @@ formatter.match({
   "location": "crearCuentaTest.Usuario_en_pagina_de_creacion()"
 });
 formatter.result({
-  "duration": 15100,
+  "duration": 17400,
   "status": "passed"
 });
 formatter.match({
   "location": "crearCuentaTest.Email_no_tiene_extension_alu_uclm_es()"
 });
 formatter.result({
-  "duration": 50800,
+  "duration": 30400,
   "status": "passed"
 });
 formatter.match({
   "location": "crearCuentaTest.Mensaje_de_error_a_la_creacion_email_invaildo()"
 });
 formatter.result({
-  "duration": 75600,
+  "duration": 91300,
   "status": "passed"
 });
 formatter.scenario({
@@ -140,21 +140,21 @@ formatter.match({
   "location": "crearCuentaTest.Usuario_en_pagina_de_creacion()"
 });
 formatter.result({
-  "duration": 19100,
+  "duration": 30600,
   "status": "passed"
 });
 formatter.match({
   "location": "crearCuentaTest.Contrase_a_y_su_confirmacion_no_coinciden()"
 });
 formatter.result({
-  "duration": 16900,
+  "duration": 24500,
   "status": "passed"
 });
 formatter.match({
   "location": "crearCuentaTest.Mensaje_de_error_a_la_creacion_password_no_coinciden()"
 });
 formatter.result({
-  "duration": 43200,
+  "duration": 137400,
   "status": "passed"
 });
 formatter.scenario({
@@ -190,21 +190,21 @@ formatter.match({
   "location": "crearCuentaTest.Usuario_en_pagina_de_creacion()"
 });
 formatter.result({
-  "duration": 16300,
+  "duration": 23900,
   "status": "passed"
 });
 formatter.match({
   "location": "crearCuentaTest.Nombre_no_tiene_el_formato_adecuado()"
 });
 formatter.result({
-  "duration": 27600,
+  "duration": 28700,
   "status": "passed"
 });
 formatter.match({
   "location": "crearCuentaTest.Mensaje_de_error_a_la_creacion_nombre_invalido()"
 });
 formatter.result({
-  "duration": 40700,
+  "duration": 80200,
   "status": "passed"
 });
 formatter.scenario({
@@ -240,21 +240,21 @@ formatter.match({
   "location": "crearCuentaTest.Usuario_en_pagina_de_creacion()"
 });
 formatter.result({
-  "duration": 17100,
+  "duration": 24200,
   "status": "passed"
 });
 formatter.match({
   "location": "crearCuentaTest.Password_no_tiene_la_seguridad_adecuada()"
 });
 formatter.result({
-  "duration": 21100,
+  "duration": 24700,
   "status": "passed"
 });
 formatter.match({
   "location": "crearCuentaTest.Mensaje_de_error_a_la_creacion_password_poco_segura()"
 });
 formatter.result({
-  "duration": 401100,
+  "duration": 56900,
   "status": "passed"
 });
 formatter.scenario({
@@ -290,21 +290,21 @@ formatter.match({
   "location": "crearCuentaTest.Usuario_en_pagina_de_creacion()"
 });
 formatter.result({
-  "duration": 12700,
+  "duration": 59600,
   "status": "passed"
 });
 formatter.match({
   "location": "crearCuentaTest.Nombre_que_intenta_registrar_ya_existe()"
 });
 formatter.result({
-  "duration": 35000,
+  "duration": 56100,
   "status": "passed"
 });
 formatter.match({
   "location": "crearCuentaTest.Mensaje_de_error_a_la_creacion_cuenta_ya_existente()"
 });
 formatter.result({
-  "duration": 154841600,
+  "duration": 67008900,
   "status": "passed"
 });
 formatter.uri('cucumberJava\Login.feature');
@@ -348,21 +348,21 @@ formatter.match({
   "location": "loginTest.Usuario_en_pagina_de_login()"
 });
 formatter.result({
-  "duration": 13280200,
+  "duration": 6607400,
   "status": "passed"
 });
 formatter.match({
   "location": "loginTest.Credenciales_correctas()"
 });
 formatter.result({
-  "duration": 34400,
+  "duration": 97600,
   "status": "passed"
 });
 formatter.match({
   "location": "loginTest.Mensaje_de_bienvenida_al_login()"
 });
 formatter.result({
-  "duration": 82719400,
+  "duration": 116637100,
   "status": "passed"
 });
 formatter.scenario({
@@ -398,21 +398,21 @@ formatter.match({
   "location": "loginTest.Usuario_en_pagina_de_login()"
 });
 formatter.result({
-  "duration": 15400,
+  "duration": 26500,
   "status": "passed"
 });
 formatter.match({
   "location": "loginTest.Nombre_de_usuario_incorrecto()"
 });
 formatter.result({
-  "duration": 19700,
+  "duration": 56900,
   "status": "passed"
 });
 formatter.match({
   "location": "loginTest.Mensaje_de_error_al_login()"
 });
 formatter.result({
-  "duration": 65971800,
+  "duration": 49381900,
   "status": "passed"
 });
 formatter.scenario({
@@ -448,21 +448,21 @@ formatter.match({
   "location": "loginTest.Usuario_en_pagina_de_login()"
 });
 formatter.result({
-  "duration": 16900,
+  "duration": 19700,
   "status": "passed"
 });
 formatter.match({
   "location": "loginTest.Contrase_a_incorrecta()"
 });
 formatter.result({
-  "duration": 171800,
+  "duration": 27900,
   "status": "passed"
 });
 formatter.match({
   "location": "loginTest.Mensaje_de_error_al_login()"
 });
 formatter.result({
-  "duration": 67607600,
+  "duration": 73326700,
   "status": "passed"
 });
 formatter.uri('cucumberJava\Publicar.feature');
@@ -506,21 +506,21 @@ formatter.match({
   "location": "publicarTest.Usuario_en_pagina_principal()"
 });
 formatter.result({
-  "duration": 5027200,
+  "duration": 4447900,
   "status": "passed"
 });
 formatter.match({
   "location": "publicarTest.Publicacion_correcta()"
 });
 formatter.result({
-  "duration": 95242700,
+  "duration": 68774000,
   "status": "passed"
 });
 formatter.match({
   "location": "publicarTest.Mensaje_de_exito_a_la_publicacion()"
 });
 formatter.result({
-  "duration": 122548400,
+  "duration": 49716000,
   "status": "passed"
 });
 formatter.uri('cucumberJava\editarPublicacionBD.feature');
@@ -564,22 +564,22 @@ formatter.match({
   "location": "editarPublicacionBDTest.El_usuario_quiere_editar_una_publicacion()"
 });
 formatter.result({
-  "duration": 7865600,
+  "duration": 6640300,
   "status": "passed"
 });
 formatter.match({
   "location": "editarPublicacionBDTest.Edicion_correcta()"
 });
 formatter.result({
-  "duration": 152400,
-  "error_message": "java.lang.Error: Unresolved compilation problem: \n\tThe method update(String, String) in the type PublicacionDAOImpl is not applicable for the arguments (Publicacion, String)\n\r\n\tat cucumberJava.editarPublicacionBDTest.Edicion_correcta(editarPublicacionBDTest.java:30)\r\n\tat ✽.When Edicion correcta(cucumberJava\\editarPublicacionBD.feature:6)\r\n",
-  "status": "failed"
+  "duration": 208433000,
+  "status": "passed"
 });
 formatter.match({
   "location": "editarPublicacionBDTest.Mensaje_de_exito_en_la_edicion_de_la_publicacion()"
 });
 formatter.result({
-  "status": "skipped"
+  "duration": 51265600,
+  "status": "passed"
 });
 formatter.uri('cucumberJava\eliminarPublicacionBD.feature');
 formatter.feature({
@@ -622,15 +622,15 @@ formatter.match({
   "location": "eliminarPublicacionBDTest.Usuario_quiere_eliminar_una_publiacion()"
 });
 formatter.result({
-  "duration": 6013700,
+  "duration": 10738100,
   "status": "passed"
 });
 formatter.match({
   "location": "eliminarPublicacionBDTest.Eliminacion_correcta()"
 });
 formatter.result({
-  "duration": 158500,
-  "error_message": "java.lang.Error: Unresolved compilation problem: \n\tThe method remove(String) in the type PublicacionDAOImpl is not applicable for the arguments (Publicacion)\n\r\n\tat cucumberJava.eliminarPublicacionBDTest.Eliminacion_correcta(eliminarPublicacionBDTest.java:32)\r\n\tat ✽.When Eliminacion correcta(cucumberJava\\eliminarPublicacionBD.feature:6)\r\n",
+  "duration": 49804000,
+  "error_message": "java.lang.AssertionError\r\n\tat org.junit.Assert.fail(Assert.java:92)\r\n\tat org.junit.Assert.assertTrue(Assert.java:43)\r\n\tat org.junit.Assert.assertTrue(Assert.java:54)\r\n\tat cucumberJava.eliminarPublicacionBDTest.Eliminacion_correcta(eliminarPublicacionBDTest.java:28)\r\n\tat ✽.When Eliminacion correcta(cucumberJava\\eliminarPublicacionBD.feature:6)\r\n",
   "status": "failed"
 });
 formatter.match({
