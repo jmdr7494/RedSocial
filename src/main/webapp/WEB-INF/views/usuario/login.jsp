@@ -1,4 +1,3 @@
-
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -40,12 +39,12 @@
   transform: translateY(4px);
 }
 
-spam {
+span {
     padding: 20px;
-    color: #3629D3;
+    color: #DF0101;
     margin-left: 12px;
 	font-weight: bold;
-	font-size: 20px;
+	font-size: 15px;
 }
 
 </style>
@@ -59,9 +58,9 @@ spam {
 	<div class="row">
 		<div class="col-md-6 col-md-offset-2">
 			<strong></strong><h1 style="color: white; font-family: Verdana; font-size:60px;"><em><strong>  
-				<img src="http://www.emprender-facil.com/wp-content/uploads/2014/09/La-red-social-LinkedIn-para-tu-negocio-texto1.png" style="width:64px; height:64px;" class="img-circle";> 
+				<img src="http://www.emprender-facil.com/wp-content/uploads/2014/09/La-red-social-LinkedIn-para-tu-negocio-texto1.png" style="width:64px; height:64px;" class="img-circle"> 
 				IntraVita
-			</strong></em></h1></strong>
+			</strong></em></h1>
 		</div>
 	</div>
   
@@ -77,11 +76,12 @@ spam {
 			<div class="col-md-8 col-md-offset-2">
 				<label for="pwd" style="color:white; font-size:15px;">Contraseña:</label>
 				<input type="password" name="txtUsuarioClave" class="form-control" id="pwd" placeholder="password">
-				<a href="irRecuperarCredenciales" style="color: white";><em>¿Olvidó su contraseña?</em></a>
+				<a href="irRecuperarCredenciales" style="color: white"><em>¿Olvidó su contraseña?</em></a>
 			</div>	  
 		</div>
 	<div class="row">
 		<div class="col-md-1 col-md-offset-5">
+			<br/>
 			<button class="btn login" type="submit">Iniciar Sesión</button>
 			<br/>
 
@@ -109,7 +109,7 @@ spam {
 
 	<div class="row">
 		<div class="col-md-12">
-			<t><spam><em>${alerta}</em></spam></t>
+			<span><em>${alerta}</em></span>
 		</div>
 	</div>
 

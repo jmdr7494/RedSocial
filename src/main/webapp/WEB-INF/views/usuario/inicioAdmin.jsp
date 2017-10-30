@@ -15,9 +15,21 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
+
+<style>
+p {
+    padding: 20px;
+    color: #DF0101;
+    margin-left: 12px;
+	font-weight: bold;
+	font-size: 15px;
+}
+
+</style>
+
 </head>
 <body style="background-color: #FAFAFA;">
-	
+ 	<jsp:useBean id="administradorConectado" scope="session" class="com.intravita.proyectointranet.modelo.Administrador"></jsp:useBean>
 	
 		
 		<div class="row bg-primary">
@@ -49,7 +61,7 @@
 		<div class="row">
 			<div class="col-md-5 col-md-offset-1">
 				<h3>
-					nombre administrador
+					<jsp:getProperty name="administradorConectado" property="nombre"/>
 				</h3>
 			</div>
 			<div class="col-md-1 col-md-offset-4">
@@ -101,8 +113,8 @@
 	</form>	
 	<br>
 	<div class="row">
-		<div class="col-md-12">
-			<t><h2><b>${alerta}</b></h2></t>
+		<div class="col-md-4 col-md-offset-2">
+			<p><em>${alerta}</em></p>
 		</div>
 	</div>
 	<br>
