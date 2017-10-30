@@ -39,7 +39,8 @@
 						<h4 class="modal-title" id="myModalLabel">Ayuda</h4>
 					</div>
 					<div class="modal-body">
-						Ayuda de la página de borrado de cuenta
+						Para borrar su cuenta debe introducir su contraseña y la respuesta a la pregunta
+						que se le formuló durante su registro. A continuación debe hacer click en el botón Borrar.
 					</div>
 				</div>
 			</div>

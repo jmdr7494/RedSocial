@@ -41,7 +41,15 @@
 						<h4 class="modal-title" id="myModalLabel">Ayuda</h4>
 					</div>
 					<div class="modal-body">
-						Ayuda de la página del usuario
+						Para realizar una publicación tendrá que escribir en el cuadro de texto "Realizar publicación" su 
+						correspondiente publicación y a continuación hacer click sobre el botón Enviar para que dicha 
+						publicación sea pública o a Borrador para que sea privada.
+						<br><br>
+						
+						<br><br>
+						Para cambiar al rol de administrador, dentro del botón de ajustes tiene la opción de Cambiar Rol, la cual
+						le cambiará el rol a administrador. Dentro de este mismo botón (Ajustes) tiene la opción de borrar su propia
+						cuenta.
 					</div>
 				</div>
 			</div>
