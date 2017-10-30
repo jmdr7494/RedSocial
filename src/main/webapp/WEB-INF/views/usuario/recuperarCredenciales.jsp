@@ -61,8 +61,8 @@ spam {
 
 	<div class="row bg-primary">
 		<div class="col-md-5 col-md-offset-1">
-			<h1 style="color: white; font-family: Verdana; font-size:40px;">
-				<strong></strong><h1 style="color: white; font-family: Verdana; font-size:60px;"><em><strong>  <img src="http://www.emprender-facil.com/wp-content/uploads/2014/09/La-red-social-LinkedIn-para-tu-negocio-texto1.png" style="width:64px; height:64px;" class="img-circle"> IntraVita</strong></em></h1></strong>
+			<h1 style="color: white; font-family: Verdana; font-size:40px;"></h1>
+			<h1 style="color: white; font-family: Verdana; font-size:60px;"><em><strong>  <img src="http://www.emprender-facil.com/wp-content/uploads/2014/09/La-red-social-LinkedIn-para-tu-negocio-texto1.png" style="width:64px; height:64px;" class="img-circle"> IntraVita</strong></h1></em>
 		</div>
 		
 		<div class="col-md-2 col-md-offset-4">
@@ -70,23 +70,21 @@ spam {
 		</div>
 	</div>
 	
-	
 	<div class="modal fade" id="miModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-						<h4 class="modal-title" id="myModalLabel">Ayuda</h4>
-					</div>
-					<div class="modal-body">
-						Ayuda de la página de recuperar credenciales
-					</div>
-				</div>
-			</div>
-	</div>
-
+	      <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	          <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	              <span aria-hidden="true">&times;</span>
+	            </button>
+	            <h4 class="modal-title" id="myModalLabel">Ayuda</h4>
+	          </div>
+	          <div class="modal-body">
+	            Ayuda de la página de recuperar credenciales
+	          </div>
+	        </div>
+	      </div>
+	  </div>
 
 	<div class="row">
 		<div class="col-md-1 col-md-offset-10">

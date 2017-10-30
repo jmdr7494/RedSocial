@@ -3,12 +3,10 @@ package com.intravita.proyectointranet.persistencia;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.bson.BsonDateTime;
 import org.bson.BsonDocument;
 import org.bson.BsonObjectId;
 import org.bson.BsonString;
-import org.bson.BsonValue;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 

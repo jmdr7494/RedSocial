@@ -2,7 +2,6 @@ package com.intravita.proyectointranet.utlidades;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 
 import com.intravita.proyectointranet.modelo.Publicacion;
 

@@ -1,7 +1,6 @@
 package com.intravita.proyectointranet.persistencia;
 
 import java.util.Iterator;
-import java.util.LinkedList;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.bson.BsonDocument;

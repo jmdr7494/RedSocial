@@ -22,7 +22,6 @@ import com.intravita.proyectointranet.utlidades.utilidades;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.Locale;
 
 import org.apache.commons.codec.digest.DigestUtils;

@@ -82,7 +82,6 @@ spam {
 		</div>
 	<div class="row">
 		<div class="col-md-1 col-md-offset-5">
-			</br>
 			<button class="btn login" type="submit">Iniciar Sesión</button>
 			<br/>
 

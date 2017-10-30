@@ -4,11 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import com.intravita.proyectointranet.modelo.Administrador;
 import com.intravita.proyectointranet.modelo.Usuario;
-import com.intravita.proyectointranet.persistencia.AdministradorDAO;
-import com.intravita.proyectointranet.persistencia.AdministradorDAOImpl;
-import com.intravita.proyectointranet.persistencia.UsuarioDAO;
 import com.intravita.proyectointranet.persistencia.UsuarioDAOImpl;
 import com.intravita.proyectointranet.utlidades.utilidades;
 
