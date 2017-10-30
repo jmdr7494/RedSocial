@@ -80,7 +80,15 @@ spam {
 						<h4 class="modal-title" id="myModalLabel">Ayuda</h4>
 					</div>
 					<div class="modal-body">
-						Ayuda de la página de registro
+						Para poder usar IntraVita tendrá que rellenar el cuestionario con sus datos personales, 
+						respetando las políticas de seguridad y estructuras que son necesarias.<br><br>
+						- Para el nombre de usuario: nombre.apellido<br>
+						- Para el mail: será el corporativo de la empresa, con la extensión @alu.uclm.es<br>
+						- Para la contraseña: longitud mínima de 8 caracteres, utilizando letras y números<br>
+						- Para la confirmación: tiene que ser igual que la contraseña anterior<br>
+						- Para la respuesta: utilice una respuesta de la que se acordará en el futuro<br>
+						- Foto de perfil: introduzca una foto suya preferentemente con fondo blanco
+						
 					</div>
 				</div>
 			</div>

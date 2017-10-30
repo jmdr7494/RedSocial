@@ -61,8 +61,8 @@ spam {
 
 	<div class="row bg-primary">
 		<div class="col-md-5 col-md-offset-1">
-			<h1 style="color: white; font-family: Verdana; font-size:40px;"></h1>
-			<h1 style="color: white; font-family: Verdana; font-size:60px;"><em><strong>  <img src="http://www.emprender-facil.com/wp-content/uploads/2014/09/La-red-social-LinkedIn-para-tu-negocio-texto1.png" style="width:64px; height:64px;" class="img-circle"> IntraVita</strong></h1></em>
+			<h1 style="color: white; font-family: Verdana; font-size:40px;">
+				<strong></strong><h1 style="color: white; font-family: Verdana; font-size:60px;"><em><strong>  <img src="http://www.emprender-facil.com/wp-content/uploads/2014/09/La-red-social-LinkedIn-para-tu-negocio-texto1.png" style="width:64px; height:64px;" class="img-circle"> IntraVita</strong></em></h1></strong>
 		</div>
 		
 		<div class="col-md-2 col-md-offset-4">
@@ -80,11 +80,14 @@ spam {
 	            <h4 class="modal-title" id="myModalLabel">Ayuda</h4>
 	          </div>
 	          <div class="modal-body">
-	            Ayuda de la página de recuperar credenciales
+	            Si has olvidado tus credenciales, tendrás que introducir tu nombre de usuario y la respuesta clave
+	            a la pregunta que rellenaste en el registro. A continuación, le llegará un correo a su dirección
+	            con la nueva clave.
 	          </div>
 	        </div>
 	      </div>
 	  </div>
+	
 
 	<div class="row">
 		<div class="col-md-1 col-md-offset-10">
