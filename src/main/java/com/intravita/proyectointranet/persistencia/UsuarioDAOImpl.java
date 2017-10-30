@@ -61,7 +61,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	 * @param usuario
 	 * @return true si se ha insertado en la bbdd false en caso opuesto
 	 */	
-	public boolean insert (Usuario usuario){
+	public void insert (Usuario usuario) throws Exception{
 		if(!selectNombre(usuario)) {
 			BsonDocument bso = new BsonDocument();
 			bso.append("nombre", new BsonString(usuario.getNombre()));
@@ -71,9 +71,8 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			MongoBroker broker = MongoBroker.get();
 			MongoCollection<BsonDocument> usuarios = broker.getCollection("Usuarios");
 			usuarios.insertOne(bso);
-			return true;
-		}
-		return false;
+		}else
+			throw new Exception("Cuenta existente");
 	}
 	public void insertSinEncrypt (Usuario usuario){
 		BsonDocument bso = new BsonDocument();
@@ -200,7 +199,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
 		BsonDocument usuarioBso = resultado.first();
 		if (usuarioBso==null)
-			throw new Exception("Falló la actualización de los datos del usuario.");
+			throw new Exception("Fallï¿½ la actualizaciï¿½n de los datos del usuario.");
 
 		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument("pwd", new BsonString(DigestUtils.md5Hex(usuario.getClave()))));
 		usuarios.findOneAndUpdate(usuarioBso, actualizacion);

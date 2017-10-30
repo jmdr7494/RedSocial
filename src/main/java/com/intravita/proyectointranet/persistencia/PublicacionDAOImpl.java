@@ -84,15 +84,18 @@ public class PublicacionDAOImpl {
 	 * @param usuario del que queremos obtener publicaciones publicas
 	 * @return lista de publicaciones
 	 */
-	public Publicacion selectOne(String id) {
+	public Publicacion selectOne(Publicacion publi) {
 		MongoBroker broker = MongoBroker.get();
 		MongoCollection<BsonDocument> publicaciones = broker.getCollection("Publicaciones");
 		BsonDocument criterio = new BsonDocument();
-		criterio.append("_id", new BsonObjectId(new ObjectId(id)));
+		if(publi.getId()!=null)
+			criterio.append("_id", new BsonObjectId(new ObjectId(publi.getId())));
+		else {
+			criterio.append("autor", new BsonString(publi.getUsuario().getNombre()));
+			criterio.append("texto", new BsonString(publi.getTexto()));			
+		}
 		FindIterable<BsonDocument> resultado=publicaciones.find(criterio);
 		BsonDocument aux = resultado.first();
-		if(aux==null)
-			return null;
 		String autor=aux.getString("autor").getValue();
 		String texto=aux.getString("texto").getValue();
 		String privacidad=aux.getString("privacidad").getValue();

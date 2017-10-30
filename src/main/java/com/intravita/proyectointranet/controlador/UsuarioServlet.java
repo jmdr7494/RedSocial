@@ -190,9 +190,11 @@ public class UsuarioServlet {
   usuario.setClave(pwd1);
   usuario.setRespuesta(respuesta);
   
-  if(!usuarioDao.insert(usuario)) {
-   model.addAttribute("alerta", "Nombre de usuario no disponible");
-   return cadenaUrl+="registrar";
+  try {
+	  usuarioDao.insert(usuario);
+  }catch(Exception e) {
+	   model.addAttribute("alerta", "Nombre de usuario no disponible");
+	   return cadenaUrl+="registrar";
   }
   return cadenaUrl+="login";
  }

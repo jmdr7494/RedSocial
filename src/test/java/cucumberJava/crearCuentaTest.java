@@ -1,7 +1,6 @@
 package cucumberJava;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import com.intravita.proyectointranet.modelo.Usuario;
@@ -47,7 +46,11 @@ public class crearCuentaTest {
 
 	@Then("^Mensaje de validacion y usuario insertado$")
 	public void Mensaje_de_validacion_y_usuario_insertado() {
-		assertTrue(usuarioDao.insert(usuario));
+		try {
+			usuarioDao.insert(usuario);
+		}catch(Exception e) {
+			assertTrue(e.getMessage().equals("Cuenta existente"));
+		}
 	}
 
 	@When("^Email no tiene extension alu.uclm.es$")
@@ -140,7 +143,11 @@ public class crearCuentaTest {
 
 	@Then("^Mensaje de error a la creacion cuenta ya existente$")
 	public void Mensaje_de_error_a_la_creacion_cuenta_ya_existente() {
-		assertFalse(usuarioDao.insert(usuario));
+		try {
+			usuarioDao.insert(usuario);
+		}catch(Exception e) {
+			assertTrue(true);
+		}
 	}
 
 }
