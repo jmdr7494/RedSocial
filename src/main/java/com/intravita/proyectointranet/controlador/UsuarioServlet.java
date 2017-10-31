@@ -248,17 +248,21 @@ public class UsuarioServlet {
   String cadenaUrl="usuario/";
   String nombre=request.getParameter("txtNombre");
   Usuario usuario;
-  if(nombre.equals("admin")) {
-   model.addAttribute("alerta", "No puedes borrar al superadmin");
+  Administrador administrador= (Administrador) request.getSession().getAttribute("administradorConectado");
+  if(nombre.equals(administrador.getNombre())) {
+	  model.addAttribute("alerta", "No puedes realizar acciones sobre ti");
   }else {
-   usuario=usuarioDao.selectNombre(nombre);
-   if(usuario==null) {
-    model.addAttribute("alerta", "No existe el usuario "+nombre);
-   }else {
-    usuarioDao.delete(usuario);
-    administradorDao.delete(new Administrador(nombre));
-   }
-
+	  if(nombre.equals("admin")) {
+	   model.addAttribute("alerta", "No puedes borrar al superadmin");
+	  }else {
+	   usuario=usuarioDao.selectNombre(nombre);
+	   if(usuario==null) {
+	    model.addAttribute("alerta", "No existe el usuario "+nombre);
+	   }else {
+	    usuarioDao.delete(usuario);
+	    administradorDao.delete(new Administrador(nombre));
+	   }
+	  }
   }
   listarUsuario(request, response, model);
   cadenaUrl+="inicioAdmin";  
@@ -277,11 +281,16 @@ public class UsuarioServlet {
   Usuario usuario = new Usuario();
   usuario.setNombre(nombre); 
   usuario=usuarioDao.selectNombre(nombre);
-  if(usuario!=null) {
-   Administrador admin=new Administrador(usuario.getNombre(), usuario.getClave(), usuario.getEmail());
-   administradorDao.insertSinEncrypt(admin);
+  Administrador administrador= (Administrador) request.getSession().getAttribute("administradorConectado");
+  if(nombre.equals(administrador.getNombre())) {
+	  model.addAttribute("alerta", "No puedes realizar acciones sobre ti");
   }else{
-   model.addAttribute("alerta", "El usuario que intentas promover no existe");
+	  if(usuario!=null) {
+	   Administrador admin=new Administrador(usuario.getNombre(), usuario.getClave(), usuario.getEmail());
+	   administradorDao.insertSinEncrypt(admin);
+	  }else{
+	   model.addAttribute("alerta", "El usuario que intentas promover no existe");
+	  }
   }
   listarUsuario(request, response, model);
   cadenaUrl+="inicioAdmin";  
@@ -297,15 +306,20 @@ public class UsuarioServlet {
   String cadenaUrl="usuario/";
   String nombre=request.getParameter("txtNombre");
   Administrador admin;
-  if(nombre.equals("admin")) {
-   model.addAttribute("alerta", "<t><h2><b>No puedes degradar al superadmin</b></h2>");
+  Administrador administrador= (Administrador) request.getSession().getAttribute("administradorConectado");
+  if(nombre.equals(administrador.getNombre())) {
+	  model.addAttribute("alerta", "No puedes realizar acciones sobre ti");
   }else {
-   admin=administradorDao.selectNombre(nombre);
-   if(admin==null)
-    model.addAttribute("alerta", "El administrador que intentas degradar no existe");
-   else {
-    administradorDao.delete(admin);
-   }
+	  if(nombre.equals("admin")) {
+	   model.addAttribute("alerta", "<t><h2><b>No puedes degradar al superadmin</b></h2>");
+	  }else {
+	   admin=administradorDao.selectNombre(nombre);
+	   if(admin==null)
+	    model.addAttribute("alerta", "El administrador que intentas degradar no existe");
+	   else {
+	    administradorDao.delete(admin);
+	   }
+	  }
   }
   listarUsuario(request, response, model);
   cadenaUrl+="inicioAdmin";  
