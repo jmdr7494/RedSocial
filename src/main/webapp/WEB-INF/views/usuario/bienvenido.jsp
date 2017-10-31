@@ -22,6 +22,32 @@
 	font-size: 15px;
 }
 
+
+
+* {
+   margin:0;
+   padding:0
+}
+html,
+body,
+#wrap {
+   height: 100%;
+}
+body > #wrap {
+   height: auto;
+   min-height: 100%;
+}
+#content {
+   padding-bottom: 50px; /* Mis altura que el footer */
+} 
+#footer {
+   position: relative;
+   margin-top: -50px; /* Misma altura que el footer en negativo */
+   height: 50px; /* Altura del footer */
+   clear: both;
+}
+
+
 </style>
 	
 	
@@ -53,7 +79,15 @@
 						<h4 class="modal-title" id="myModalLabel">Ayuda</h4>
 					</div>
 					<div class="modal-body">
-						Ayuda de la página del usuario
+						Para realizar una publicación tendrá que escribir en el cuadro de texto "Realizar publicación" su 
+						correspondiente publicación y a continuación hacer click sobre el botón Enviar para que dicha 
+						publicación sea pública o a Borrador para que sea privada.
+						<br><br>
+						
+						<br><br>
+						Para cambiar al rol de administrador, dentro del botón de ajustes tiene la opción de Cambiar Rol, la cual
+						le cambiará el rol a administrador. Dentro de este mismo botón (Ajustes) tiene la opción de borrar su propia
+						cuenta.
 					</div>
 				</div>
 			</div>
@@ -136,9 +170,12 @@
 		</div>
 	</div>
 	
-	<div class="panel-footer">
-		<h5>© Copyright 2017 IntraVita. Todos los derechos reservados.</h5>
+	<div class="col-md-12" style="position: fixed; bottom: 0;">
+		<div class="panel-footer">
+			<h5>© Copyright 2017 IntraVita. Todos los derechos reservados.</h5>
+		</div>
 	</div>
+
 	
 
 </body>

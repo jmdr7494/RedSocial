@@ -25,6 +25,31 @@ p {
 	font-size: 15px;
 }
 
+
+
+* {
+   margin:0;
+   padding:0
+}
+html,
+body,
+#wrap {
+   height: 100%;
+}
+body > #wrap {
+   height: auto;
+   min-height: 100%;
+}
+#content {
+   padding-bottom: 50px; /* Mis altura que el footer */
+} 
+#footer {
+   position: relative;
+   margin-top: -50px; /* Misma altura que el footer en negativo */
+   height: 50px; /* Altura del footer */
+   clear: both;
+}
+
 </style>
 
 </head>
@@ -52,7 +77,16 @@ p {
 						<h4 class="modal-title" id="myModalLabel">Ayuda</h4>
 					</div>
 					<div class="modal-body">
-						Ayuda de la página del administrador
+						Introducir el nombre del usuario sobre el que queramos realizar una acción en el cuadro de texto
+						correspondiente para ello. Si quiere darle privilegios de administrador, tendrá que hacer click 
+						sobre el botón de Promover. Si lo que desea es quitarlo de la colección de administradores, tendrá
+						que hacer click sobre el botón Degradar. Y si lo que quiere es eliminar a un usuario o administrador
+						del sistema, tendrá que hacer click sobre el botón Borrar.<br><br>
+						Para consultar los usuarios y administradores del sistema tendrá que hacer click sobre el botón 
+						Actualizar Lista, de modo que aparecerán por separado la lista de usuarios y la de administradores.
+						<br><br>
+						Para cambiar al rol de usuario, dentro del botón de ajustes tiene la opción de Cambiar Rol, la cual
+						le cambiará el rol a usuario.
 					</div>
 				</div>
 			</div>
@@ -155,8 +189,10 @@ p {
 	</form>
 	
 	
-	<div class="panel-footer">
-		<h5>© Copyright 2017 IntraVita. Todos los derechos reservados.</h5>
+	<div class="col-md-12" style="position: fixed; bottom: 0;">
+		<div class="panel-footer">
+			<h5>© Copyright 2017 IntraVita. Todos los derechos reservados.</h5>
+		</div>
 	</div>
 	
 </body>

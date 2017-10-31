@@ -14,9 +14,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
-
-
-
 <style>
 .btn {
   padding: 15px 35px;
@@ -47,27 +44,50 @@ span {
 	font-size: 15px;
 }
 
+
+* {
+   margin:0;
+   padding:0
+}
+html,
+body,
+#wrap {
+   height: 100%;
+}
+body > #wrap {
+   height: auto;
+   min-height: 100%;
+}
+#content {
+   padding-bottom: 50px; /* Mis altura que el footer */
+} 
+#footer {
+   position: relative;
+   margin-top: -50px; /* Misma altura que el footer en negativo */
+   height: 50px; /* Altura del footer */
+   clear: both;
+}
+
 </style>
 
 
 </head>
 <body style="background-color: #2CC8E7;">
 
-
 <div class="container">
-	<div class="row">
-		<div class="col-md-6 col-md-offset-2">
-			<strong></strong><h1 style="color: white; font-family: Verdana; font-size:60px;"><em><strong>  
-				<img src="http://www.emprender-facil.com/wp-content/uploads/2014/09/La-red-social-LinkedIn-para-tu-negocio-texto1.png" style="width:64px; height:64px;" class="img-circle"> 
-				IntraVita
-			</strong></em></h1>
-		</div>
-	</div>
+
+			<center>
+			<br/>
+				<img src="http://i65.tinypic.com/2dvizyh.png" style="width:65%;">
+			<br/>
+			</center>
+
   
     
     <form action="login" method="post" id="formlogin">
     	<div class="row">
 	 		<div class="col-md-8 col-md-offset-2">
+	 			<br/>
 	 			<label for="usr" style="color:white; font-size:15px;">Usuario:</label>
 				<input name="txtUsuarioNombre" type="text" class="form-control" id="usr" placeholder="usuario" onFocus="if(this.value!='')this.value=''">
 			</div>  
@@ -96,15 +116,6 @@ span {
 		</div>
 	</div>
 	<br>
-	
-	<%--
-	<div class="row">
-		<div class="col-md-4 col-md-offset-4">
-			<form action="irRecuperarCredenciales" method="get"><button class="btn btn-info btn-block login" type="submit">¿Olvido su contraseña?</button></form>
-		</div>
-	</div>
-	--%>
-	
 
 
 	<div class="row">
@@ -116,10 +127,11 @@ span {
 	
 </div>
 
-	<div class="panel-footer">
-		<h5>© Copyright 2017 IntraVita. Todos los derechos reservados.</h5>
+	<div class="col-md-12" style="position: fixed; bottom: 0;">
+		<div class="panel-footer">
+			<h5>© Copyright 2017 IntraVita. Todos los derechos reservados.</h5>
+		</div>
 	</div>
-
 
 
 
