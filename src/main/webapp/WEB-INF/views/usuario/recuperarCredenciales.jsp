@@ -17,7 +17,7 @@
 
 <style>
 body {
-background: url(http://www.color-hex.com/palettes/16811.png);
+background-color: #2CCBE7;
 background-size:100%;
 width: 100%;
 heigth: 100%;
@@ -45,7 +45,13 @@ heigth: 100%;
   transform: translateY(4px);
 }
 
-
+span {
+    padding: 20px;
+    color: #DF0101;
+    margin-left: 12px;
+	font-weight: bold;
+	font-size: 15px;
+}
 spam {
     padding: 20px;
     color: #3629D3;
@@ -124,6 +130,11 @@ spam {
 		</div>
 	<br>
 	</form>
+	<div class="row">
+		<div class="col-md-12">
+			<span><em>${alerta}</em></span>
+		</div>
+	</div>
 	
 	<div class="panel-footer">
 		<h5>© Copyright 2017 IntraVita. Todos los derechos reservados.</h5>

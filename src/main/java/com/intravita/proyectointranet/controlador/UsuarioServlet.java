@@ -490,23 +490,16 @@ public class UsuarioServlet {
    
    try {
     utilidades.comprobacionNombre(nombre);
-   }
-   
-   catch (Exception e) {
-    
-    model.addAttribute("alerta", e.getMessage());
-    return "usuario/recuperarCredenciales";
-    
+   }catch (Exception e) {
+	   model.addAttribute("alerta", e.getMessage());
+	   return "usuario/recuperarCredenciales"; 
    }
    
     
    if (usuario==null || (!respuesta.equals(usuario.getRespuesta()))) {
-    System.out.println("M");
-    //System.out.println(nombre+","+usuario.getNombre()+","+respuesta+","+usuario.getRespuesta());
-    return "usuario/recuperarCredenciales";
-   }
-   
-   else {
+	   model.addAttribute("alerta", "Datos incorrectos");
+	   return "usuario/recuperarCredenciales";
+   }else {
     MailSender mailSender= new MailSender();
     System.out.println("Estamos para mandar el correo");
     
