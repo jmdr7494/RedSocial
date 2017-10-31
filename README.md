@@ -1,3 +1,3 @@
 ACTUAL RAMA MASTER
 ------------------
-Correo electronico para servicios de IntraVita (MailSender.java)
+Correo electronico para servicios de IntraVita (MailSender.java).
