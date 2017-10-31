@@ -5,7 +5,7 @@ jdk:
 deploy:
  provider: heroku
  api_key:
-  secure: 08d5af5a-3474-4ece-adb5-cb5e4779527c
+  secure: e109a861-ecbd-4a0c-9653-c650019d489a
  app: intravitawebapp
  on:
   repo: jmdr7494/RedSocial
