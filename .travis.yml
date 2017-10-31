@@ -1,9 +1,12 @@
 language: java
 jdk:
-  - oraclejdk8
-sudo: false
-install: true
-git:
-  depth: 3
+ - oraclejdk8
 
-script: mvn clean verify
+deploy:
+ provider: heroku
+ api_key:
+  secure: 08d5af5a-3474-4ece-adb5-cb5e4779527c
+ app: intravitawebapp
+ on:
+  repo: jmdr7494/RedSocial
+  branch: herokuapp
