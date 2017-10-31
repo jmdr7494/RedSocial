@@ -52,16 +52,7 @@ p {
 						<h4 class="modal-title" id="myModalLabel">Ayuda</h4>
 					</div>
 					<div class="modal-body">
-						Introducir el nombre del usuario sobre el que queramos realizar una acción en el cuadro de texto
-						correspondiente para ello. Si quiere darle privilegios de administrador, tendrá que hacer click 
-						sobre el botón de Promover. Si lo que desea es quitarlo de la colección de administradores, tendrá
-						que hacer click sobre el botón Degradar. Y si lo que quiere es eliminar a un usuario o administrador
-						del sistema, tendrá que hacer click sobre el botón Borrar.<br><br>
-						Para consultar los usuarios y administradores del sistema tendrá que hacer click sobre el botón 
-						Actualizar Lista, de modo que aparecerán por separado la lista de usuarios y la de administradores.
-						<br><br>
-						Para cambiar al rol de usuario, dentro del botón de ajustes tiene la opción de Cambiar Rol, la cual
-						le cambiará el rol a usuario.
+						Ayuda de la página del administrador
 					</div>
 				</div>
 			</div>
@@ -87,7 +78,7 @@ p {
 						<span class="caret"></span>
 					</button>
 					<ul class="dropdown-menu" role="menu">
-						<li><form action="" method="GET">
+						<li><form action="changeToUser" method="post">
 								<button class="btn btn-primary btn-block btn-md login" type="submit"><strong>Cambiar Rol</strong></button>
 							</form>
 					</ul>

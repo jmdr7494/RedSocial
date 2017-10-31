@@ -207,6 +207,7 @@
                     <compilerArgument>-Xlint:all</compilerArgument>
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>
+		    <encoding>ISO-8859-1</encoding>
                 </configuration>
             </plugin>
             <plugin>

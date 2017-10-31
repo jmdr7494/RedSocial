@@ -82,6 +82,46 @@ public class UsuarioServlet {
  public ModelAndView irBienvenido(HttpServletResponse response,HttpServletRequest request){
   return cambiarVista("usuario/bienvenido");
  }
+ 
+ /***
+  * 
+  *@method cambiar roles Admin->Usuario
+  *
+  */
+ @RequestMapping(value="/changeToUser", method = RequestMethod.POST)
+ public String changeToUser(HttpServletResponse response, HttpServletRequest request, Model model) {
+	Administrador admin=(Administrador) request.getSession().getAttribute("administradorConectado");
+	String cadenaUrl="usuario/";
+	if(!admin.getNombre().equals("admin")) {
+		Usuario usuario=usuarioDao.selectNombre(admin.getNombre());
+		request.getSession().setAttribute("usuarioConectado", usuario);
+		return cadenaUrl+="bienvenido";
+	}
+	model.addAttribute("alerta", "No tienes permisos de usuario" );
+	return cadenaUrl+="inicioAdmin";
+ }
+ 
+ /***
+  * 
+  *@method cambiar roles Usuario->Admin
+  *
+  */
+ @RequestMapping(value="/changeToAdmin", method = RequestMethod.POST)
+ public String changeToAdmin(HttpServletResponse response, HttpServletRequest request, Model model) {
+	Usuario usuario=(Usuario) request.getSession().getAttribute("usuarioConectado");
+	String cadenaUrl="usuario/";
+	try {
+		Administrador admin=administradorDao.selectNombre(usuario.getNombre());
+		if(admin.getNombre()!=null) {
+			request.getSession().setAttribute("administradorConectado", admin);
+			return cadenaUrl+="inicioAdmin";
+		}
+	}catch(Exception e) {
+		model.addAttribute("alerta", "No tienes permisos de administrador" );
+	}
+	return cadenaUrl+="bienvenido";
+ }
+ 
  /***
   * 
   *@method ejecucion cuando pulsamos el boton login

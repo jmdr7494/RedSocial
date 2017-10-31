@@ -13,6 +13,18 @@
 	<!-- Latest compiled JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="estilo.css" />
+<style>	
+	spam {
+    padding: 20px;
+    color: #DF0101;
+    margin-left: 12px;
+	font-weight: bold;
+	font-size: 15px;
+}
+
+</style>
+	
+	
 </head>
 <body style="background-color: #FAFAFA;">
  	<jsp:useBean id="usuarioConectado" scope="session" class="com.intravita.proyectointranet.modelo.Usuario"></jsp:useBean>
@@ -41,15 +53,7 @@
 						<h4 class="modal-title" id="myModalLabel">Ayuda</h4>
 					</div>
 					<div class="modal-body">
-						Para realizar una publicación tendrá que escribir en el cuadro de texto "Realizar publicación" su 
-						correspondiente publicación y a continuación hacer click sobre el botón Enviar para que dicha 
-						publicación sea pública o a Borrador para que sea privada.
-						<br><br>
-						
-						<br><br>
-						Para cambiar al rol de administrador, dentro del botón de ajustes tiene la opción de Cambiar Rol, la cual
-						le cambiará el rol a administrador. Dentro de este mismo botón (Ajustes) tiene la opción de borrar su propia
-						cuenta.
+						Ayuda de la página del usuario
 					</div>
 				</div>
 			</div>
@@ -78,7 +82,7 @@
 					<span class="caret"></span>
 				</button>
 				<ul class="dropdown-menu" role="menu">
-					<li><form action="" method="GET">
+					<li><form action="changeToAdmin" method="POST">
 							<button class="btn btn-primary btn-block btn-md login" type="submit">Cambiar Rol</button>
 						</form>
 					<li><form action="irBorradoCuenta" method="GET">
@@ -111,8 +115,12 @@
 	</form>
 	
 	<br/>
-	
-	
+	<div class="row">
+		<div class="col-md-12">
+			<spam><em>${alerta}</em></spam>
+		</div>
+	</div>
+	<br/>
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
 			<div class="panel panel-default">
