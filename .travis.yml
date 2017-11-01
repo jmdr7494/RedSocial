@@ -10,3 +10,6 @@ deploy:
  on:
   repo: jmdr7494/RedSocial
   branch: herokuapp
+  
+ notifications:
+  slack: intravita-g4:DCYo1QUObHAPAGOXlDWM4Bcd
