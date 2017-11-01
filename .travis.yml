@@ -11,5 +11,7 @@ deploy:
   repo: jmdr7494/RedSocial
   branch: herokuapp
   
- notifications:
-  slack: intravita-g4:DCYo1QUObHAPAGOXlDWM4Bcd
+notifications:
+  slack:
+    rooms:
+      - intravita-g4:DCYo1QUObHAPAGOXlDWM4Bcd#general
