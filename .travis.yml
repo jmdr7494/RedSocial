@@ -12,6 +12,6 @@ deploy:
   branch: herokuapp
   
 notifications:
-  slack:
-    rooms:
-      - intravita-g4:DCYo1QUObHAPAGOXlDWM4Bcd#general
+ slack:
+  rooms:
+   - intravita-g4:DCYo1QUObHAPAGOXlDWM4Bcd#general
