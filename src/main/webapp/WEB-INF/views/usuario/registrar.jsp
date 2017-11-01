@@ -59,10 +59,7 @@ spam {
 
 	<div class="row bg-primary">
 		<div class="col-md-5 col-md-offset-1">
-			<strong></strong><h1 style="color: white; font-family: Verdana; font-size:60px;"><em><strong>  
-				<img src="http://www.emprender-facil.com/wp-content/uploads/2014/09/La-red-social-LinkedIn-para-tu-negocio-texto1.png" style="width:64px; height:64px;" class="img-circle";> 
-				IntraVita
-			</strong></em></h1></strong>
+			<img src="http://i65.tinypic.com/2dvizyh.png" style="width:30%;">
 		</div>
 		
 		<div class="col-md-2 col-md-offset-4">
@@ -110,7 +107,7 @@ spam {
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
 				<label for="usr" style="color:white; font-size:15px;">Usuario:</label>
-				<input type="text" class="form-control" id="usr" name="txtUsuarioNombre" placeholder="usuario" onFocus="if(this.value!='')this.value=''"/>
+				<input type="text" class="form-control" id="usr" name="txtUsuarioNombre" autofocus placeholder="usuario" onFocus="if(this.value!='')this.value=''"/>
 			</div>
 		</div>
 		<div class="row">

@@ -89,7 +89,7 @@ body > #wrap {
 	 		<div class="col-md-8 col-md-offset-2">
 	 			<br/>
 	 			<label for="usr" style="color:white; font-size:15px;">Usuario:</label>
-				<input name="txtUsuarioNombre" type="text" class="form-control" id="usr" placeholder="usuario" onFocus="if(this.value!='')this.value=''">
+				<input name="txtUsuarioNombre" autofocus type="text" class="form-control" id="usr" placeholder="usuario" onFocus="if(this.value!='')this.value=''">
 			</div>  
 		</div>
 		<div class="row">

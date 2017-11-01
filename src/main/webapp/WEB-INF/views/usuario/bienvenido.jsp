@@ -61,7 +61,7 @@ body > #wrap {
 	-->
 	<div class="row bg-primary">
 		<div class="col-md-5 col-md-offset-1">
-			<strong></strong><h1 style="color: white; font-family: Verdana; font-size:60px;"><em><strong>  <img src="http://www.emprender-facil.com/wp-content/uploads/2014/09/La-red-social-LinkedIn-para-tu-negocio-texto1.png" style="width:64px; height:64px;" class="img-circle"> IntraVita</strong></em></h1></strong>
+			<img src="http://i65.tinypic.com/2dvizyh.png" style="width:30%;">
 		</div>
 		
 		<div class="col-md-2 col-md-offset-4">
@@ -81,9 +81,11 @@ body > #wrap {
 					<div class="modal-body">
 						Para realizar una publicación tendrá que escribir en el cuadro de texto "Realizar publicación" su 
 						correspondiente publicación y a continuación hacer click sobre el botón Enviar para que dicha 
-						publicación sea pública o a Borrador para que sea privada.
+						publicación sea pública o en Borrador para que sea privada.
 						<br><br>
-						
+						Para que se muestren todas las publicaciones tenemos que hacer click en el botón de Mostrar Publicaciones, 
+						el cual nos mostrará todas las publicaciones que tengamos en nuestro tablón. Tenemos los botones de Editar y 
+						Eliminar que harán las funciones correspondientes de editar la publicación y de eliminarla.
 						<br><br>
 						Para cambiar al rol de administrador, dentro del botón de ajustes tiene la opción de Cambiar Rol, la cual
 						le cambiará el rol a administrador. Dentro de este mismo botón (Ajustes) tiene la opción de borrar su propia
@@ -134,7 +136,7 @@ body > #wrap {
     	<div class="row">
 	 		<div class="col-md-8 col-md-offset-2">
 			  <label for="comment">Realizar publicación</label>
-			  <textarea name="txtIntroducirTexto" placeholder="¿Qué tal el día?" class="form-control" rows="5" id="comment"></textarea>
+			  <textarea name="txtIntroducirTexto" autofocus placeholder="¿Qué tal el día?" class="form-control" rows="5" id="comment"></textarea>
 			</div>  
 		</div>
 		
