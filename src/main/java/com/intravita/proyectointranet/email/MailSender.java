@@ -6,6 +6,12 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+/**
+ * MailSender- Clase para gestionar el envio de email de la cuenta de intravita a usuarios
+ *
+ * @author Intravita
+ * @since sprint 2
+ */
 
 public class MailSender {
 	private static String userName = "customer.service.intravita@gmail.com";
@@ -34,9 +40,9 @@ public class MailSender {
 			Message message = new MimeMessage(getSession());
 			message.setFrom(new InternetAddress(userName));
 			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(usuario));
-			message.setSubject("Servicio de atencion al cliente de IntraVita - Contraseña temporal");
-			message.setText("Saludos, su nueva contraseña para acceder a su cuenta es: "+pwd+
-							"\nPor favor, para una mayor seguridad, cambie esta contraseña por una nueva dentro de la configuracion de su perfil.");
+			message.setSubject("Servicio de atencion al cliente de IntraVita - Contraseï¿½a temporal");
+			message.setText("Saludos, su nueva contraseï¿½a para acceder a su cuenta es: "+pwd+
+							"\nPor favor, para una mayor seguridad, cambie esta contraseï¿½a por una nueva dentro de la configuracion de su perfil.");
 			Transport.send(message);
 
 

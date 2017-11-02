@@ -1,5 +1,12 @@
 package com.intravita.proyectointranet.modelo;
 
+/**
+ * Usuario- Modelo de los usuarios del sistema
+ *
+ * @author Intravita
+ * @since sprint 1
+ */
+
 public class Usuario {
 	private String nombre;
 	private String clave;

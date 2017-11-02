@@ -4,6 +4,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * Publicacion- Modelo de las publicaciones que pueden realizar los usuarios
+ *
+ * @author Intravita
+ * @since sprint 2
+ */
+
 public class Publicacion implements Comparable<Publicacion>{
 
 	private Usuario usuario;
@@ -63,8 +70,12 @@ public class Publicacion implements Comparable<Publicacion>{
 	public void setFecha(long fecha) {
 		this.fecha = fecha;
 	}
-	public String toString() {
-		return "<b>"+usuario.getNombre()+" </b>: <br>"+ this.texto+ " id:"+this.id; 
+
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
 	}
 	@Override
 	public int compareTo (Publicacion p2) {
@@ -74,11 +85,10 @@ public class Publicacion implements Comparable<Publicacion>{
 			return 1;
 		return 0;
 	}
-	public String getId() {
-		return id;
+	public boolean equals(Publicacion p) {
+		return this.getId().equals(p.getId());
 	}
-	public void setId(String id) {
-		this.id = id;
+	public String toString() {
+		return "<b>"+usuario.getNombre()+" </b>: <br>"+ this.texto+ " id:"+this.id; 
 	}
-	
 }

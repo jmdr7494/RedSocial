@@ -5,7 +5,17 @@ import java.util.Arrays;
 
 import com.intravita.proyectointranet.modelo.Publicacion;
 
+/**
+ * utilidades- Clase auxiliar con funcionalidades de comprobacion o de ayuda
+ *
+ * @author Intravita
+ * @since sprint 2
+ */
+
 public class utilidades {
+	/**
+	 * Extension de email permitida
+	 */
 	public static String extensionEmail="@alu.uclm.es";
 	/**
 	 * @method comprobacion de credenciales validas para el registro
@@ -16,8 +26,7 @@ public class utilidades {
 	 * @return 
 	 * @throws Exception 
 	 */
-	static //Vector con las "malasPalabras" que el sistema reconocerá
-	 String [] diccionario = {"cabron", "cabronazo", "maricon", "gilipollas", "tonto", "capullo", "idiota", "fuck", "fucking", "huevon", "polla", "pollon", "coño"};
+	static String [] diccionario = {"cabron", "cabronazo", "maricon", "gilipollas", "tonto", "capullo", "idiota", "fuck", "fucking", "huevon", "polla", "pollon", "coï¿½o"};
 	 
 	 public static void credencialesValidas(String nombre, String email, String pwd1, String pwd2) throws Exception {
 	  if(nombre.equals("") ||email.equals("")|| pwd1.equals("")|| pwd2.equals(""))
@@ -27,7 +36,7 @@ public class utilidades {
 	  if(email.length()<=extensionEmail.length())
 	   throw new Exception("Email invalido");
 	  String extension=email.substring(email.length()-extensionEmail.length(), email.length());
-	  palabrasMalas(email, diccionario);
+	  palabrasMalas(email);
 	  
 	  if(!extension.equals(extensionEmail))
 	   throw new Exception("Email invalido");
@@ -44,15 +53,16 @@ public class utilidades {
 	  int posicion2=nombre.lastIndexOf('.');
 	  if(posicion!=posicion2)
 	   throw new Exception("Formato nombre invalido");
-	  palabrasMalas(nombre, diccionario);
+	  palabrasMalas(nombre);
 	 }
 	 
-	 public static void palabrasMalas(String nombre, String [] diccionario)throws Exception{
-	  for(int i=0;i<diccionario.length;i++) {
-	   if(nombre.contains(diccionario[i]))
-	    throw new Exception("Formato del nombre y/o email invalido, contiene palabras malsonantes");
-	  }
-	 }
+	 public static void palabrasMalas(String nombre)throws Exception{
+		 int size=diccionario.length;
+		for(int i=0;i<size;i++) {
+			if(nombre.contains(diccionario[i]))
+				throw new Exception("Formato del nombre y/o email invalido, contiene palabras malsonantes");
+		}
+	}
 	
 	public static void seguridadPassword(String pwd) throws Exception{
 		if(pwd.length()<8)
@@ -60,7 +70,8 @@ public class utilidades {
 		boolean caracter=false;
 		boolean numero=false;
 		char c;
-		for(int i=0; i<pwd.length(); i++) {
+		int size=pwd.length();
+		for(int i=0; i<size; i++) {
 			c=pwd.charAt(i);
 			if(!numero) {
 				numero=Character.isDigit(c);
@@ -75,7 +86,7 @@ public class utilidades {
 	
 	public static void publicacionValida(String nombre, String texto) throws Exception {
 		if(nombre.equals("") ||texto.equals(""))
-			throw new Exception ("Por favor rellene texto para guardar la publicación");
+			throw new Exception ("Por favor rellene texto para guardar la publicaciï¿½n");
 		
 	}
 	

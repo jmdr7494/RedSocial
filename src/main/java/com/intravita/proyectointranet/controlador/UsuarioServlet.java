@@ -34,6 +34,15 @@ import org.springframework.ui.Model;
 
 @Controller
 @RequestMapping({"/usuario","/"})
+
+
+/**
+ * UsuarioServlet- Clase controlador para comunicar las vistas con el dominio y persistencia.
+ *
+ * @author Intravita
+ * @since sprint 1
+ */
+
 public class UsuarioServlet {
  @Autowired
  UsuarioDAOImpl usuarioDao;
@@ -132,7 +141,7 @@ public class UsuarioServlet {
   String cadenaUrl="usuario/";
   String nombre=request.getParameter("txtUsuarioNombre");
   String clave=request.getParameter("txtUsuarioClave");
-  if(clave=="" || nombre=="") {
+  if(clave.equals("") || nombre.equals("")) {
 	  model.addAttribute("alerta", "Por favor rellene los campos" );
 	  return cadenaUrl+="login";
   }

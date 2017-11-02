@@ -11,6 +11,13 @@ import com.mongodb.client.MongoDatabase;
 //MongoClient client = new MongoClient(uri);
 //MongoDatabase db = client.getDatabase(uri.getDatabase());
 
+/**
+ * MongoBroker- Broker para la conexion con la BBDD en MLab
+ *
+ * @author Intravita
+ * @since sprint 1
+ */
+
 public class MongoBroker {
 	private static MongoBroker yo;
 	private MongoClientURI uri;

@@ -11,6 +11,13 @@ import com.intravita.proyectointranet.modelo.Administrador;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 
+/**
+ * AdministradorDAOImpl- Implementacion del DAO de administradores, para realizar funciones CRUD de los administradores
+ *
+ * @author Intravita
+ * @since sprint 1
+ */
+
 public class AdministradorDAOImpl {
 	
 	public AdministradorDAOImpl() {
@@ -60,7 +67,7 @@ public class AdministradorDAOImpl {
 	 * 
 	 * 
 	 * @param administrador
-	 * @method metodos de insercion con y sin encriptar la password
+	 * @method metodos de insercion con y sin encriptar
 	 */
 	 public void insert (Administrador administrador) {
 		  BsonDocument bso = new BsonDocument();

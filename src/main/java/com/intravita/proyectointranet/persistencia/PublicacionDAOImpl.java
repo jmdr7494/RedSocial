@@ -16,6 +16,13 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Sorts;
 
+/**
+ * PublicacionDAOImpl- Implementacion del DAO de las publicaciones con los metodos CRUD
+ *
+ * @author Intravita
+ * @since sprint 2
+ */
+
 public class PublicacionDAOImpl {
 
 

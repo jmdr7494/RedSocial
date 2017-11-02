@@ -15,6 +15,13 @@ import com.intravita.proyectointranet.modelo.Usuario;
 import com.intravita.proyectointranet.persistencia.MongoBroker;
 import com.intravita.proyectointranet.persistencia.UsuarioDAO;
 
+/**
+ * UsuarioDAOImpl- Implementacion del DAO con los metodos CRUD para los usuarios
+ *
+ * @author Intravita
+ * @since sprint 1
+ */
+
 @Component
 public class UsuarioDAOImpl implements UsuarioDAO {
 	

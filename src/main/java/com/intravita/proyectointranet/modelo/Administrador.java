@@ -1,5 +1,12 @@
 package com.intravita.proyectointranet.modelo;
 
+/**
+ * Administrador- Modelo de los administradores del sistema
+ *
+ * @author Intravita
+ * @since sprint 1
+ */
+
 public class Administrador {
 	 private String nombre;
 	 private String clave;
@@ -10,11 +17,11 @@ public class Administrador {
 	  this.nombre=nombre;
 	  this.clave=clave;
 	 }
- public Administrador(String nombre, String clave, String email) {
-  this.nombre=nombre;
-  this.clave=clave;
-  this.email=email;
- }
+	 public Administrador(String nombre, String clave, String email) {
+		 this.nombre=nombre;
+		 this.clave=clave;
+		 this.email=email;
+	 }
  
 	 //Constructor sin pass
 	 public Administrador(String nombre) {
