@@ -472,7 +472,7 @@ public class UsuarioServlet {
 	  		"						<h4 class=\"modal-title\" id=\"myModalsLabel\">Editar</h4>\r\n" + 
 	  		"					</div>\r\n" + 
 	  		"					<div class=\"modal-body\">\r\n" + 
-	  		"						Â¿EstÃ¡ seguro que desea editar la publicaciÃ³n?\r\n" + 
+	  		"						¿Está seguro que desea editar la publicación?\r\n" + 
 	  		"						<br>\r\n" + 
 	  		"						<form action=\"editarPubli\" method=\"POST\">\r\n" + 
 	  		"							<textarea name=\"txtIntroducirTexto\" placeholder=\"ï¿½Quï¿½ tal el dï¿½a?\" class=\"form-control\" rows=\"5\" id=\"comment\">"+ todas[i].getTexto()+"</textarea>\r\n" + 
