@@ -458,13 +458,42 @@ public class UsuarioServlet {
 	  			"	</div>";*/
 	  texto+="<div class=\"panel panel-default\">\r\n" + 
 	  		"	<div class=\"panel-body\">\r\n" + 
-	  		"		<form action=\"editarPubli\" method=\"POST\">	\r\n" + 
 	  		"			<b> "+ todas[i].getUsuario().getNombre() +" </b> \r\n" + 
-	  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"�Qu� tal el d�a?\" class=\"form-control\" rows=\"5\" id=\"comment\">"+ todas[i].getTexto()+"</textarea>\r\n" + 
+	  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"�Qu� tal el d�a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
 	  		"			<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
-	  		"			<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">Editar</button>\r\n" + 
-	  		"			<button class=\"btn btn-danger btn-block btn-md login\" formaction=\"eliminarPubli\" type=\"submit\">Eliminar</button>\r\n" + 
-	  		"		</form>\r\n" + 
+	  		"			<button class=\"btn btn-primary btn-block btn-md login\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModals\">Editar</button>\r\n" + 
+	  		"<div class=\"modal fade\" id=\"miModals\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalsLabel\" aria-hidden=\"true\">\r\n" + 
+	  		"			<div class=\"modal-dialog\" role=\"document\">\r\n" + 
+	  		"				<div class=\"modal-content\">\r\n" + 
+	  		"					<div class=\"modal-header\">\r\n" + 
+	  		"						<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n" + 
+	  		"							<span aria-hidden=\"true\">&times;</span>\r\n" + 
+	  		"						</button>\r\n" + 
+	  		"						<h4 class=\"modal-title\" id=\"myModalsLabel\">Editar</h4>\r\n" + 
+	  		"					</div>\r\n" + 
+	  		"					<div class=\"modal-body\">\r\n" + 
+	  		"						¿Está seguro que desea editar la publicación?\r\n" + 
+	  		"						<br>\r\n" + 
+	  		"						<form action=\"editarPubli\" method=\"POST\">\r\n" + 
+	  		"							<textarea name=\"txtIntroducirTexto\" placeholder=\"�Qu� tal el d�a?\" class=\"form-control\" rows=\"5\" id=\"comment\">"+ todas[i].getTexto()+"</textarea>\r\n" + 
+	  		"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
+	  		"							<br>" + 
+	  		"							<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
+	  		"						</form>\r\n" + 
+	  		"						<form action=\"listarPublicacion\" method=\"POST\">\r\n" + 
+	  		"							<br>\r\n" + 
+	  		"							<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
+	  		"						</form>\r\n" + 
+	  		"					</div>\r\n" + 
+	  		"				</div>\r\n" + 
+	  		"			</div>\r\n" + 
+	  		"		</div>" + 
+	  		
+			"						<form action=\"eliminarPubli\" method=\"POST\">\r\n" + 
+			"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
+			"							<br>" + 
+			"							<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">Eliminar</button>\r\n" + 
+			"						</form>\r\n" +
 	  		"	</div>\r\n" + 
 	  		"</div>	";
   }
