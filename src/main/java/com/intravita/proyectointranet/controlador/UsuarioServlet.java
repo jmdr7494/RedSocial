@@ -77,26 +77,25 @@ public class UsuarioServlet {
   * @method metodos de navegacion entre jsp's
   */
  @RequestMapping(value="/irLogin",method = RequestMethod.GET)
- public ModelAndView irLogin(HttpServletResponse response,HttpServletRequest request){
+ public ModelAndView irLogin(){
   return cambiarVista(user_login);
  }
  
  @RequestMapping(value="/irRegistrar",method = RequestMethod.GET)
- public ModelAndView irRegistrar(HttpServletResponse response,HttpServletRequest request){
-  
+ public ModelAndView irRegistrar(){  
   return cambiarVista("usuario/registrar");
  }
  
  @RequestMapping(value="/irVerPublicaciones",method = RequestMethod.GET)
- public ModelAndView irVerPublicaciones(HttpServletResponse response,HttpServletRequest request){
+ public ModelAndView irVerPublicaciones(){
   return cambiarVista("usuario/verPublicaciones");
  }
  @RequestMapping(value="/irBorradoCuenta",method = RequestMethod.GET)
- public ModelAndView irBorradoCuenta(HttpServletResponse response,HttpServletRequest request){
+ public ModelAndView irBorradoCuenta(){
   return cambiarVista("usuario/borradoCuenta");
  }
  @RequestMapping(value="/irBienvenido",method = RequestMethod.GET)
- public ModelAndView irBienvenido(HttpServletResponse response,HttpServletRequest request){
+ public ModelAndView irBienvenido(){
   return cambiarVista("usuario/bienvenido");
  }
  
@@ -106,7 +105,7 @@ public class UsuarioServlet {
   *
   */
  @RequestMapping(value="/changeToUser", method = RequestMethod.POST)
- public String changeToUser(HttpServletResponse response, HttpServletRequest request, Model model) {
+ public String changeToUser(HttpServletRequest request, Model model) {
 	Administrador admin=(Administrador) request.getSession().getAttribute(admin_conect);
 	String cadenaUrl=user;
 	if(!admin.getNombre().equals("admin")) {
@@ -125,7 +124,7 @@ public class UsuarioServlet {
   *
   */
  @RequestMapping(value="/changeToAdmin", method = RequestMethod.POST)
- public String changeToAdmin(HttpServletResponse response, HttpServletRequest request, Model model) {
+ public String changeToAdmin(HttpServletRequest request, Model model) {
 	Usuario usuario=(Usuario) request.getSession().getAttribute(user_conect);
 	String cadenaUrl=user;
 	try {
@@ -147,7 +146,7 @@ public class UsuarioServlet {
   *
   */
  @RequestMapping(value="/login", method = RequestMethod.POST)
- public String iniciarSesion(HttpServletResponse response, HttpServletRequest request, Model model) throws Exception {
+ public String iniciarSesion(HttpServletRequest request, Model model) throws Exception {
   String cadenaUrl=user;
   String nombre=request.getParameter("txtUsuarioNombre");
   String clave=request.getParameter("txtUsuarioClave");
@@ -182,7 +181,7 @@ public class UsuarioServlet {
   *
   */
  @RequestMapping(value="/logout", method = RequestMethod.GET)
- public ModelAndView cerrarSesion(HttpServletResponse response, HttpServletRequest request) throws Exception {
+ public ModelAndView cerrarSesion(HttpServletRequest request) throws Exception {
   HttpSession sesion = request.getSession();
   
   System.out.println("Sesion antes de invalidar: "+sesion);
@@ -197,7 +196,7 @@ public class UsuarioServlet {
   *
   */
  @RequestMapping(value="/borrarCuenta", method = RequestMethod.POST)
- public ModelAndView borrarCuenta(HttpServletResponse response, HttpServletRequest request, Model model) throws Exception {
+ public ModelAndView borrarCuenta(HttpServletRequest request, Model model) throws Exception {
   Usuario usuario=(Usuario) request.getSession().getAttribute(user_conect);
   String nombre=usuario.getNombre();
   Usuario aux=usuarioDao.selectNombre(nombre);
@@ -228,7 +227,7 @@ public class UsuarioServlet {
   *
   */
  @RequestMapping(value="/registrar", method = RequestMethod.POST)
- public String registrar(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
+ public String registrar(HttpServletRequest request, Model model) throws Exception  {
   String cadenaUrl=user;
   String nombre=request.getParameter("txtUsuarioNombre");
   String email=request.getParameter("txtEmail");
@@ -283,7 +282,7 @@ public class UsuarioServlet {
 	   }
 	  }
   }
-  listarUsuario(request, response, model);
+  listarUsuario(request, model);
   cadenaUrl+=ini_admin;  
   return cadenaUrl;
  }
@@ -294,7 +293,7 @@ public class UsuarioServlet {
   *
   */
  @RequestMapping(value="/promover", method = RequestMethod.POST)
- public String promover(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
+ public String promover(HttpServletRequest request,HttpServletResponse response, Model model) throws Exception  {
   String cadenaUrl=user;
   String nombre=request.getParameter("txtNombre");
   Usuario usuario = new Usuario();
@@ -311,7 +310,7 @@ public class UsuarioServlet {
 	   model.addAttribute(alert, "El usuario que intentas promover no existe");
 	  }
   }
-  listarUsuario(request, response, model);
+  listarUsuario(request, model);
   cadenaUrl+=ini_admin;  
   return cadenaUrl;
  }
@@ -340,7 +339,7 @@ public class UsuarioServlet {
 	   }
 	  }
   }
-  listarUsuario(request, response, model);
+  listarUsuario(request, model);
   cadenaUrl+=ini_admin;  
   return cadenaUrl;
  }
@@ -352,7 +351,7 @@ public class UsuarioServlet {
   * 
   */
  @RequestMapping(value="/listarUsuario", method = RequestMethod.POST)
- public String listarUsuario(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
+ public String listarUsuario(HttpServletRequest request, Model model) throws Exception  {
   String cadenaUrl=user;
   model.addAttribute("usuarios", usuarioDao.list());
   model.addAttribute("administradores", administradorDao.list());
@@ -368,7 +367,7 @@ public class UsuarioServlet {
   String cadenaUrl=user;
   String id=request.getParameter("txtIdPublicacion");
   publicacionDao.remove(id);
-  listarPublicacion(request, response, model);
+  listarPublicacion(request, model);
   cadenaUrl+=welcome;  
   return cadenaUrl;
  }
@@ -383,7 +382,7 @@ public class UsuarioServlet {
   String texto=request.getParameter("txtIntroducirTexto");
   String id=request.getParameter("txtIdPublicacion");
   publicacionDao.update(id, texto);
-  listarPublicacion(request, response, model);
+  listarPublicacion(request, model);
   cadenaUrl+=welcome;  
   return cadenaUrl;
  }
@@ -419,7 +418,7 @@ public class UsuarioServlet {
    return cadenaUrl+=welcome;
   }
   publicacionDao.insert(publicacion);
-  listarPublicacion(request, response, model);
+  listarPublicacion(request, model);
   cadenaUrl+=welcome; 
   return cadenaUrl;
  }
@@ -451,7 +450,7 @@ public class UsuarioServlet {
    return cadenaUrl;
   }
   publicacionDao.insert(publicacion);
-  listarPublicacion(request, response, model);
+  listarPublicacion(request, model);
   cadenaUrl+=welcome; 
   return cadenaUrl;
  }
@@ -462,7 +461,7 @@ public class UsuarioServlet {
   * 
   */
  @RequestMapping(value="/listarPublicacion", method = RequestMethod.POST)
- public String listarPublicacion(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
+ public String listarPublicacion(HttpServletRequest request, Model model) throws Exception  {
   String cadenaUrl=user;
   Usuario usuario;
   usuario=(Usuario) request.getSession().getAttribute(user_conect);
@@ -555,19 +554,19 @@ public class UsuarioServlet {
   *
   */
  @RequestMapping(value="/bienvenido", method = RequestMethod.GET)
- public String bienvenido(HttpServletRequest request, HttpServletResponse response) throws Exception  {
+ public String bienvenido(HttpServletRequest request) throws Exception  {
   return "usuario/bienvenido";
  }
  
  //By JA
   @RequestMapping(value="/irRecuperarCredenciales", method = RequestMethod.GET)
-  public ModelAndView irRecuperarCredenciales(HttpServletRequest request, HttpServletResponse response) throws Exception  {
+  public ModelAndView irRecuperarCredenciales(HttpServletRequest request) throws Exception  {
    return cambiarVista("usuario/recuperarCredenciales");
   }
   
   //By JA
   @RequestMapping(value="/recuperarCredenciales", method = RequestMethod.POST)
-  public String recuperarCredenciales(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
+  public String recuperarCredenciales(HttpServletRequest request, Model model) throws Exception  {
    String nombre=request.getParameter("txtUsuarioNombre");
    String respuesta=request.getParameter("txtRespuesta");
    
