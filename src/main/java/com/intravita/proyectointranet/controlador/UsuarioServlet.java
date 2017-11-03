@@ -262,7 +262,7 @@ public class UsuarioServlet {
   *
   */
  @RequestMapping(value="/borrar", method = RequestMethod.POST)
- public String borrar(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
+ public String borrar(HttpServletRequest request, Model model) throws Exception  {
   String cadenaUrl=usuarioServ;
   String nombre=request.getParameter("txtNombre");
   Usuario usuario;
@@ -293,7 +293,7 @@ public class UsuarioServlet {
   *
   */
  @RequestMapping(value="/promover", method = RequestMethod.POST)
- public String promover(HttpServletRequest request,HttpServletResponse response, Model model) throws Exception  {
+ public String promover(HttpServletRequest request, Model model) throws Exception  {
   String cadenaUrl=usuarioServ;
   String nombre=request.getParameter("txtNombre");
   Usuario usuario = new Usuario();
@@ -320,7 +320,7 @@ public class UsuarioServlet {
   *
   */
  @RequestMapping(value="/degradar", method = RequestMethod.POST)
- public String degradar(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
+ public String degradar(HttpServletRequest request, Model model) throws Exception  {
   String cadenaUrl=usuarioServ;
   String nombre=request.getParameter("txtNombre");
   Administrador admin;
@@ -363,7 +363,7 @@ public class UsuarioServlet {
   *@method borrar una publicacion dado un ID
   */
  @RequestMapping(value="/eliminarPubli", method = RequestMethod.POST)
- public String eliminarPubli(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
+ public String eliminarPubli(HttpServletRequest request, Model model) throws Exception  {
   String cadenaUrl=usuarioServ;
   String id=request.getParameter("txtIdPublicacion");
   publicacionDao.remove(id);
@@ -377,7 +377,7 @@ public class UsuarioServlet {
   *@method editar una publicacion dado un ID
   */
  @RequestMapping(value="/editarPubli", method = RequestMethod.POST)
- public String editarPubli(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
+ public String editarPubli(HttpServletRequest request, Model model) throws Exception  {
   String cadenaUrl=usuarioServ;
   String texto=request.getParameter("txtIntroducirTexto");
   String id=request.getParameter("txtIdPublicacion");
@@ -392,7 +392,7 @@ public class UsuarioServlet {
   * 
   */
  @RequestMapping(value="/crearPublicacion", method = RequestMethod.POST)
- public String crearPublicacion(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
+ public String crearPublicacion(HttpServletRequest request, Model model) throws Exception  {
   String cadenaUrl=usuarioServ;
   Usuario usuario;
   usuario=(Usuario) request.getSession().getAttribute(usuario_conect);
@@ -423,7 +423,7 @@ public class UsuarioServlet {
   return cadenaUrl;
  }
  @RequestMapping(value="/crearPublicacionPrivada", method = RequestMethod.POST)
- public String crearPublicacionPrivada(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
+ public String crearPublicacionPrivada(HttpServletRequest request, Model model) throws Exception  {
   String cadenaUrl=usuarioServ;
   Usuario usuario;
   usuario=(Usuario) request.getSession().getAttribute("usuarioConectado");
@@ -554,13 +554,13 @@ public class UsuarioServlet {
   *
   */
  @RequestMapping(value="/bienvenido", method = RequestMethod.GET)
- public String bienvenido(HttpServletRequest request) throws Exception  {
+ public String bienvenido() throws Exception  {
   return "usuario/bienvenido";
  }
  
  //By JA
   @RequestMapping(value="/irRecuperarCredenciales", method = RequestMethod.GET)
-  public ModelAndView irRecuperarCredenciales(HttpServletRequest request) throws Exception  {
+  public ModelAndView irRecuperarCredenciales() throws Exception  {
    return cambiarVista("usuario/recuperarCredenciales");
   }
   
