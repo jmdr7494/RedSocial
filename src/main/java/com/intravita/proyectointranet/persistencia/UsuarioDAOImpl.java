@@ -1,8 +1,11 @@
 package com.intravita.proyectointranet.persistencia;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.bson.BsonArray;
 import org.bson.BsonDocument;
 import org.bson.BsonString;
 import org.bson.BsonValue;
@@ -29,6 +32,8 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	private final String contrasena = "pwd";
 	private final String e_mail = "email";
 	private final String resp = "respuesta";
+	private final String amigos= "amigos";
+	private final String solicitudes= "solicitudes";
 	
 	public UsuarioDAOImpl() {
 		super();
@@ -86,7 +91,8 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			bso.append(contrasena, new BsonString(DigestUtils.md5Hex(usuario.getClave())));
 			bso.append(e_mail, new BsonString(usuario.getEmail()));
 			bso.append(resp, new BsonString(usuario.getRespuesta()));
-			
+			bso.append(solicitudes, new BsonArray());
+			bso.append(amigos, new BsonArray());
 			MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
 			usuarios.insertOne(bso);
 		}else
@@ -137,7 +143,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			BsonValue respuesta=usuario.get(resp);
 			BsonString answer=respuesta.asString();
 			String respuestaFinal=answer.getValue();
-			
+						
 			result = new Usuario(nombreFinal, pwdFinal, emailFinal, respuestaFinal);
 		}
 		return result;
@@ -209,21 +215,120 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
 	public void updatePwdEmail(Usuario usuario) throws Exception{//sera posible reutilizar este metodo para hacer updates
 		//preguntar a JA
-
-		
 		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
 		BsonDocument criterio = new BsonDocument();
 		criterio.append(name, new BsonString(usuario.getNombre()));
 		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
 		BsonDocument usuarioBso = resultado.first();
 		if (usuarioBso==null)
-			throw new Exception("Fall� la actualizaci�n de los datos del usuario.");
+			throw new Exception("Fallo la actualizacion de los datos del usuario.");
 
 		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument(contrasena, new BsonString(DigestUtils.md5Hex(usuario.getClave()))));
 		usuarios.findOneAndUpdate(usuarioBso, actualizacion);
 	}
-	
-	
-	
+	/**
+	 * 
+	 * @param usuario (solo necesario el nombre)
+	 * @return lista de usuarios amigos suyos
+	 */
+	public List<BsonValue> obtenerAmigos(Usuario user){
+		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
+		BsonDocument criterio = new BsonDocument();
+		criterio.append(name, new BsonString(user.getNombre()));
+		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
+		BsonDocument usuario = resultado.first();
+		List <BsonValue> amigos= usuario.getArray(this.amigos);
+		return amigos;
+	}
+	/**
+	 * 
+	 * @param usuario (solo necesario el nombre)
+	 * @return lista de usuarios que le han solicitado amistad
+	 */
+	public List<BsonValue> obtenerSolicitudes(Usuario user){
+		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
+		BsonDocument criterio = new BsonDocument();
+		criterio.append(name, new BsonString(user.getNombre()));
+		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
+		BsonDocument usuario = resultado.first();
+		List <BsonValue> solicitudes= usuario.getArray(this.solicitudes);
+		return solicitudes;
+	}
+	/**
+	 * 
+	 * @param solicitante
+	 * @param solicitado
+	 * @result añadir a lista de solicitudes del solicitado, el nombre del solicitante
+	 */
+	public void enviarSolicitud(Usuario solicitante, Usuario solicitado) {
+		List<BsonValue> lista=obtenerSolicitudes(solicitado);
+		lista.add(new BsonString(solicitante.getNombre()));
+		
+		
+		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
+		BsonDocument criterio = new BsonDocument();
+		criterio.append(name, new BsonString(solicitado.getNombre()));
+		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
+		BsonDocument usuario = resultado.first();
+		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument(solicitudes, new BsonArray(lista)));
+		usuarios.findOneAndUpdate(usuario, actualizacion);
+	}
+	/**
+	 * 
+	 * @param solicitante
+	 * @param acepta
+	 * @result añadir a la lista de amistades de ambos y eliminar la solicitud
+	 */
+	public void aceptarSolicitud(Usuario solicitante, Usuario acepta) {
+		List<BsonValue> lista=obtenerSolicitudes(acepta);
+		lista.remove(new BsonString(solicitante.getNombre()));
+		
+		List<BsonValue> listaAmigosSolicitante=obtenerAmigos(solicitante);
+		listaAmigosSolicitante.add(new BsonString(acepta.getNombre()));
+		
+		List<BsonValue> listaAmigosAcepta=obtenerSolicitudes(acepta);
+		listaAmigosAcepta.add(new BsonString(solicitante.getNombre()));
+		
+		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
+		BsonDocument criterio = new BsonDocument();
+		criterio.append(name, new BsonString(solicitante.getNombre()));
+		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
+		BsonDocument usuario = resultado.first();
+		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument(amigos, new BsonArray(listaAmigosSolicitante)));
+		usuarios.findOneAndUpdate(usuario, actualizacion);
+		
+		criterio = new BsonDocument();
+		criterio.append(name, new BsonString(acepta.getNombre()));
+		resultado=usuarios.find(criterio);
+		usuario = resultado.first();
+		actualizacion= new BsonDocument("$set", new BsonDocument(amigos, new BsonArray(listaAmigosAcepta)));
+		usuarios.findOneAndUpdate(usuario, actualizacion);
+		
+		criterio = new BsonDocument();
+		criterio.append(name, new BsonString(acepta.getNombre()));
+		resultado=usuarios.find(criterio);
+		usuario = resultado.first();
+		actualizacion= new BsonDocument("$set", new BsonDocument(solicitudes, new BsonArray(lista)));
+		usuarios.findOneAndUpdate(usuario, actualizacion);
+	}
+	/**
+	 * 
+	 * @param solicitante
+	 * @param rechaza
+	 * @result eliminar la solicitud del que rechaza
+	 */
+	public void rechazarSolicitud(Usuario solicitante, Usuario rechaza) {
+		List<BsonValue> lista=obtenerSolicitudes(rechaza);
+		lista.remove(new BsonString(solicitante.getNombre()));
+
+		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
+		BsonDocument criterio = new BsonDocument();
+		criterio.append(name, new BsonString(rechaza.getNombre()));
+		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
+		BsonDocument usuario = resultado.first();
+		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument(solicitudes, new BsonArray(lista)));
+		usuarios.findOneAndUpdate(usuario, actualizacion);
+	}
+
 }
 
