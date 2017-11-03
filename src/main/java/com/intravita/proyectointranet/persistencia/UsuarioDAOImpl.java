@@ -311,6 +311,24 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		actualizacion= new BsonDocument("$set", new BsonDocument(solicitudes, new BsonArray(lista)));
 		usuarios.findOneAndUpdate(usuario, actualizacion);
 	}
+	/**
+	 * 
+	 * @param solicitante
+	 * @param rechaza
+	 * @result eliminar la solicitud del que rechaza
+	 */
+	public void rechazarSolicitud(Usuario solicitante, Usuario rechaza) {
+		List<BsonValue> lista=obtenerSolicitudes(rechaza);
+		lista.remove(new BsonString(solicitante.getNombre()));
+
+		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
+		BsonDocument criterio = new BsonDocument();
+		criterio.append(name, new BsonString(rechaza.getNombre()));
+		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
+		BsonDocument usuario = resultado.first();
+		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument(solicitudes, new BsonArray(lista)));
+		usuarios.findOneAndUpdate(usuario, actualizacion);
+	}
 
 }
 

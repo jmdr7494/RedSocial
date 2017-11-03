@@ -175,8 +175,18 @@ public class utilidades {
 	 * @return excepcion si algo falla, si no, acepta la amistad
 	 */
 	public static void aceptarSolicitud(Usuario emisor, Usuario receptor) throws Exception{
-		if(!comprobarSolicitudes(emisor,receptor)) throw new Exception("No te ha mandado solicitud");
-		
+		if(!comprobarSolicitudes(emisor,receptor)) throw new Exception("No te ha mandado solicitud");	
 		usuarioDao.aceptarSolicitud(emisor, receptor);
+	}
+	
+	/**
+	 * 
+	 * @param emisor
+	 * @param receptor
+	 * @return excepcion si algo falla, si no, rechaza la amistad
+	 */
+	public static void rechazarSolicitud(Usuario emisor, Usuario receptor) throws Exception{
+		if(!comprobarSolicitudes(emisor,receptor)) throw new Exception("No te ha mandado solicitud");	
+		usuarioDao.rechazarSolicitud(emisor, receptor);
 	}
 }
