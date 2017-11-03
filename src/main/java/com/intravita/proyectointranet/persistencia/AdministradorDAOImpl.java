@@ -21,7 +21,7 @@ import com.mongodb.client.MongoCollection;
 public class AdministradorDAOImpl {
 	
 	private final String name = "nombre";	
-	private final String pass = "pwd";
+	private final String contrasena = "pwd";
 	private final String e_mail = "email";	
 	
 	public AdministradorDAOImpl() {
@@ -63,7 +63,7 @@ public class AdministradorDAOImpl {
 		MongoCollection<BsonDocument> administradores = obtenerAdministradores();
 		BsonDocument criterio = new BsonDocument();
 		criterio.append(name, new BsonString(administrador.getNombre()));
-		criterio.append(pass, new BsonString(DigestUtils.md5Hex(administrador.getClave())));
+		criterio.append(contrasena, new BsonString(DigestUtils.md5Hex(administrador.getClave())));
 		FindIterable<BsonDocument> resultado=administradores.find(criterio);
 		BsonDocument administradorBson = resultado.first();
 		if (administradorBson==null) {
@@ -81,7 +81,7 @@ public class AdministradorDAOImpl {
 	 public void insert (Administrador administrador) {
 		  BsonDocument bso = new BsonDocument();
 		  bso.append(name, new BsonString(administrador.getNombre()));
-		  bso.append(pass, new BsonString(DigestUtils.md5Hex(administrador.getClave())));
+		  bso.append(contrasena, new BsonString(DigestUtils.md5Hex(administrador.getClave())));
 		  bso.append(e_mail, new BsonString(administrador.getEmail()));
 		  
 		  MongoCollection<BsonDocument> administradores = obtenerAdministradores();
@@ -95,7 +95,7 @@ public class AdministradorDAOImpl {
 	 public void insertSinEncrypt (Administrador administrador) {
 		  BsonDocument bso = new BsonDocument();
 		  bso.append(name, new BsonString(administrador.getNombre()));
-		  bso.append(pass, new BsonString(administrador.getClave()));
+		  bso.append(contrasena, new BsonString(administrador.getClave()));
 		  bso.append(e_mail, new BsonString(administrador.getEmail()));
 		  
 		  MongoCollection<BsonDocument> administradores = obtenerAdministradores();
@@ -126,7 +126,7 @@ public class AdministradorDAOImpl {
 				BsonString name=nombre.asString();
 				String nombreFinal=name.getValue();
 				
-				BsonValue pwd=administrador.get(pass);
+				BsonValue pwd=administrador.get(contrasena);
 				BsonString password=pwd.asString();
 				String pwdFinal=password.getValue();
 				
@@ -142,7 +142,7 @@ public class AdministradorDAOImpl {
 		  MongoCollection<BsonDocument> administradores = obtenerAdministradores();
 		  BsonDocument criterio = new BsonDocument();
 		  criterio.append(name, new BsonString(generico.getNombre()));
-		  criterio.append(pass, new BsonString(DigestUtils.md5Hex(generico.getClave())));
+		  criterio.append(contrasena, new BsonString(DigestUtils.md5Hex(generico.getClave())));
 		  FindIterable<BsonDocument> resultado=administradores.find(criterio);
 		  BsonDocument usuario = resultado.first();
 		  Administrador result;
@@ -166,10 +166,10 @@ public class AdministradorDAOImpl {
 		  MongoCollection<BsonDocument> administradores = obtenerAdministradores();
 		  BsonDocument criterio = new BsonDocument();
 		  criterio.append(name, new BsonString(nombre));
-		  criterio.append(pass, new BsonString(pwdAntigua));
+		  criterio.append(contrasena, new BsonString(pwdAntigua));
 		  FindIterable<BsonDocument> resultado=administradores.find(criterio);
 		  BsonDocument administrador = resultado.first();
-		  BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument(pass, new BsonString(pwdNueva)));
+		  BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument(contrasena, new BsonString(pwdNueva)));
 		  administradores.findOneAndUpdate(administrador, actualizacion);
 	 }
 	 

@@ -50,11 +50,11 @@ public class UsuarioServlet {
  PublicacionDAOImpl publicacionDao=new PublicacionDAOImpl();
  
  private final String welcome = "bienvenido";	
- private final String user_login = "usuario/login";
- private final String user = "usuario/";
+ private final String usuario_login = "usuario/login";
+ private final String usuarioServ = "usuario/";
  private final String ini_admin = "inicioAdmin";
  private final String admin_conect = "administradorConectado";
- private final String user_conect = "usuarioConectado";
+ private final String usuario_conect = "usuarioConectado";
  private final String alert = "alerta";
  
  private static final Logger logger = LoggerFactory.getLogger(UsuarioServlet.class);
@@ -70,7 +70,7 @@ public class UsuarioServlet {
   
   model.addAttribute("serverTime", formattedDate );
   
-  return user_login;
+  return usuario_login;
  }
  
  /***
@@ -78,7 +78,7 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/irLogin",method = RequestMethod.GET)
  public ModelAndView irLogin(){
-  return cambiarVista(user_login);
+  return cambiarVista(usuario_login);
  }
  
  @RequestMapping(value="/irRegistrar",method = RequestMethod.GET)
@@ -107,7 +107,7 @@ public class UsuarioServlet {
  @RequestMapping(value="/changeToUser", method = RequestMethod.POST)
  public String changeToUser(HttpServletRequest request, Model model) {
 	Administrador admin=(Administrador) request.getSession().getAttribute(admin_conect);
-	String cadenaUrl=user;
+	String cadenaUrl=usuarioServ;
 	if(!admin.getNombre().equals("admin")) {
 		Usuario usuario=usuarioDao.selectNombre(admin.getNombre());
 		request.getSession().setAttribute("usuarioConectado", usuario);
@@ -125,8 +125,8 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/changeToAdmin", method = RequestMethod.POST)
  public String changeToAdmin(HttpServletRequest request, Model model) {
-	Usuario usuario=(Usuario) request.getSession().getAttribute(user_conect);
-	String cadenaUrl=user;
+	Usuario usuario=(Usuario) request.getSession().getAttribute(usuario_conect);
+	String cadenaUrl=usuarioServ;
 	try {
 		Administrador admin=administradorDao.selectNombre(usuario.getNombre());
 		if(admin.getNombre()!=null) {
@@ -147,7 +147,7 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/login", method = RequestMethod.POST)
  public String iniciarSesion(HttpServletRequest request, Model model) throws Exception {
-  String cadenaUrl=user;
+  String cadenaUrl=usuarioServ;
   String nombre=request.getParameter("txtUsuarioNombre");
   String clave=request.getParameter("txtUsuarioClave");
   if(clave.equals("") || nombre.equals("")) {
@@ -167,8 +167,8 @@ public class UsuarioServlet {
   Usuario usuario = new Usuario();
   usuario.setNombre(nombre);
   usuario.setClave(clave);
-  if(usuarioDao.login(usuario) && request.getSession().getAttribute(user_conect)==null) {
-   request.getSession().setAttribute(user_conect, usuario);
+  if(usuarioDao.login(usuario) && request.getSession().getAttribute(usuario_conect)==null) {
+   request.getSession().setAttribute(usuario_conect, usuario);
    return cadenaUrl+=welcome;
   }
    
@@ -188,7 +188,7 @@ public class UsuarioServlet {
   sesion.invalidate();
   System.out.println("Invalidamos la sesion: "+sesion);
   
-  return cambiarVista(user_login);
+  return cambiarVista(usuario_login);
  }
  /***
   * 
@@ -197,7 +197,7 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/borrarCuenta", method = RequestMethod.POST)
  public ModelAndView borrarCuenta(HttpServletRequest request, Model model) throws Exception {
-  Usuario usuario=(Usuario) request.getSession().getAttribute(user_conect);
+  Usuario usuario=(Usuario) request.getSession().getAttribute(usuario_conect);
   String nombre=usuario.getNombre();
   Usuario aux=usuarioDao.selectNombre(nombre);
   
@@ -214,7 +214,7 @@ public class UsuarioServlet {
    sesion.invalidate();
    System.out.println("Invalidamos la sesion: "+sesion);
    
-   return cambiarVista(user_login);
+   return cambiarVista(usuario_login);
   }else {
    model.addAttribute(alert, "Error en las credenciales");
   }
@@ -228,7 +228,7 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/registrar", method = RequestMethod.POST)
  public String registrar(HttpServletRequest request, Model model) throws Exception  {
-  String cadenaUrl=user;
+  String cadenaUrl=usuarioServ;
   String nombre=request.getParameter("txtUsuarioNombre");
   String email=request.getParameter("txtEmail");
   String pwd1=request.getParameter("txtUsuarioClave");
@@ -263,7 +263,7 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/borrar", method = RequestMethod.POST)
  public String borrar(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
-  String cadenaUrl=user;
+  String cadenaUrl=usuarioServ;
   String nombre=request.getParameter("txtNombre");
   Usuario usuario;
   Administrador administrador= (Administrador) request.getSession().getAttribute(admin_conect);
@@ -294,7 +294,7 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/promover", method = RequestMethod.POST)
  public String promover(HttpServletRequest request,HttpServletResponse response, Model model) throws Exception  {
-  String cadenaUrl=user;
+  String cadenaUrl=usuarioServ;
   String nombre=request.getParameter("txtNombre");
   Usuario usuario = new Usuario();
   usuario.setNombre(nombre); 
@@ -321,7 +321,7 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/degradar", method = RequestMethod.POST)
  public String degradar(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
-  String cadenaUrl=user;
+  String cadenaUrl=usuarioServ;
   String nombre=request.getParameter("txtNombre");
   Administrador admin;
   Administrador administrador= (Administrador) request.getSession().getAttribute(admin_conect);
@@ -352,7 +352,7 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/listarUsuario", method = RequestMethod.POST)
  public String listarUsuario(HttpServletRequest request, Model model) throws Exception  {
-  String cadenaUrl=user;
+  String cadenaUrl=usuarioServ;
   model.addAttribute("usuarios", usuarioDao.list());
   model.addAttribute("administradores", administradorDao.list());
   cadenaUrl+=ini_admin;  
@@ -364,7 +364,7 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/eliminarPubli", method = RequestMethod.POST)
  public String eliminarPubli(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
-  String cadenaUrl=user;
+  String cadenaUrl=usuarioServ;
   String id=request.getParameter("txtIdPublicacion");
   publicacionDao.remove(id);
   listarPublicacion(request, model);
@@ -378,7 +378,7 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/editarPubli", method = RequestMethod.POST)
  public String editarPubli(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
-  String cadenaUrl=user;
+  String cadenaUrl=usuarioServ;
   String texto=request.getParameter("txtIntroducirTexto");
   String id=request.getParameter("txtIdPublicacion");
   publicacionDao.update(id, texto);
@@ -393,9 +393,9 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/crearPublicacion", method = RequestMethod.POST)
  public String crearPublicacion(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
-  String cadenaUrl=user;
+  String cadenaUrl=usuarioServ;
   Usuario usuario;
-  usuario=(Usuario) request.getSession().getAttribute(user_conect);
+  usuario=(Usuario) request.getSession().getAttribute(usuario_conect);
   
   
   String nombre=usuario.getNombre();
@@ -424,7 +424,7 @@ public class UsuarioServlet {
  }
  @RequestMapping(value="/crearPublicacionPrivada", method = RequestMethod.POST)
  public String crearPublicacionPrivada(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
-  String cadenaUrl=user;
+  String cadenaUrl=usuarioServ;
   Usuario usuario;
   usuario=(Usuario) request.getSession().getAttribute("usuarioConectado");
   
@@ -462,9 +462,9 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/listarPublicacion", method = RequestMethod.POST)
  public String listarPublicacion(HttpServletRequest request, Model model) throws Exception  {
-  String cadenaUrl=user;
+  String cadenaUrl=usuarioServ;
   Usuario usuario;
-  usuario=(Usuario) request.getSession().getAttribute(user_conect);
+  usuario=(Usuario) request.getSession().getAttribute(usuario_conect);
   
   ArrayList<Publicacion> publicas=publicacionDao.selectPublicas(usuario);
   ArrayList<Publicacion> privadas=publicacionDao.selectPrivadas(usuario);
@@ -595,7 +595,7 @@ public class UsuarioServlet {
     usuarioDao.updatePwdEmail(usuario);
    }
    
-   return user_login;
+   return usuario_login;
    
   }
  

@@ -26,7 +26,7 @@ import com.intravita.proyectointranet.persistencia.UsuarioDAO;
 public class UsuarioDAOImpl implements UsuarioDAO {
 	
 	private final String name = "nombre";
-	private final String password = "pwd";
+	private final String contrasena = "pwd";
 	private final String e_mail = "email";
 	private final String resp = "respuesta";
 	
@@ -49,7 +49,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
 		BsonDocument criterio = new BsonDocument();
 		criterio.append(name, new BsonString(usuario.getNombre()));
-		criterio.append(password, new BsonString(DigestUtils.md5Hex(usuario.getClave())));
+		criterio.append(contrasena, new BsonString(DigestUtils.md5Hex(usuario.getClave())));
 		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
 		BsonDocument usuarioBson = resultado.first();
 		if (usuarioBson==null) {
@@ -83,7 +83,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		if(!selectNombre(usuario)) {
 			BsonDocument bso = new BsonDocument();
 			bso.append(name, new BsonString(usuario.getNombre()));
-			bso.append(password, new BsonString(DigestUtils.md5Hex(usuario.getClave())));
+			bso.append(contrasena, new BsonString(DigestUtils.md5Hex(usuario.getClave())));
 			bso.append(e_mail, new BsonString(usuario.getEmail()));
 			bso.append(resp, new BsonString(usuario.getRespuesta()));
 			
@@ -95,7 +95,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	public void insertSinEncrypt (Usuario usuario){
 		BsonDocument bso = new BsonDocument();
 		bso.append(name, new BsonString(usuario.getNombre()));
-		bso.append(password, new BsonString(usuario.getClave()));
+		bso.append(contrasena, new BsonString(usuario.getClave()));
 		bso.append(e_mail, new BsonString(usuario.getEmail()));
 		
 		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
@@ -126,7 +126,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			BsonString name=nombre.asString();
 			String nombreFinal=name.getValue();
 			
-			BsonValue pwd=usuario.get(password);
+			BsonValue pwd=usuario.get(contrasena);
 			BsonString password=pwd.asString();
 			String pwdFinal=password.getValue();
 			
@@ -185,10 +185,10 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
 		BsonDocument criterio = new BsonDocument();
 		criterio.append(name, new BsonString(nombre));
-		criterio.append(password, new BsonString(pwdAntigua));
+		criterio.append(contrasena, new BsonString(pwdAntigua));
 		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
 		BsonDocument usuario = resultado.first();
-		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument(password, new BsonString(pwdNueva)));
+		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument(contrasena, new BsonString(pwdNueva)));
 		usuarios.findOneAndUpdate(usuario, actualizacion);
 	}
 	
@@ -201,7 +201,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		criterio.append(name, new BsonString(nombre));
 		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
 		BsonDocument usuario = resultado.first();
-		pwd=usuario.get(password);
+		pwd=usuario.get(contrasena);
 		BsonString password=pwd.asString();
 		String pwdFinal=password.getValue();
 		return pwdFinal;
@@ -219,7 +219,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		if (usuarioBso==null)
 			throw new Exception("Fall� la actualizaci�n de los datos del usuario.");
 
-		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument(password, new BsonString(DigestUtils.md5Hex(usuario.getClave()))));
+		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument(contrasena, new BsonString(DigestUtils.md5Hex(usuario.getClave()))));
 		usuarios.findOneAndUpdate(usuarioBso, actualizacion);
 	}
 	
