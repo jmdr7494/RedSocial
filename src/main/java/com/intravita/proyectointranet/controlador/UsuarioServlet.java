@@ -49,6 +49,14 @@ public class UsuarioServlet {
  AdministradorDAOImpl administradorDao=new AdministradorDAOImpl();
  PublicacionDAOImpl publicacionDao=new PublicacionDAOImpl();
  
+ private final String welcome = "bienvenido";	
+ private final String user_login = "usuario/login";
+ private final String user = "usuario/";
+ private final String ini_admin = "inicioAdmin";
+ private final String admin_conect = "administradorConectado";
+ private final String user_conect = "usuarioConectado";
+ private final String alert = "alerta";
+ 
  private static final Logger logger = LoggerFactory.getLogger(UsuarioServlet.class);
  
  @RequestMapping(method = RequestMethod.GET)
@@ -62,7 +70,7 @@ public class UsuarioServlet {
   
   model.addAttribute("serverTime", formattedDate );
   
-  return "usuario/login";
+  return user_login;
  }
  
  /***
@@ -70,7 +78,7 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/irLogin",method = RequestMethod.GET)
  public ModelAndView irLogin(HttpServletResponse response,HttpServletRequest request){
-  return cambiarVista("usuario/login");
+  return cambiarVista(user_login);
  }
  
  @RequestMapping(value="/irRegistrar",method = RequestMethod.GET)
@@ -99,15 +107,16 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/changeToUser", method = RequestMethod.POST)
  public String changeToUser(HttpServletResponse response, HttpServletRequest request, Model model) {
-	Administrador admin=(Administrador) request.getSession().getAttribute("administradorConectado");
-	String cadenaUrl="usuario/";
+	Administrador admin=(Administrador) request.getSession().getAttribute(admin_conect);
+	String cadenaUrl=user;
 	if(!admin.getNombre().equals("admin")) {
 		Usuario usuario=usuarioDao.selectNombre(admin.getNombre());
 		request.getSession().setAttribute("usuarioConectado", usuario);
-		return cadenaUrl+="bienvenido";
+		return cadenaUrl+=welcome;
 	}
 	model.addAttribute("alerta", "No tienes permisos de usuario" );
-	return cadenaUrl+="inicioAdmin";
+	cadenaUrl+=ini_admin;
+	return cadenaUrl;
  }
  
  /***
@@ -117,18 +126,19 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/changeToAdmin", method = RequestMethod.POST)
  public String changeToAdmin(HttpServletResponse response, HttpServletRequest request, Model model) {
-	Usuario usuario=(Usuario) request.getSession().getAttribute("usuarioConectado");
-	String cadenaUrl="usuario/";
+	Usuario usuario=(Usuario) request.getSession().getAttribute(user_conect);
+	String cadenaUrl=user;
 	try {
 		Administrador admin=administradorDao.selectNombre(usuario.getNombre());
 		if(admin.getNombre()!=null) {
-			request.getSession().setAttribute("administradorConectado", admin);
-			return cadenaUrl+="inicioAdmin";
+			request.getSession().setAttribute(admin_conect, admin);
+			cadenaUrl+=ini_admin;
+			return cadenaUrl;
 		}
 	}catch(Exception e) {
-		model.addAttribute("alerta", "No tienes permisos de administrador" );
+		model.addAttribute(alert, "No tienes permisos de administrador" );
 	}
-	return cadenaUrl+="bienvenido";
+	return cadenaUrl+=welcome;
  }
  
  /***
@@ -138,29 +148,29 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/login", method = RequestMethod.POST)
  public String iniciarSesion(HttpServletResponse response, HttpServletRequest request, Model model) throws Exception {
-  String cadenaUrl="usuario/";
+  String cadenaUrl=user;
   String nombre=request.getParameter("txtUsuarioNombre");
   String clave=request.getParameter("txtUsuarioClave");
   if(clave.equals("") || nombre.equals("")) {
-	  model.addAttribute("alerta", "Por favor rellene los campos" );
+	  model.addAttribute(alert, "Por favor rellene los campos" );
 	  return cadenaUrl+="login";
   }
  
   Administrador administrador= new Administrador();
   administrador.setNombre(nombre);
   administrador.setClave(clave);
-  if(administradorDao.login(administrador) && request.getSession().getAttribute("administradorConectado")==null) {
-   request.getSession().setAttribute("administradorConectado", administrador);
-   return cadenaUrl+="inicioAdmin";
+  if(administradorDao.login(administrador) && request.getSession().getAttribute(admin_conect)==null) {
+   request.getSession().setAttribute(admin_conect, administrador);
+   return cadenaUrl+=ini_admin;
   }
    
   
   Usuario usuario = new Usuario();
   usuario.setNombre(nombre);
   usuario.setClave(clave);
-  if(usuarioDao.login(usuario) && request.getSession().getAttribute("usuarioConectado")==null) {
-   request.getSession().setAttribute("usuarioConectado", usuario);
-   return cadenaUrl+="bienvenido";
+  if(usuarioDao.login(usuario) && request.getSession().getAttribute(user_conect)==null) {
+   request.getSession().setAttribute(user_conect, usuario);
+   return cadenaUrl+=welcome;
   }
    
   model.addAttribute("alerta", "Error en las credenciales" );
@@ -174,12 +184,12 @@ public class UsuarioServlet {
  @RequestMapping(value="/logout", method = RequestMethod.GET)
  public ModelAndView cerrarSesion(HttpServletResponse response, HttpServletRequest request) throws Exception {
   HttpSession sesion = request.getSession();
-  System.out.println("-----------------------------");
+  
   System.out.println("Sesion antes de invalidar: "+sesion);
   sesion.invalidate();
   System.out.println("Invalidamos la sesion: "+sesion);
-  System.out.println("-----------------------------");
-  return cambiarVista("usuario/login");
+  
+  return cambiarVista(user_login);
  }
  /***
   * 
@@ -188,7 +198,7 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/borrarCuenta", method = RequestMethod.POST)
  public ModelAndView borrarCuenta(HttpServletResponse response, HttpServletRequest request, Model model) throws Exception {
-  Usuario usuario=(Usuario) request.getSession().getAttribute("usuarioConectado");
+  Usuario usuario=(Usuario) request.getSession().getAttribute(user_conect);
   String nombre=usuario.getNombre();
   Usuario aux=usuarioDao.selectNombre(nombre);
   
@@ -200,14 +210,14 @@ public class UsuarioServlet {
    usuarioDao.delete(usuario);
    administradorDao.delete(new Administrador(nombre));
    HttpSession sesion = request.getSession();
-   System.out.println("-----------------------------");
+   
    System.out.println("Sesion antes de invalidar: "+sesion);
    sesion.invalidate();
    System.out.println("Invalidamos la sesion: "+sesion);
-   System.out.println("-----------------------------");
-   return cambiarVista("usuario/login");
+   
+   return cambiarVista(user_login);
   }else {
-   model.addAttribute("alerta", "Error en las credenciales");
+   model.addAttribute(alert, "Error en las credenciales");
   }
   return cambiarVista("usuario/borradoCuenta");
  }
@@ -219,7 +229,7 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/registrar", method = RequestMethod.POST)
  public String registrar(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
-  String cadenaUrl="usuario/";
+  String cadenaUrl=user;
   String nombre=request.getParameter("txtUsuarioNombre");
   String email=request.getParameter("txtEmail");
   String pwd1=request.getParameter("txtUsuarioClave");
@@ -242,7 +252,7 @@ public class UsuarioServlet {
   try {
 	  usuarioDao.insert(usuario);
   }catch(Exception e) {
-	   model.addAttribute("alerta", "Nombre de usuario no disponible");
+	   model.addAttribute(alert, "Nombre de usuario no disponible");
 	   return cadenaUrl+="registrar";
   }
   return cadenaUrl+="login";
@@ -254,19 +264,19 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/borrar", method = RequestMethod.POST)
  public String borrar(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
-  String cadenaUrl="usuario/";
+  String cadenaUrl=user;
   String nombre=request.getParameter("txtNombre");
   Usuario usuario;
-  Administrador administrador= (Administrador) request.getSession().getAttribute("administradorConectado");
+  Administrador administrador= (Administrador) request.getSession().getAttribute(admin_conect);
   if(nombre.equals(administrador.getNombre())) {
-	  model.addAttribute("alerta", "No puedes realizar acciones sobre ti");
+	  model.addAttribute(alert, "No puedes realizar acciones sobre ti");
   }else {
 	  if(nombre.equals("admin")) {
-	   model.addAttribute("alerta", "No puedes borrar al superadmin");
+	   model.addAttribute(alert, "No puedes borrar al superadmin");
 	  }else {
 	   usuario=usuarioDao.selectNombre(nombre);
 	   if(usuario==null) {
-	    model.addAttribute("alerta", "No existe el usuario "+nombre);
+	    model.addAttribute(alert, "No existe el usuario "+nombre);
 	   }else {
 	    usuarioDao.delete(usuario);
 	    administradorDao.delete(new Administrador(nombre));
@@ -274,7 +284,7 @@ public class UsuarioServlet {
 	  }
   }
   listarUsuario(request, response, model);
-  cadenaUrl+="inicioAdmin";  
+  cadenaUrl+=ini_admin;  
   return cadenaUrl;
  }
  
@@ -285,24 +295,24 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/promover", method = RequestMethod.POST)
  public String promover(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
-  String cadenaUrl="usuario/";
+  String cadenaUrl=user;
   String nombre=request.getParameter("txtNombre");
   Usuario usuario = new Usuario();
   usuario.setNombre(nombre); 
   usuario=usuarioDao.selectNombre(nombre);
-  Administrador administrador= (Administrador) request.getSession().getAttribute("administradorConectado");
+  Administrador administrador= (Administrador) request.getSession().getAttribute(admin_conect);
   if(nombre.equals(administrador.getNombre())) {
-	  model.addAttribute("alerta", "No puedes realizar acciones sobre ti");
+	  model.addAttribute(alert, "No puedes realizar acciones sobre ti");
   }else{
 	  if(usuario!=null) {
 	   Administrador admin=new Administrador(usuario.getNombre(), usuario.getClave(), usuario.getEmail());
 	   administradorDao.insertSinEncrypt(admin);
 	  }else{
-	   model.addAttribute("alerta", "El usuario que intentas promover no existe");
+	   model.addAttribute(alert, "El usuario que intentas promover no existe");
 	  }
   }
   listarUsuario(request, response, model);
-  cadenaUrl+="inicioAdmin";  
+  cadenaUrl+=ini_admin;  
   return cadenaUrl;
  }
  /***
@@ -312,26 +322,26 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/degradar", method = RequestMethod.POST)
  public String degradar(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
-  String cadenaUrl="usuario/";
+  String cadenaUrl=user;
   String nombre=request.getParameter("txtNombre");
   Administrador admin;
-  Administrador administrador= (Administrador) request.getSession().getAttribute("administradorConectado");
+  Administrador administrador= (Administrador) request.getSession().getAttribute(admin_conect);
   if(nombre.equals(administrador.getNombre())) {
-	  model.addAttribute("alerta", "No puedes realizar acciones sobre ti");
+	  model.addAttribute(alert, "No puedes realizar acciones sobre ti");
   }else {
 	  if(nombre.equals("admin")) {
-	   model.addAttribute("alerta", "<t><h2><b>No puedes degradar al superadmin</b></h2>");
+	   model.addAttribute(alert, "<t><h2><b>No puedes degradar al superadmin</b></h2>");
 	  }else {
 	   admin=administradorDao.selectNombre(nombre);
 	   if(admin==null)
-	    model.addAttribute("alerta", "El administrador que intentas degradar no existe");
+	    model.addAttribute(alert, "El administrador que intentas degradar no existe");
 	   else {
 	    administradorDao.delete(admin);
 	   }
 	  }
   }
   listarUsuario(request, response, model);
-  cadenaUrl+="inicioAdmin";  
+  cadenaUrl+=ini_admin;  
   return cadenaUrl;
  }
  
@@ -343,10 +353,10 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/listarUsuario", method = RequestMethod.POST)
  public String listarUsuario(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
-  String cadenaUrl="usuario/";
+  String cadenaUrl=user;
   model.addAttribute("usuarios", usuarioDao.list());
   model.addAttribute("administradores", administradorDao.list());
-  cadenaUrl+="inicioAdmin";  
+  cadenaUrl+=ini_admin;  
   return cadenaUrl;
  }
  /**
@@ -355,11 +365,11 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/eliminarPubli", method = RequestMethod.POST)
  public String eliminarPubli(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
-  String cadenaUrl="usuario/";
+  String cadenaUrl=user;
   String id=request.getParameter("txtIdPublicacion");
   publicacionDao.remove(id);
   listarPublicacion(request, response, model);
-  cadenaUrl+="bienvenido";  
+  cadenaUrl+=welcome;  
   return cadenaUrl;
  }
  
@@ -369,12 +379,12 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/editarPubli", method = RequestMethod.POST)
  public String editarPubli(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
-  String cadenaUrl="usuario/";
+  String cadenaUrl=user;
   String texto=request.getParameter("txtIntroducirTexto");
   String id=request.getParameter("txtIdPublicacion");
   publicacionDao.update(id, texto);
   listarPublicacion(request, response, model);
-  cadenaUrl+="bienvenido";  
+  cadenaUrl+=welcome;  
   return cadenaUrl;
  }
  /***
@@ -384,9 +394,9 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/crearPublicacion", method = RequestMethod.POST)
  public String crearPublicacion(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
-  String cadenaUrl="usuario/";
+  String cadenaUrl=user;
   Usuario usuario;
-  usuario=(Usuario) request.getSession().getAttribute("usuarioConectado");
+  usuario=(Usuario) request.getSession().getAttribute(user_conect);
   
   
   String nombre=usuario.getNombre();
@@ -397,23 +407,25 @@ public class UsuarioServlet {
   try {
    utilidades.publicacionValida(nombre, texto);
   }catch(Exception e) {
-   model.addAttribute("alerta", e.getMessage());
-   return cadenaUrl+="bienvenido";
+   model.addAttribute(alert, e.getMessage());
+   cadenaUrl+=welcome; 
+   return cadenaUrl;
   }
   
   Publicacion publicacion= new Publicacion(usuario, texto);
   
   if(publicacionDao.existe(publicacion)) {
-   model.addAttribute("alerta", "Nombre de usuario no disponible");
-   return cadenaUrl+="bienvenido";
+   model.addAttribute(alert, "Nombre de usuario no disponible");
+   return cadenaUrl+=welcome;
   }
   publicacionDao.insert(publicacion);
   listarPublicacion(request, response, model);
-  return cadenaUrl+="bienvenido";
+  cadenaUrl+=welcome; 
+  return cadenaUrl;
  }
  @RequestMapping(value="/crearPublicacionPrivada", method = RequestMethod.POST)
  public String crearPublicacionPrivada(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
-  String cadenaUrl="usuario/";
+  String cadenaUrl=user;
   Usuario usuario;
   usuario=(Usuario) request.getSession().getAttribute("usuarioConectado");
   
@@ -426,19 +438,22 @@ public class UsuarioServlet {
   try {
    utilidades.publicacionValida(nombre, texto);
   }catch(Exception e) {
-   model.addAttribute("alerta", e.getMessage());
-   return cadenaUrl+="bienvenido";
+   model.addAttribute(alert, e.getMessage());
+   cadenaUrl+=welcome; 
+   return cadenaUrl;
   }
   
   Publicacion publicacion= new Publicacion(usuario, texto, "Privada");
   
   if(publicacionDao.existe(publicacion)) {
-   model.addAttribute("alerta", "Nombre de usuario no disponible");
-   return cadenaUrl+="bienvenido";
+   model.addAttribute(alert, "Nombre de usuario no disponible");
+   cadenaUrl+=welcome; 
+   return cadenaUrl;
   }
   publicacionDao.insert(publicacion);
   listarPublicacion(request, response, model);
-  return cadenaUrl+="bienvenido";
+  cadenaUrl+=welcome; 
+  return cadenaUrl;
  }
  /***
   * 
@@ -448,9 +463,9 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/listarPublicacion", method = RequestMethod.POST)
  public String listarPublicacion(HttpServletRequest request, HttpServletResponse response, Model model) throws Exception  {
-  String cadenaUrl="usuario/";
+  String cadenaUrl=user;
   Usuario usuario;
-  usuario=(Usuario) request.getSession().getAttribute("usuarioConectado");
+  usuario=(Usuario) request.getSession().getAttribute(user_conect);
   
   ArrayList<Publicacion> publicas=publicacionDao.selectPublicas(usuario);
   ArrayList<Publicacion> privadas=publicacionDao.selectPrivadas(usuario);
@@ -465,7 +480,7 @@ public class UsuarioServlet {
 	  texto+="<br>";
 	  texto+="		</div>	\r\n" + 
 	  			"	</div>";*/
-	  texto+="<div class=\"panel panel-default\">\r\n" + 
+	  texto = texto+"<div class=\"panel panel-default\">\r\n" + 
 	  		"	<div class=\"panel-body\">\r\n" + 
 	  		"			<b> "+ todas[i].getUsuario().getNombre() +" </b> \r\n" + 
 	  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"�Qu� tal el d�a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
@@ -530,7 +545,7 @@ public class UsuarioServlet {
   System.out.print(texto);
   model.addAttribute("publicaciones", texto);
   
-  cadenaUrl+="bienvenido";  
+  cadenaUrl+=welcome;  
   return cadenaUrl;
  }
  
@@ -564,13 +579,13 @@ public class UsuarioServlet {
    try {
     utilidades.comprobacionNombre(nombre);
    }catch (Exception e) {
-	   model.addAttribute("alerta", e.getMessage());
+	   model.addAttribute(alert, e.getMessage());
 	   return "usuario/recuperarCredenciales"; 
    }
    
     
    if (usuario==null || (!respuesta.equals(usuario.getRespuesta()))) {
-	   model.addAttribute("alerta", "Datos incorrectos");
+	   model.addAttribute(alert, "Datos incorrectos");
 	   return "usuario/recuperarCredenciales";
    }else {
     MailSender mailSender= new MailSender();
@@ -581,7 +596,7 @@ public class UsuarioServlet {
     usuarioDao.updatePwdEmail(usuario);
    }
    
-   return "usuario/login";
+   return user_login;
    
   }
  

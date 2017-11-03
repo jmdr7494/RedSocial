@@ -73,10 +73,10 @@ public class utilidades {
 		int size=pwd.length();
 		for(int i=0; i<size; i++) {
 			c=pwd.charAt(i);
-			if(!numero) {
+			if(caracter) {
 				numero=Character.isDigit(c);
 			}
-			if(!caracter) {
+			if(numero) {
 				caracter=Character.isLetter(c);
 			}
 		}

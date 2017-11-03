@@ -25,8 +25,19 @@ import com.intravita.proyectointranet.persistencia.UsuarioDAO;
 @Component
 public class UsuarioDAOImpl implements UsuarioDAO {
 	
+	private final String name = "nombre";
+	private final String password = "pwd";
+	private final String e_mail = "email";
+	private final String resp = "respuesta";
+	
 	public UsuarioDAOImpl() {
 		super();
+	}
+	
+	public MongoCollection<BsonDocument> obtenerUsuarios() {
+		MongoBroker broker = MongoBroker.get();
+		MongoCollection<BsonDocument> usuarios = broker.getCollection("Usuarios");
+		return usuarios;
 	}
 	/**
 	 * @method login
@@ -34,11 +45,11 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	 * @return true si login es correcto, false en caso opuesto
 	 */
 	public boolean login(Usuario usuario) {
-		MongoBroker broker = MongoBroker.get();
-		MongoCollection<BsonDocument> usuarios = broker.getCollection("Usuarios");
+		
+		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
 		BsonDocument criterio = new BsonDocument();
-		criterio.append("nombre", new BsonString(usuario.getNombre()));
-		criterio.append("pwd", new BsonString(DigestUtils.md5Hex(usuario.getClave())));
+		criterio.append(name, new BsonString(usuario.getNombre()));
+		criterio.append(password, new BsonString(DigestUtils.md5Hex(usuario.getClave())));
 		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
 		BsonDocument usuarioBson = resultado.first();
 		if (usuarioBson==null) {
@@ -52,10 +63,10 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	 * @return true si el nombre existe false si no existe
 	 */
 	public boolean selectNombre(Usuario usuario) {
-		MongoBroker broker = MongoBroker.get();
-		MongoCollection<BsonDocument> usuarios = broker.getCollection("Usuarios");
+		
+		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
 		BsonDocument criterio = new BsonDocument();
-		criterio.append("nombre", new BsonString(usuario.getNombre()));
+		criterio.append(name, new BsonString(usuario.getNombre()));
 		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
 		BsonDocument usuarioBson = resultado.first();
 		if (usuarioBson==null) {
@@ -71,23 +82,23 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	public void insert (Usuario usuario) throws Exception{
 		if(!selectNombre(usuario)) {
 			BsonDocument bso = new BsonDocument();
-			bso.append("nombre", new BsonString(usuario.getNombre()));
-			bso.append("pwd", new BsonString(DigestUtils.md5Hex(usuario.getClave())));
-			bso.append("email", new BsonString(usuario.getEmail()));
-			bso.append("respuesta", new BsonString(usuario.getRespuesta()));
-			MongoBroker broker = MongoBroker.get();
-			MongoCollection<BsonDocument> usuarios = broker.getCollection("Usuarios");
+			bso.append(name, new BsonString(usuario.getNombre()));
+			bso.append(password, new BsonString(DigestUtils.md5Hex(usuario.getClave())));
+			bso.append(e_mail, new BsonString(usuario.getEmail()));
+			bso.append(resp, new BsonString(usuario.getRespuesta()));
+			
+			MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
 			usuarios.insertOne(bso);
 		}else
 			throw new Exception("Cuenta existente");
 	}
 	public void insertSinEncrypt (Usuario usuario){
 		BsonDocument bso = new BsonDocument();
-		bso.append("nombre", new BsonString(usuario.getNombre()));
-		bso.append("pwd", new BsonString(usuario.getClave()));
-		bso.append("email", new BsonString(usuario.getEmail()));
-		MongoBroker broker = MongoBroker.get();
-		MongoCollection<BsonDocument> usuarios = broker.getCollection("Usuarios");
+		bso.append(name, new BsonString(usuario.getNombre()));
+		bso.append(password, new BsonString(usuario.getClave()));
+		bso.append(e_mail, new BsonString(usuario.getEmail()));
+		
+		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
 		FindIterable<BsonDocument> resultado=usuarios.find(bso);
 		BsonDocument usuarioBso = resultado.first();
 		if (usuarioBso==null) {
@@ -100,10 +111,10 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	 * @return usuario completo
 	 */
 	public Usuario selectNombre(String nombreParam) {
-		MongoBroker broker = MongoBroker.get();
-		MongoCollection<BsonDocument> usuarios = broker.getCollection("Usuarios");
+		
+		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
 		BsonDocument criterio = new BsonDocument();
-		criterio.append("nombre", new BsonString(nombreParam));
+		criterio.append(name, new BsonString(nombreParam));
 		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
 		BsonDocument usuario = resultado.first();
 		Usuario result;
@@ -111,19 +122,19 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			return null;
 		}
 		else {
-			BsonValue nombre=usuario.get("nombre");
+			BsonValue nombre=usuario.get(name);
 			BsonString name=nombre.asString();
 			String nombreFinal=name.getValue();
 			
-			BsonValue pwd=usuario.get("pwd");
+			BsonValue pwd=usuario.get(password);
 			BsonString password=pwd.asString();
 			String pwdFinal=password.getValue();
 			
-			BsonValue email=usuario.get("email");
+			BsonValue email=usuario.get(e_mail);
 			BsonString correo=email.asString();
 			String emailFinal=correo.getValue();
 			
-			BsonValue respuesta=usuario.get("respuesta");
+			BsonValue respuesta=usuario.get(resp);
 			BsonString answer=respuesta.asString();
 			String respuestaFinal=answer.getValue();
 			
@@ -137,8 +148,8 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	 */
 	public String list() {
 		AdministradorDAOImpl administradorDao= new AdministradorDAOImpl();
-		MongoBroker broker = MongoBroker.get();
-		MongoCollection<BsonDocument> usuarios = broker.getCollection("Usuarios");
+		
+		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
 		FindIterable<BsonDocument> resultado=usuarios.find();
 		String texto="";
 		String nombre;
@@ -146,13 +157,13 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		Iterator<BsonDocument> lista=resultado.iterator();
 		while(lista.hasNext()) {
 			usuario=lista.next();
-			nombre=usuario.getString("nombre").getValue();
+			nombre=usuario.getString(name).getValue();
 			if(administradorDao.selectNombre(nombre)==null) {
-				texto+="<b>Usuario: </b>";
-				texto+=nombre;
-				texto+=" <b>Email: </b>";
-				texto+=usuario.getString("email").getValue();
-				texto+="<br>";
+				texto = texto +"<b>Usuario: </b>";
+				texto = texto +nombre;
+				texto = texto +" <b>Email: </b>";
+				texto = texto +usuario.getString(e_mail).getValue();
+				texto = texto +"<br>";
 			}
 		}
 		return texto;
@@ -160,37 +171,37 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
 	public void delete (Usuario usuario){
 		BsonDocument bso = new BsonDocument();
-		bso.append("nombre", new BsonString(usuario.getNombre()));
+		bso.append(name, new BsonString(usuario.getNombre()));
 
-		MongoBroker broker = MongoBroker.get();
-		MongoCollection<BsonDocument> usuarios = broker.getCollection("Usuarios");
+		
+		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
 		usuarios.deleteOne(bso);
 
 	}
 	
 	public void update(String nombre, String pwdAntigua, String pwdNueva){
 
-		MongoBroker broker = MongoBroker.get();
-		MongoCollection<BsonDocument> usuarios = broker.getCollection("Usuarios");
+		
+		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
 		BsonDocument criterio = new BsonDocument();
-		criterio.append("nombre", new BsonString(nombre));
-		criterio.append("pwd", new BsonString(pwdAntigua));
+		criterio.append(name, new BsonString(nombre));
+		criterio.append(password, new BsonString(pwdAntigua));
 		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
 		BsonDocument usuario = resultado.first();
-		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument("pwd", new BsonString(pwdNueva)));
+		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument(password, new BsonString(pwdNueva)));
 		usuarios.findOneAndUpdate(usuario, actualizacion);
 	}
 	
 	public String selectPwd(String nombre){
 		
 		BsonValue pwd;
-		MongoBroker broker = MongoBroker.get();
-		MongoCollection<BsonDocument> usuarios = broker.getCollection("Usuarios");
+		
+		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
 		BsonDocument criterio = new BsonDocument();
-		criterio.append("nombre", new BsonString(nombre));
+		criterio.append(name, new BsonString(nombre));
 		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
 		BsonDocument usuario = resultado.first();
-		pwd=usuario.get("pwd");
+		pwd=usuario.get(password);
 		BsonString password=pwd.asString();
 		String pwdFinal=password.getValue();
 		return pwdFinal;
@@ -199,16 +210,16 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	public void updatePwdEmail(Usuario usuario) throws Exception{//sera posible reutilizar este metodo para hacer updates
 		//preguntar a JA
 
-		MongoBroker broker = MongoBroker.get();
-		MongoCollection<BsonDocument> usuarios = broker.getCollection("Usuarios");
+		
+		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
 		BsonDocument criterio = new BsonDocument();
-		criterio.append("nombre", new BsonString(usuario.getNombre()));
+		criterio.append(name, new BsonString(usuario.getNombre()));
 		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
 		BsonDocument usuarioBso = resultado.first();
 		if (usuarioBso==null)
 			throw new Exception("Fall� la actualizaci�n de los datos del usuario.");
 
-		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument("pwd", new BsonString(DigestUtils.md5Hex(usuario.getClave()))));
+		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument(password, new BsonString(DigestUtils.md5Hex(usuario.getClave()))));
 		usuarios.findOneAndUpdate(usuarioBso, actualizacion);
 	}
 	

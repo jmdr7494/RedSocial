@@ -85,9 +85,9 @@ public class Publicacion implements Comparable<Publicacion>{
 			return 1;
 		return 0;
 	}
-	public boolean equals(Publicacion p) {
+	/*public boolean equals(Publicacion p) {
 		return this.getId().equals(p.getId());
-	}
+	}*/
 	public String toString() {
 		return "<b>"+usuario.getNombre()+" </b>: <br>"+ this.texto+ " id:"+this.id; 
 	}

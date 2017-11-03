@@ -23,18 +23,30 @@ import com.mongodb.client.model.Sorts;
  * @since sprint 2
  */
 
-public class PublicacionDAOImpl {
+public class PublicacionDAOImpl {	
+	
+	private final String ID = "_id";
+	private final String text = "texto";
+	private final String author = "autor";
+	private final String date = "fecha";
+	private final String privacy = "privacidad";
+	
+	public MongoCollection<BsonDocument> obtenerPublicaciones() {
+		MongoBroker broker = MongoBroker.get();
+		MongoCollection<BsonDocument> publicaciones = broker.getCollection("Publicaciones");
+		return publicaciones;
+	}
 
 
 	public boolean existe(Publicacion publicacion) {
-		MongoBroker broker = MongoBroker.get();
-		MongoCollection<BsonDocument> usuarios = broker.getCollection("Publicaciones");
+		
+		MongoCollection<BsonDocument> usuarios = obtenerPublicaciones();
 		BsonDocument criterio = new BsonDocument();
 		if(publicacion.getId()!=null)
-			criterio.append("_id", new BsonObjectId(new ObjectId(publicacion.getId())));
+			criterio.append(ID, new BsonObjectId(new ObjectId(publicacion.getId())));
 		else {
-			criterio.append("autor", new BsonString(publicacion.getUsuario().getNombre()));
-			criterio.append("texto", new BsonString(publicacion.getTexto()));
+			criterio.append(author, new BsonString(publicacion.getUsuario().getNombre()));
+			criterio.append(text, new BsonString(publicacion.getTexto()));
 		}
 		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
 		BsonDocument usuarioBson = resultado.first();
@@ -50,13 +62,12 @@ public class PublicacionDAOImpl {
 	 */
 	public void insert(Publicacion publicacion) {
 		BsonDocument bso = new BsonDocument();
-		bso.append("autor", new BsonString(publicacion.getUsuario().getNombre()));
-		bso.append("texto", new BsonString(publicacion.getTexto()));
-		bso.append("privacidad", new BsonString(publicacion.getPrivacidad()));
-		bso.append("fecha", new BsonDateTime(publicacion.getFecha()));
+		bso.append(author, new BsonString(publicacion.getUsuario().getNombre()));
+		bso.append(text, new BsonString(publicacion.getTexto()));
+		bso.append(privacy, new BsonString(publicacion.getPrivacidad()));
+		bso.append(date, new BsonDateTime(publicacion.getFecha()));		
 		
-		MongoBroker broker = MongoBroker.get();
-		MongoCollection<BsonDocument> publicaciones = broker.getCollection("Publicaciones");
+		MongoCollection<BsonDocument> publicaciones = obtenerPublicaciones();
 		publicaciones.insertOne(bso);
 	}
 	/***
@@ -66,10 +77,10 @@ public class PublicacionDAOImpl {
 	 */
 	public void update(String id, String textoNuevo){		
 		BsonDocument bso = new BsonDocument();
-		bso.append("_id", new BsonObjectId(new ObjectId(id)));
-		MongoBroker broker = MongoBroker.get();
-		MongoCollection<BsonDocument> publicaciones = broker.getCollection("Publicaciones");
-		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument("texto", new BsonString(textoNuevo)));
+		bso.append(ID, new BsonObjectId(new ObjectId(id)));
+		
+		MongoCollection<BsonDocument> publicaciones = obtenerPublicaciones();
+		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument(text, new BsonString(textoNuevo)));
 		publicaciones.updateOne(bso,actualizacion);
 	}
 	/***
@@ -78,10 +89,10 @@ public class PublicacionDAOImpl {
 	 * 
 	 */
 	public void remove(String id){
-		MongoBroker broker = MongoBroker.get();
-		MongoCollection<BsonDocument> publicaciones = broker.getCollection("Publicaciones");
+		
+		MongoCollection<BsonDocument> publicaciones = obtenerPublicaciones();
 		BsonDocument bso = new BsonDocument();
-		bso.append("_id", new BsonObjectId(new ObjectId(id)));
+		bso.append(ID, new BsonObjectId(new ObjectId(id)));
 		FindIterable<BsonDocument> resultado=publicaciones.find(bso);
 		BsonDocument publicacionBson = resultado.first();		
 		publicaciones.deleteOne(publicacionBson);
@@ -92,23 +103,23 @@ public class PublicacionDAOImpl {
 	 * @return lista de publicaciones
 	 */
 	public Publicacion selectOne(Publicacion publi) {
-		MongoBroker broker = MongoBroker.get();
-		MongoCollection<BsonDocument> publicaciones = broker.getCollection("Publicaciones");
+		
+		MongoCollection<BsonDocument> publicaciones = obtenerPublicaciones();
 		BsonDocument criterio = new BsonDocument();
 		if(publi.getId()!=null)
-			criterio.append("_id", new BsonObjectId(new ObjectId(publi.getId())));
+			criterio.append(ID, new BsonObjectId(new ObjectId(publi.getId())));
 		else {
-			criterio.append("autor", new BsonString(publi.getUsuario().getNombre()));
-			criterio.append("texto", new BsonString(publi.getTexto()));			
+			criterio.append(author, new BsonString(publi.getUsuario().getNombre()));
+			criterio.append(text, new BsonString(publi.getTexto()));			
 		}
 		FindIterable<BsonDocument> resultado=publicaciones.find(criterio);
 		BsonDocument aux = resultado.first();
-		String autor=aux.getString("autor").getValue();
-		String texto=aux.getString("texto").getValue();
-		String privacidad=aux.getString("privacidad").getValue();
-		long fecha=aux.getDateTime("fecha").getValue();
+		String autor=aux.getString(author).getValue();
+		String texto=aux.getString(text).getValue();
+		String privacidad=aux.getString(privacy).getValue();
+		long fecha=aux.getDateTime(date).getValue();
 		Publicacion publicacion=new Publicacion(new Usuario(autor), texto, privacidad, fecha);
-		publicacion.setId(aux.getObjectId("_id").getValue().toString());
+		publicacion.setId(aux.getObjectId(ID).getValue().toString());
 		return publicacion;
 	}
 	
@@ -118,12 +129,12 @@ public class PublicacionDAOImpl {
 	 * @return lista de publicaciones
 	 */
 	public ArrayList<Publicacion> selectPublicas(Usuario usuario) {
-		MongoBroker broker = MongoBroker.get();
-		MongoCollection<BsonDocument> publicaciones = broker.getCollection("Publicaciones");
+		
+		MongoCollection<BsonDocument> publicaciones = obtenerPublicaciones();
 		BsonDocument criterio = new BsonDocument();
-		criterio.append("autor", new BsonString(usuario.getNombre()));
-		criterio.append("privacidad",  new BsonString("Publica"));
-		Bson sort = Sorts.descending("fecha");
+		criterio.append(author, new BsonString(usuario.getNombre()));
+		criterio.append(privacy,  new BsonString("Publica"));
+		Bson sort = Sorts.descending(date);
 		FindIterable<BsonDocument> resultado=publicaciones.find(criterio).sort(sort);
 		Iterator <BsonDocument> bucle= resultado.iterator();
 		ArrayList<Publicacion> lista= new ArrayList<Publicacion>();
@@ -135,12 +146,12 @@ public class PublicacionDAOImpl {
 		Publicacion publicacion;
 		while(bucle.hasNext()) {
 			aux=bucle.next();
-			autor=aux.getString("autor").getValue();
-			texto=aux.getString("texto").getValue();
-			privacidad=aux.getString("privacidad").getValue();
-			fecha=aux.getDateTime("fecha").getValue();
+			autor=aux.getString(author).getValue();
+			texto=aux.getString(text).getValue();
+			privacidad=aux.getString(privacy).getValue();
+			fecha=aux.getDateTime(date).getValue();
 			publicacion=new Publicacion(new Usuario(autor), texto, privacidad, fecha);
-			publicacion.setId(aux.getObjectId("_id").getValue().toString());
+			publicacion.setId(aux.getObjectId(ID).getValue().toString());
 			lista.add(publicacion);
 		}
 		return lista;
@@ -151,12 +162,12 @@ public class PublicacionDAOImpl {
 	 * @return lista de publicaciones
 	 */
 	public ArrayList<Publicacion> selectPrivadas(Usuario usuario) {
-		MongoBroker broker = MongoBroker.get();
-		MongoCollection<BsonDocument> publicaciones = broker.getCollection("Publicaciones");
+		
+		MongoCollection<BsonDocument> publicaciones = obtenerPublicaciones();
 		BsonDocument criterio = new BsonDocument();
-		criterio.append("autor", new BsonString(usuario.getNombre()));
-		criterio.append("privacidad",  new BsonString("Privada"));
-		Bson sort = Sorts.descending("fecha");
+		criterio.append(author, new BsonString(usuario.getNombre()));
+		criterio.append(privacy,  new BsonString("Privada"));
+		Bson sort = Sorts.descending(date);
 		FindIterable<BsonDocument> resultado=publicaciones.find(criterio).sort(sort);
 		Iterator <BsonDocument> bucle= resultado.iterator();
 		ArrayList<Publicacion> lista= new ArrayList<Publicacion>();
@@ -168,12 +179,12 @@ public class PublicacionDAOImpl {
 		Publicacion publicacion;
 		while(bucle.hasNext()) {
 			aux=bucle.next();
-			autor=aux.getString("autor").getValue();
-			texto=aux.getString("texto").getValue();
-			privacidad=aux.getString("privacidad").getValue();
-			fecha=aux.getDateTime("fecha").getValue();
+			autor=aux.getString(author).getValue();
+			texto=aux.getString(text).getValue();
+			privacidad=aux.getString(privacy).getValue();
+			fecha=aux.getDateTime(date).getValue();
 			publicacion=new Publicacion(new Usuario(autor), texto, privacidad, fecha);
-			publicacion.setId(aux.getObjectId("_id").getValue().toString());
+			publicacion.setId(aux.getObjectId(ID).getValue().toString());
 			lista.add(publicacion);
 		}
 		return lista;

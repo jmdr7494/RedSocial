@@ -20,27 +20,36 @@ import com.mongodb.client.MongoCollection;
 
 public class AdministradorDAOImpl {
 	
+	private final String name = "nombre";	
+	private final String pass = "pwd";
+	private final String e_mail = "email";	
+	
 	public AdministradorDAOImpl() {
 		super();
+	}
+	public MongoCollection<BsonDocument> obtenerAdministradores() {
+		MongoBroker broker = MongoBroker.get();
+		MongoCollection<BsonDocument> administradores = broker.getCollection("Administradores");
+		return administradores;
 	}
 	/***
 	 * @method select que devuelve todos los administradores
 	 * @return texto con la lista de administradores
 	 */
 	public String list() {
-		MongoBroker broker = MongoBroker.get();
-		MongoCollection<BsonDocument> administradores = broker.getCollection("Administradores");
+		
+		MongoCollection<BsonDocument> administradores = obtenerAdministradores();
 		FindIterable<BsonDocument> resultado=administradores.find();
 		String texto="";
 		BsonDocument administrador;
 		Iterator<BsonDocument> lista=resultado.iterator();
 		while(lista.hasNext()) {
-			texto+="<b>Usuario:</b> ";
-			administrador=lista.next();
-			texto+=administrador.getString("nombre").getValue();
-			texto+=" <b>Email: </b>";
-			texto+=administrador.getString("email").getValue();
-			texto+="<br>";
+			texto = texto + "<b>Usuario:</b> ";
+			administrador = lista.next();
+			texto =texto + administrador.getString(name).getValue();
+			texto = texto + " <b>Email: </b>";
+			texto = texto + administrador.getString(e_mail).getValue();
+			texto = texto + "<br>";
 		}
 		return texto;
 	}
@@ -50,11 +59,11 @@ public class AdministradorDAOImpl {
 	 * @return true si login es correcto, false en caso opuesto
 	 */
 	public boolean login(Administrador administrador) {
-		MongoBroker broker = MongoBroker.get();
-		MongoCollection<BsonDocument> administradores = broker.getCollection("Administradores");
+		
+		MongoCollection<BsonDocument> administradores = obtenerAdministradores();
 		BsonDocument criterio = new BsonDocument();
-		criterio.append("nombre", new BsonString(administrador.getNombre()));
-		criterio.append("pwd", new BsonString(DigestUtils.md5Hex(administrador.getClave())));
+		criterio.append(name, new BsonString(administrador.getNombre()));
+		criterio.append(pass, new BsonString(DigestUtils.md5Hex(administrador.getClave())));
 		FindIterable<BsonDocument> resultado=administradores.find(criterio);
 		BsonDocument administradorBson = resultado.first();
 		if (administradorBson==null) {
@@ -71,11 +80,11 @@ public class AdministradorDAOImpl {
 	 */
 	 public void insert (Administrador administrador) {
 		  BsonDocument bso = new BsonDocument();
-		  bso.append("nombre", new BsonString(administrador.getNombre()));
-		  bso.append("pwd", new BsonString(DigestUtils.md5Hex(administrador.getClave())));
-		  bso.append("email", new BsonString(administrador.getEmail()));
-		  MongoBroker broker = MongoBroker.get();
-		  MongoCollection<BsonDocument> administradores = broker.getCollection("Administradores");
+		  bso.append(name, new BsonString(administrador.getNombre()));
+		  bso.append(pass, new BsonString(DigestUtils.md5Hex(administrador.getClave())));
+		  bso.append(e_mail, new BsonString(administrador.getEmail()));
+		  
+		  MongoCollection<BsonDocument> administradores = obtenerAdministradores();
 		  FindIterable<BsonDocument> resultado=administradores.find(bso);
 		  BsonDocument usuarioBso = resultado.first();
 		  if (usuarioBso==null) {
@@ -85,11 +94,11 @@ public class AdministradorDAOImpl {
 	
 	 public void insertSinEncrypt (Administrador administrador) {
 		  BsonDocument bso = new BsonDocument();
-		  bso.append("nombre", new BsonString(administrador.getNombre()));
-		  bso.append("pwd", new BsonString(administrador.getClave()));
-		  bso.append("email", new BsonString(administrador.getEmail()));
-		  MongoBroker broker = MongoBroker.get();
-		  MongoCollection<BsonDocument> administradores = broker.getCollection("Administradores");
+		  bso.append(name, new BsonString(administrador.getNombre()));
+		  bso.append(pass, new BsonString(administrador.getClave()));
+		  bso.append(e_mail, new BsonString(administrador.getEmail()));
+		  
+		  MongoCollection<BsonDocument> administradores = obtenerAdministradores();
 		  FindIterable<BsonDocument> resultado=administradores.find(bso);
 		  BsonDocument usuarioBso = resultado.first();
 		  if (usuarioBso==null) {
@@ -102,10 +111,10 @@ public class AdministradorDAOImpl {
 		 * @return admin completo
 		 */
 		public Administrador selectNombre(String nombreParam) {
-			MongoBroker broker = MongoBroker.get();
-			MongoCollection<BsonDocument> administradores = broker.getCollection("Administradores");
+			
+			MongoCollection<BsonDocument> administradores = obtenerAdministradores();
 			BsonDocument criterio = new BsonDocument();
-			criterio.append("nombre", new BsonString(nombreParam));
+			criterio.append(name, new BsonString(nombreParam));
 			FindIterable<BsonDocument> resultado=administradores.find(criterio);
 			BsonDocument administrador = resultado.first();
 			Administrador result;
@@ -113,15 +122,15 @@ public class AdministradorDAOImpl {
 				return null;
 			}
 			else {
-				BsonValue nombre=administrador.get("nombre");
+				BsonValue nombre=administrador.get(name);
 				BsonString name=nombre.asString();
 				String nombreFinal=name.getValue();
 				
-				BsonValue pwd=administrador.get("pwd");
+				BsonValue pwd=administrador.get(pass);
 				BsonString password=pwd.asString();
 				String pwdFinal=password.getValue();
 				
-				BsonValue email=administrador.get("email");
+				BsonValue email=administrador.get(e_mail);
 				BsonString correo=email.asString();
 				String emailFinal=correo.getValue();
 				result = new Administrador(nombreFinal, pwdFinal, emailFinal);
@@ -129,11 +138,11 @@ public class AdministradorDAOImpl {
 			return result;
 		}
 	 public Administrador select(Administrador generico) {
-		  MongoBroker broker = MongoBroker.get();
-		  MongoCollection<BsonDocument> administradores = broker.getCollection("Administradores");
+		  
+		  MongoCollection<BsonDocument> administradores = obtenerAdministradores();
 		  BsonDocument criterio = new BsonDocument();
-		  criterio.append("nombre", new BsonString(generico.getNombre()));
-		  criterio.append("pwd", new BsonString(DigestUtils.md5Hex(generico.getClave())));
+		  criterio.append(name, new BsonString(generico.getNombre()));
+		  criterio.append(pass, new BsonString(DigestUtils.md5Hex(generico.getClave())));
 		  FindIterable<BsonDocument> resultado=administradores.find(criterio);
 		  BsonDocument usuario = resultado.first();
 		  Administrador result;
@@ -147,20 +156,20 @@ public class AdministradorDAOImpl {
 	 }
 	 public void delete (Administrador administrador) {
 		  BsonDocument bso = new BsonDocument();
-		  bso.append("nombre", new BsonString(administrador.getNombre()));
-		  MongoBroker broker = MongoBroker.get();
-		  MongoCollection<BsonDocument> administradores = broker.getCollection("Administradores");
+		  bso.append(name, new BsonString(administrador.getNombre()));
+		  
+		  MongoCollection<BsonDocument> administradores = obtenerAdministradores();
 		  administradores.deleteOne(bso);
 	 }
 	 public void update(String nombre, String pwdAntigua, String pwdNueva) {
-		  MongoBroker broker = MongoBroker.get();
-		  MongoCollection<BsonDocument> administradores = broker.getCollection("Administradores");
+		  
+		  MongoCollection<BsonDocument> administradores = obtenerAdministradores();
 		  BsonDocument criterio = new BsonDocument();
-		  criterio.append("nombre", new BsonString(nombre));
-		  criterio.append("pwd", new BsonString(pwdAntigua));
+		  criterio.append(name, new BsonString(nombre));
+		  criterio.append(pass, new BsonString(pwdAntigua));
 		  FindIterable<BsonDocument> resultado=administradores.find(criterio);
 		  BsonDocument administrador = resultado.first();
-		  BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument("pwd", new BsonString(pwdNueva)));
+		  BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument(pass, new BsonString(pwdNueva)));
 		  administradores.findOneAndUpdate(administrador, actualizacion);
 	 }
 	 
