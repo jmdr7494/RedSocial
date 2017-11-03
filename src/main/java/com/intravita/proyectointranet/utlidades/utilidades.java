@@ -2,8 +2,15 @@ package com.intravita.proyectointranet.utlidades;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
+import org.bson.BsonString;
+import org.bson.BsonValue;
 
 import com.intravita.proyectointranet.modelo.Publicacion;
+import com.intravita.proyectointranet.modelo.Usuario;
+import com.intravita.proyectointranet.persistencia.UsuarioDAOImpl;
 
 /**
  * utilidades- Clase auxiliar con funcionalidades de comprobacion o de ayuda
@@ -13,6 +20,7 @@ import com.intravita.proyectointranet.modelo.Publicacion;
  */
 
 public class utilidades {
+	static UsuarioDAOImpl usuarioDao= new UsuarioDAOImpl();
 	/**
 	 * Extension de email permitida
 	 */
@@ -34,7 +42,7 @@ public class utilidades {
 	  comprobacionNombre(nombre);
 
 	  if(email.length()<=extensionEmail.length())
-	   throw new Exception("Email invalido");
+		  throw new Exception("Email invalido");
 	  String extension=email.substring(email.length()-extensionEmail.length(), email.length());
 	  palabrasMalas(email);
 	  
@@ -73,11 +81,11 @@ public class utilidades {
 		int size=pwd.length();
 		for(int i=0; i<size; i++) {
 			c=pwd.charAt(i);
-			if(caracter) {
-				numero=Character.isDigit(c);
+			if(Character.isDigit(c)) {
+				numero=true;
 			}
-			if(numero) {
-				caracter=Character.isLetter(c);
+			if(Character.isLetter(c)) {
+				caracter=true;
 			}
 		}
 		if(!caracter || !numero)
@@ -102,6 +110,47 @@ public class utilidades {
 		
 		Arrays.sort(ordenadas);
 		return ordenadas;
+	}
+	
+	/**
+	 * 
+	 * @param usuarioA
+	 * @param usuarioB
+	 * @return true si son amigos, false si no
+	 */
+	public static boolean comprobarAmistad(Usuario usuarioA, Usuario usuarioB) {
+		List <BsonValue> amigosA=usuarioDao.obtenerAmigos(usuarioA);
+		Iterator <BsonValue> it=amigosA.iterator();
+		BsonValue aux;
+		BsonString nombre;
+		String nombreB=usuarioB.getNombre();
+		while(it.hasNext()) {
+			aux=it.next();
+			nombre=aux.asString();
+			if(nombreB.equals(nombre.getValue()))
+				return true;
+		}	
+		return false;
+	}
+	/**
+	 * 
+	 * @param emisor
+	 * @param receptor
+	 * @return true si receptor tiene una solicitud de emisor
+	 */
+	public static boolean comprobarSolicitudes(Usuario emisor, Usuario receptor) {
+		List <BsonValue> solicitudesReceptor=usuarioDao.obtenerSolicitudes(receptor);
+		Iterator <BsonValue> it=solicitudesReceptor.iterator();
+		BsonValue aux;
+		BsonString nombre;
+		String nombreEmisor=emisor.getNombre();
+		while(it.hasNext()) {
+			aux=it.next();
+			nombre=aux.asString();
+			if(nombreEmisor.equals(nombre.getValue()))
+				return true;
+		}	
+		return false;
 	}
 	
 }
