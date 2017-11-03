@@ -153,4 +153,30 @@ public class utilidades {
 		return false;
 	}
 	
+	/**
+	 * 
+	 * @param emisor
+	 * @param receptor
+	 * @return excepcion si algo falla, si no, envia la solicitud emisor->receptor
+	 */
+	public static void enviarSolicitud(Usuario emisor, Usuario receptor) throws Exception{
+		if(comprobarSolicitudes(emisor,receptor)) throw new Exception("Ya tienes una solicitud de ese usuario");
+		
+		if(comprobarAmistad(emisor,receptor)) throw new Exception("Ya sois amigos");
+		if(comprobarAmistad(receptor,emisor)) throw new Exception("Ya sois amigos");
+		
+		usuarioDao.enviarSolicitud(emisor, receptor);
+	}
+	
+	/**
+	 * 
+	 * @param emisor
+	 * @param receptor
+	 * @return excepcion si algo falla, si no, acepta la amistad
+	 */
+	public static void aceptarSolicitud(Usuario emisor, Usuario receptor) throws Exception{
+		if(!comprobarSolicitudes(emisor,receptor)) throw new Exception("No te ha mandado solicitud");
+		
+		usuarioDao.aceptarSolicitud(emisor, receptor);
+	}
 }

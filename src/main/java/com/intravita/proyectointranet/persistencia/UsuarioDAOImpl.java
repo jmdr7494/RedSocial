@@ -273,6 +273,44 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument(solicitudes, new BsonArray(lista)));
 		usuarios.findOneAndUpdate(usuario, actualizacion);
 	}
+	/**
+	 * 
+	 * @param solicitante
+	 * @param acepta
+	 * @result añadir a la lista de amistades de ambos y eliminar la solicitud
+	 */
+	public void aceptarSolicitud(Usuario solicitante, Usuario acepta) {
+		List<BsonValue> lista=obtenerSolicitudes(acepta);
+		lista.remove(new BsonString(solicitante.getNombre()));
+		
+		List<BsonValue> listaAmigosSolicitante=obtenerAmigos(solicitante);
+		listaAmigosSolicitante.add(new BsonString(acepta.getNombre()));
+		
+		List<BsonValue> listaAmigosAcepta=obtenerSolicitudes(acepta);
+		listaAmigosAcepta.add(new BsonString(solicitante.getNombre()));
+		
+		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
+		BsonDocument criterio = new BsonDocument();
+		criterio.append(name, new BsonString(solicitante.getNombre()));
+		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
+		BsonDocument usuario = resultado.first();
+		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument(amigos, new BsonArray(listaAmigosSolicitante)));
+		usuarios.findOneAndUpdate(usuario, actualizacion);
+		
+		criterio = new BsonDocument();
+		criterio.append(name, new BsonString(acepta.getNombre()));
+		resultado=usuarios.find(criterio);
+		usuario = resultado.first();
+		actualizacion= new BsonDocument("$set", new BsonDocument(amigos, new BsonArray(listaAmigosAcepta)));
+		usuarios.findOneAndUpdate(usuario, actualizacion);
+		
+		criterio = new BsonDocument();
+		criterio.append(name, new BsonString(acepta.getNombre()));
+		resultado=usuarios.find(criterio);
+		usuario = resultado.first();
+		actualizacion= new BsonDocument("$set", new BsonDocument(solicitudes, new BsonArray(lista)));
+		usuarios.findOneAndUpdate(usuario, actualizacion);
+	}
 
 }
 

@@ -1,324 +1,16 @@
-$(document).ready(function() {var formatter = new CucumberHTML.DOMFormatter($('.cucumber-report'));formatter.uri('cucumberJava\CreacionUsuario.feature');
+$(document).ready(function() {var formatter = new CucumberHTML.DOMFormatter($('.cucumber-report'));formatter.uri('cucumberJava\SolicitudesAceptar.feature');
 formatter.feature({
   "line": 1,
-  "name": "Creacion de un nuevo usuario",
+  "name": "Aceptar solicitudes de amistad de otro usuario",
   "description": "",
-  "id": "creacion-de-un-nuevo-usuario",
-  "keyword": "Feature"
-});
-formatter.scenario({
-  "line": 4,
-  "name": "Creacion correcta de cuenta",
-  "description": "",
-  "id": "creacion-de-un-nuevo-usuario;creacion-correcta-de-cuenta",
-  "type": "scenario",
-  "keyword": "Scenario",
-  "tags": [
-    {
-      "line": 3,
-      "name": "@Scenario1"
-    }
-  ]
-});
-formatter.step({
-  "line": 5,
-  "name": "Usuario en pagina de creacion",
-  "keyword": "Given "
-});
-formatter.step({
-  "line": 6,
-  "name": "Nombre, email, password y confirmacion validos",
-  "keyword": "When "
-});
-formatter.step({
-  "line": 7,
-  "name": "Mensaje de validacion y usuario insertado",
-  "keyword": "Then "
-});
-formatter.match({
-  "location": "crearCuentaTest.Usuario_en_pagina_de_creacion()"
-});
-formatter.result({
-  "duration": 246674500,
-  "status": "passed"
-});
-formatter.match({
-  "location": "crearCuentaTest.Nombre_email_contrase_a_y_confirmacion_validos()"
-});
-formatter.result({
-  "duration": 550700,
-  "status": "passed"
-});
-formatter.match({
-  "location": "crearCuentaTest.Mensaje_de_validacion_y_usuario_insertado()"
-});
-formatter.result({
-  "duration": 2664580100,
-  "status": "passed"
-});
-formatter.scenario({
-  "line": 11,
-  "name": "Creacion incorrecta de cuenta por email invalido",
-  "description": "",
-  "id": "creacion-de-un-nuevo-usuario;creacion-incorrecta-de-cuenta-por-email-invalido",
-  "type": "scenario",
-  "keyword": "Scenario",
-  "tags": [
-    {
-      "line": 10,
-      "name": "@Scenario2"
-    }
-  ]
-});
-formatter.step({
-  "line": 12,
-  "name": "Usuario en pagina de creacion",
-  "keyword": "Given "
-});
-formatter.step({
-  "line": 13,
-  "name": "Email no tiene extension alu.uclm.es",
-  "keyword": "When "
-});
-formatter.step({
-  "line": 14,
-  "name": "Mensaje de error a la creacion email invaildo",
-  "keyword": "Then "
-});
-formatter.match({
-  "location": "crearCuentaTest.Usuario_en_pagina_de_creacion()"
-});
-formatter.result({
-  "duration": 12600,
-  "status": "passed"
-});
-formatter.match({
-  "location": "crearCuentaTest.Email_no_tiene_extension_alu_uclm_es()"
-});
-formatter.result({
-  "duration": 25800,
-  "status": "passed"
-});
-formatter.match({
-  "location": "crearCuentaTest.Mensaje_de_error_a_la_creacion_email_invaildo()"
-});
-formatter.result({
-  "duration": 67600,
-  "status": "passed"
-});
-formatter.scenario({
-  "line": 17,
-  "name": "Creacion incorrecta de cuenta por password que no coinciden",
-  "description": "",
-  "id": "creacion-de-un-nuevo-usuario;creacion-incorrecta-de-cuenta-por-password-que-no-coinciden",
-  "type": "scenario",
-  "keyword": "Scenario",
-  "tags": [
-    {
-      "line": 16,
-      "name": "@Scenario3"
-    }
-  ]
-});
-formatter.step({
-  "line": 18,
-  "name": "Usuario en pagina de creacion",
-  "keyword": "Given "
-});
-formatter.step({
-  "line": 19,
-  "name": "Password y su confirmacion no coinciden",
-  "keyword": "When "
-});
-formatter.step({
-  "line": 20,
-  "name": "Mensaje de error a la creacion password no coinciden",
-  "keyword": "Then "
-});
-formatter.match({
-  "location": "crearCuentaTest.Usuario_en_pagina_de_creacion()"
-});
-formatter.result({
-  "duration": 15900,
-  "status": "passed"
-});
-formatter.match({
-  "location": "crearCuentaTest.Contrase_a_y_su_confirmacion_no_coinciden()"
-});
-formatter.result({
-  "duration": 19100,
-  "status": "passed"
-});
-formatter.match({
-  "location": "crearCuentaTest.Mensaje_de_error_a_la_creacion_password_no_coinciden()"
-});
-formatter.result({
-  "duration": 44200,
-  "status": "passed"
-});
-formatter.scenario({
-  "line": 23,
-  "name": "Creacion incorrecta de cuenta por nombre invalido",
-  "description": "",
-  "id": "creacion-de-un-nuevo-usuario;creacion-incorrecta-de-cuenta-por-nombre-invalido",
-  "type": "scenario",
-  "keyword": "Scenario",
-  "tags": [
-    {
-      "line": 22,
-      "name": "@Scenario4"
-    }
-  ]
-});
-formatter.step({
-  "line": 24,
-  "name": "Usuario en pagina de creacion",
-  "keyword": "Given "
-});
-formatter.step({
-  "line": 25,
-  "name": "Nombre no tiene el formato adecuado",
-  "keyword": "When "
-});
-formatter.step({
-  "line": 26,
-  "name": "Mensaje de error a la creacion nombre invalido",
-  "keyword": "Then "
-});
-formatter.match({
-  "location": "crearCuentaTest.Usuario_en_pagina_de_creacion()"
-});
-formatter.result({
-  "duration": 19500,
-  "status": "passed"
-});
-formatter.match({
-  "location": "crearCuentaTest.Nombre_no_tiene_el_formato_adecuado()"
-});
-formatter.result({
-  "duration": 20700,
-  "status": "passed"
-});
-formatter.match({
-  "location": "crearCuentaTest.Mensaje_de_error_a_la_creacion_nombre_invalido()"
-});
-formatter.result({
-  "duration": 46900,
-  "status": "passed"
-});
-formatter.scenario({
-  "line": 29,
-  "name": "Creacion incorrecta de cuenta por password poco segura",
-  "description": "",
-  "id": "creacion-de-un-nuevo-usuario;creacion-incorrecta-de-cuenta-por-password-poco-segura",
-  "type": "scenario",
-  "keyword": "Scenario",
-  "tags": [
-    {
-      "line": 28,
-      "name": "@Scenario5"
-    }
-  ]
-});
-formatter.step({
-  "line": 30,
-  "name": "Usuario en pagina de creacion",
-  "keyword": "Given "
-});
-formatter.step({
-  "line": 31,
-  "name": "Password no tiene la seguridad adecuada",
-  "keyword": "When "
-});
-formatter.step({
-  "line": 32,
-  "name": "Mensaje de error a la creacion password poco segura",
-  "keyword": "Then "
-});
-formatter.match({
-  "location": "crearCuentaTest.Usuario_en_pagina_de_creacion()"
-});
-formatter.result({
-  "duration": 19700,
-  "status": "passed"
-});
-formatter.match({
-  "location": "crearCuentaTest.Password_no_tiene_la_seguridad_adecuada()"
-});
-formatter.result({
-  "duration": 21300,
-  "status": "passed"
-});
-formatter.match({
-  "location": "crearCuentaTest.Mensaje_de_error_a_la_creacion_password_poco_segura()"
-});
-formatter.result({
-  "duration": 84700,
-  "status": "passed"
-});
-formatter.scenario({
-  "line": 35,
-  "name": "Creacion incorrecta de cuenta cuenta  ya existente",
-  "description": "",
-  "id": "creacion-de-un-nuevo-usuario;creacion-incorrecta-de-cuenta-cuenta--ya-existente",
-  "type": "scenario",
-  "keyword": "Scenario",
-  "tags": [
-    {
-      "line": 34,
-      "name": "@Scenario6"
-    }
-  ]
-});
-formatter.step({
-  "line": 36,
-  "name": "Usuario en pagina de creacion",
-  "keyword": "Given "
-});
-formatter.step({
-  "line": 37,
-  "name": "Nombre que intenta registrar ya existe",
-  "keyword": "When "
-});
-formatter.step({
-  "line": 38,
-  "name": "Mensaje de error a la creacion cuenta ya existente",
-  "keyword": "Then "
-});
-formatter.match({
-  "location": "crearCuentaTest.Usuario_en_pagina_de_creacion()"
-});
-formatter.result({
-  "duration": 19500,
-  "status": "passed"
-});
-formatter.match({
-  "location": "crearCuentaTest.Nombre_que_intenta_registrar_ya_existe()"
-});
-formatter.result({
-  "duration": 48400,
-  "status": "passed"
-});
-formatter.match({
-  "location": "crearCuentaTest.Mensaje_de_error_a_la_creacion_cuenta_ya_existente()"
-});
-formatter.result({
-  "duration": 124241000,
-  "status": "passed"
-});
-formatter.uri('cucumberJava\Login.feature');
-formatter.feature({
-  "line": 1,
-  "name": "Logeo al sistema",
-  "description": "",
-  "id": "logeo-al-sistema",
+  "id": "aceptar-solicitudes-de-amistad-de-otro-usuario",
   "keyword": "Feature"
 });
 formatter.scenario({
   "line": 5,
-  "name": "Login exitoso con credenciales validas",
+  "name": "Aceptar solicitud valido",
   "description": "",
-  "id": "logeo-al-sistema;login-exitoso-con-credenciales-validas",
+  "id": "aceptar-solicitudes-de-amistad-de-otro-usuario;aceptar-solicitud-valido",
   "type": "scenario",
   "keyword": "Scenario",
   "tags": [
@@ -330,45 +22,45 @@ formatter.scenario({
 });
 formatter.step({
   "line": 6,
-  "name": "Usuario en pagina de login",
+  "name": "Usuario conectado para aceptar",
   "keyword": "Given "
 });
 formatter.step({
   "line": 7,
-  "name": "Credenciales correctas",
+  "name": "Acepta solicitud de alguien que le ha mandado",
   "keyword": "When "
 });
 formatter.step({
   "line": 8,
-  "name": "Mensaje de bienvenida al login",
+  "name": "Aceptar como amigo",
   "keyword": "Then "
 });
 formatter.match({
-  "location": "loginTest.Usuario_en_pagina_de_login()"
+  "location": "solicitudAceptarTest.Usuario_conectado_para_aceptar()"
 });
 formatter.result({
-  "duration": 5364400,
+  "duration": 3133140400,
   "status": "passed"
 });
 formatter.match({
-  "location": "loginTest.Credenciales_correctas()"
+  "location": "solicitudAceptarTest.Acepta_solicitud_de_alguien_que_le_ha_mandado()"
 });
 formatter.result({
-  "duration": 36600,
+  "duration": 791197000,
   "status": "passed"
 });
 formatter.match({
-  "location": "loginTest.Mensaje_de_bienvenida_al_login()"
+  "location": "solicitudAceptarTest.Aceptar_como_amigo()"
 });
 formatter.result({
-  "duration": 75984900,
+  "duration": 231563900,
   "status": "passed"
 });
 formatter.scenario({
   "line": 11,
-  "name": "Login fallido por nombre invalido",
+  "name": "Aceptar solicitud invalido",
   "description": "",
-  "id": "logeo-al-sistema;login-fallido-por-nombre-invalido",
+  "id": "aceptar-solicitudes-de-amistad-de-otro-usuario;aceptar-solicitud-invalido",
   "type": "scenario",
   "keyword": "Scenario",
   "tags": [
@@ -380,103 +72,53 @@ formatter.scenario({
 });
 formatter.step({
   "line": 12,
-  "name": "Usuario en pagina de login",
+  "name": "Usuario conectado para aceptar",
   "keyword": "Given "
 });
 formatter.step({
   "line": 13,
-  "name": "Nombre de usuario incorrecto",
+  "name": "Acepta solicitud de alguien que no le ha mandado",
   "keyword": "When "
 });
 formatter.step({
   "line": 14,
-  "name": "Mensaje de error al login",
+  "name": "Mensaje de error a la aceptacion",
   "keyword": "Then "
 });
 formatter.match({
-  "location": "loginTest.Usuario_en_pagina_de_login()"
+  "location": "solicitudAceptarTest.Usuario_conectado_para_aceptar()"
 });
 formatter.result({
-  "duration": 14100,
+  "duration": 499586100,
   "status": "passed"
 });
 formatter.match({
-  "location": "loginTest.Nombre_de_usuario_incorrecto()"
+  "location": "solicitudAceptarTest.Acepta_solicitud_de_alguien_que_no_le_ha_mandado()"
 });
 formatter.result({
-  "duration": 21300,
+  "duration": 83666100,
   "status": "passed"
 });
 formatter.match({
-  "location": "loginTest.Mensaje_de_error_al_login()"
+  "location": "solicitudAceptarTest.Mensaje_de_error_a_la_aceptacion()"
 });
 formatter.result({
-  "duration": 61145700,
+  "duration": 172987300,
   "status": "passed"
 });
-formatter.scenario({
-  "line": 17,
-  "name": "Login fallido por passoword invalido",
-  "description": "",
-  "id": "logeo-al-sistema;login-fallido-por-passoword-invalido",
-  "type": "scenario",
-  "keyword": "Scenario",
-  "tags": [
-    {
-      "line": 16,
-      "name": "@Scenario3"
-    }
-  ]
-});
-formatter.step({
-  "line": 18,
-  "name": "Usuario en pagina de login",
-  "keyword": "Given "
-});
-formatter.step({
-  "line": 19,
-  "name": "Password incorrecta",
-  "keyword": "When "
-});
-formatter.step({
-  "line": 20,
-  "name": "Mensaje de error al login",
-  "keyword": "Then "
-});
-formatter.match({
-  "location": "loginTest.Usuario_en_pagina_de_login()"
-});
-formatter.result({
-  "duration": 28600,
-  "status": "passed"
-});
-formatter.match({
-  "location": "loginTest.Contrase_a_incorrecta()"
-});
-formatter.result({
-  "duration": 25000,
-  "status": "passed"
-});
-formatter.match({
-  "location": "loginTest.Mensaje_de_error_al_login()"
-});
-formatter.result({
-  "duration": 63092500,
-  "status": "passed"
-});
-formatter.uri('cucumberJava\Publicar.feature');
+formatter.uri('cucumberJava\SolicitudesEnvio.feature');
 formatter.feature({
   "line": 1,
-  "name": "Publicacion",
+  "name": "Enviar solicitudes de amistad entre usuarios",
   "description": "",
-  "id": "publicacion",
+  "id": "enviar-solicitudes-de-amistad-entre-usuarios",
   "keyword": "Feature"
 });
 formatter.scenario({
   "line": 5,
-  "name": "Publicacion exitosa",
+  "name": "Envio de solicitud valido",
   "description": "",
-  "id": "publicacion;publicacion-exitosa",
+  "id": "enviar-solicitudes-de-amistad-entre-usuarios;envio-de-solicitud-valido",
   "type": "scenario",
   "keyword": "Scenario",
   "tags": [
@@ -488,154 +130,114 @@ formatter.scenario({
 });
 formatter.step({
   "line": 6,
-  "name": "Usuario en pagina principal",
+  "name": "Usuario conectado para enviar solicitud",
   "keyword": "Given "
 });
 formatter.step({
   "line": 7,
-  "name": "Publicacion correcta",
+  "name": "Selecciona otro usuario sin ser amigos ni tener solicitudes entre ellos",
   "keyword": "When "
 });
 formatter.step({
   "line": 8,
-  "name": "Mensaje de exito a la publicacion",
+  "name": "Envio solicitud al segundo",
   "keyword": "Then "
 });
 formatter.match({
-  "location": "publicarTest.Usuario_en_pagina_principal()"
+  "location": "solicitudEnviarTest.Usuario_conectado_para_enviar_solicitud()"
 });
 formatter.result({
-  "duration": 3587100,
+  "duration": 170611300,
   "status": "passed"
 });
 formatter.match({
-  "location": "publicarTest.Publicacion_correcta()"
+  "location": "solicitudEnviarTest.Selecciona_otro_usuario_sin_ser_amigos_ni_tener_solicitudes_entre_ellos()"
 });
 formatter.result({
-  "duration": 74932000,
+  "duration": 184785600,
   "status": "passed"
 });
 formatter.match({
-  "location": "publicarTest.Mensaje_de_exito_a_la_publicacion()"
+  "location": "solicitudEnviarTest.Envio_solicitud_al_segundo()"
 });
 formatter.result({
-  "duration": 69461200,
+  "duration": 436287500,
   "status": "passed"
-});
-formatter.uri('cucumberJava\editarPublicacionBD.feature');
-formatter.feature({
-  "line": 1,
-  "name": "Edicion de una publicacion en la BD",
-  "description": "",
-  "id": "edicion-de-una-publicacion-en-la-bd",
-  "keyword": "Feature"
 });
 formatter.scenario({
-  "line": 4,
-  "name": "Edicion correcta de publicacion",
-  "description": "",
-  "id": "edicion-de-una-publicacion-en-la-bd;edicion-correcta-de-publicacion",
+  "line": 11,
+  "name": "Envio de solicitud invalido",
+  "description": "Given: Usuario conectado para enviar solicitud",
+  "id": "enviar-solicitudes-de-amistad-entre-usuarios;envio-de-solicitud-invalido",
   "type": "scenario",
   "keyword": "Scenario",
   "tags": [
     {
-      "line": 3,
-      "name": "@Scenario1"
+      "line": 10,
+      "name": "@Scenario2"
     }
   ]
 });
 formatter.step({
-  "line": 5,
-  "name": "El usuario quiere editar una publicacion",
-  "keyword": "Given "
-});
-formatter.step({
-  "line": 6,
-  "name": "Edicion correcta",
+  "line": 13,
+  "name": "Selecciona a otro usuario siendo su amigo",
   "keyword": "When "
 });
 formatter.step({
-  "line": 7,
-  "name": "Mensaje de exito en la edicion de la publicacion",
+  "line": 14,
+  "name": "No envio de solicitud",
   "keyword": "Then "
 });
 formatter.match({
-  "location": "editarPublicacionBDTest.El_usuario_quiere_editar_una_publicacion()"
+  "location": "solicitudEnviarTest.Selecciona_a_otro_usuario_siendo_su_amigo()"
 });
 formatter.result({
-  "duration": 71256600,
+  "duration": 1039182600,
   "status": "passed"
 });
 formatter.match({
-  "location": "editarPublicacionBDTest.Edicion_correcta()"
+  "location": "solicitudEnviarTest.No_envio_de_solicitud()"
 });
 formatter.result({
-  "duration": 128016200,
+  "duration": 175892000,
   "status": "passed"
-});
-formatter.match({
-  "location": "editarPublicacionBDTest.Mensaje_de_exito_en_la_edicion_de_la_publicacion()"
-});
-formatter.result({
-  "duration": 75960400,
-  "status": "passed"
-});
-formatter.uri('cucumberJava\eliminarPublicacionBD.feature');
-formatter.feature({
-  "line": 1,
-  "name": "eliminar publicacion DB",
-  "description": "",
-  "id": "eliminar-publicacion-db",
-  "keyword": "Feature"
 });
 formatter.scenario({
-  "line": 4,
-  "name": "Eliminacion correcta de publicacion",
-  "description": "",
-  "id": "eliminar-publicacion-db;eliminacion-correcta-de-publicacion",
+  "line": 17,
+  "name": "Envio de solicitud invalido",
+  "description": "Given: Usuario conectado para enviar solicitud",
+  "id": "enviar-solicitudes-de-amistad-entre-usuarios;envio-de-solicitud-invalido",
   "type": "scenario",
   "keyword": "Scenario",
   "tags": [
     {
-      "line": 3,
-      "name": "@Scenario1"
+      "line": 16,
+      "name": "@Scenario3"
     }
   ]
 });
 formatter.step({
-  "line": 5,
-  "name": "Usuario quiere eliminar una publiacion",
-  "keyword": "Given "
-});
-formatter.step({
-  "line": 6,
-  "name": "Eliminacion correcta",
+  "line": 19,
+  "name": "Selecciona a otro usuario teniendo solicitudes pendientes entre ellos",
   "keyword": "When "
 });
 formatter.step({
-  "line": 7,
-  "name": "Mensaje de exito en la eliminacion de publicacion",
+  "line": 20,
+  "name": "Solicitud ya enviada",
   "keyword": "Then "
 });
 formatter.match({
-  "location": "eliminarPublicacionBDTest.Usuario_quiere_eliminar_una_publiacion()"
+  "location": "solicitudEnviarTest.Selecciona_a_otro_usuario_teniendo_solicitudes_pendientes_entre_ellos()"
 });
 formatter.result({
-  "duration": 68610500,
+  "duration": 440392200,
   "status": "passed"
 });
 formatter.match({
-  "location": "eliminarPublicacionBDTest.Eliminacion_correcta()"
+  "location": "solicitudEnviarTest.Solicitud_ya_enviada()"
 });
 formatter.result({
-  "duration": 256477900,
-  "status": "passed"
-});
-formatter.match({
-  "location": "eliminarPublicacionBDTest.Mensaje_de_exito_en_la_eliminacion_de_publicacion()"
-});
-formatter.result({
-  "duration": 71559900,
+  "duration": 142589000,
   "status": "passed"
 });
 });
