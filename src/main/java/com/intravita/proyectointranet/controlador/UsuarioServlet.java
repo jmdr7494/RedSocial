@@ -282,7 +282,7 @@ public class UsuarioServlet {
 	   }
 	  }
   }
-  listarUsuario(request, model);
+  listarUsuario(model);
   cadenaUrl+=ini_admin;  
   return cadenaUrl;
  }
@@ -310,7 +310,7 @@ public class UsuarioServlet {
 	   model.addAttribute(alert, "El usuario que intentas promover no existe");
 	  }
   }
-  listarUsuario(request, model);
+  listarUsuario(model);
   cadenaUrl+=ini_admin;  
   return cadenaUrl;
  }
@@ -339,7 +339,7 @@ public class UsuarioServlet {
 	   }
 	  }
   }
-  listarUsuario(request, model);
+  listarUsuario(model);
   cadenaUrl+=ini_admin;  
   return cadenaUrl;
  }
@@ -351,7 +351,7 @@ public class UsuarioServlet {
   * 
   */
  @RequestMapping(value="/listarUsuario", method = RequestMethod.POST)
- public String listarUsuario(HttpServletRequest request, Model model) throws Exception  {
+ public String listarUsuario(Model model) throws Exception  {
   String cadenaUrl=usuarioServ;
   model.addAttribute("usuarios", usuarioDao.list());
   model.addAttribute("administradores", administradorDao.list());
