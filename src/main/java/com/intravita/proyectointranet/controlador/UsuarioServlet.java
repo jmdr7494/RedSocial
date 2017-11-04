@@ -56,6 +56,7 @@ public class UsuarioServlet {
  private final String admin_conect = "administradorConectado";
  private final String user_conect = "usuarioConectado";
  private final String alert = "alerta";
+
  
  private static final Logger logger = LoggerFactory.getLogger(UsuarioServlet.class);
  
@@ -592,14 +593,48 @@ public class UsuarioServlet {
     
     mailSender.sendMailRecoverPwd(usuario.getEmail() , pinEmail);
     usuario.setClave(pinEmail);
-    usuarioDao.updatePwdEmail(usuario);
+    usuarioDao.updatePwd(usuario);
    }
    
-   return user_login;
+   return "usuario/reestablecerPwd";
    
   }
  
  
+  //By JA
+  @RequestMapping(value="/reestablecerPwd", method = RequestMethod.POST)
+  public String reestablecerPwd(HttpServletRequest request, Model model) throws Exception  {
+   String pwdTemporal=DigestUtils.md5Hex(request.getParameter("txtPwdTemporal"));
+   String pwdNueva1=request.getParameter("txtPwdNueva1");
+   String pwdNueva2=request.getParameter("txtPwdNueva2");
+   
+   System.out.println ("Hola voy a buscar el usuario");
+   Usuario usuario = usuarioDao.selectPwd(pwdTemporal);// buscar encriptada
+   if (usuario==null) {
+	   System.out.println ("hola soy nulo");
+   }
+    
+    
+   if (usuario==null || !(pwdNueva1.equals(pwdNueva2))) {
+	   model.addAttribute(alert, "Datos incorrectos");
+	   return "usuario/reestablecerPwd";
+			   
+   }
+   
+	  try {
+		   utilidades.seguridadPassword(pwdNueva1);
+	  }
+	   catch (Exception e) {
+		   model.addAttribute(alert, e.getMessage());
+		   return "usuario/reestablecerPwd"; 
+	   }
+   
+	   usuario.setClave(pwdNueva1); 
+	   usuarioDao.updatePwd(usuario);
+	   
+   return "usuario/login";
+   
+  } 
  
  
  
