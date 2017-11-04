@@ -77,5 +77,6 @@ public class solicitudRechazarTest {
 		} catch (Exception e) {
 			assertTrue(e.getMessage().equals("No te ha mandado solicitud"));
 		}
+		usuarioDao.delete(rechaza2);
 	}
 }

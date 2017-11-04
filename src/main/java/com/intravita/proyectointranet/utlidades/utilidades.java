@@ -155,8 +155,8 @@ public class utilidades {
 	
 	/**
 	 * 
-	 * @param emisor
-	 * @param receptor
+	 * @param emisor de la solicitud
+	 * @param receptor de la solicitud
 	 * @return excepcion si algo falla, si no, envia la solicitud emisor->receptor
 	 */
 	public static void enviarSolicitud(Usuario emisor, Usuario receptor) throws Exception{
@@ -170,8 +170,8 @@ public class utilidades {
 	
 	/**
 	 * 
-	 * @param emisor
-	 * @param receptor
+	 * @param emisor (usuario que envio la solicitud)
+	 * @param receptor (usuario que recibio la solicitud)
 	 * @return excepcion si algo falla, si no, acepta la amistad
 	 */
 	public static void aceptarSolicitud(Usuario emisor, Usuario receptor) throws Exception{
@@ -181,12 +181,24 @@ public class utilidades {
 	
 	/**
 	 * 
-	 * @param emisor
-	 * @param receptor
+	 * @param emisor (usuario que envio la solicitud)
+	 * @param receptor (usuario que recibio la solicitud)
 	 * @return excepcion si algo falla, si no, rechaza la amistad
 	 */
 	public static void rechazarSolicitud(Usuario emisor, Usuario receptor) throws Exception{
 		if(!comprobarSolicitudes(emisor,receptor)) throw new Exception("No te ha mandado solicitud");	
 		usuarioDao.rechazarSolicitud(emisor, receptor);
+	}
+	/**
+	 * 
+	 * @param borrador (persona que inicia el borrado de amigos)
+	 * @param borrado (persona que va a ser borrada de amigos)
+	 * @throws Exception
+	 */
+	public static void borrarAmistad(Usuario borrador, Usuario borrado) throws Exception {
+		if(!comprobarAmistad(borrador,borrado)) throw new Exception("No puedes eliminar a alguien que no es tu amigo");
+		if(!comprobarAmistad(borrado,borrador)) throw new Exception("No puedes eliminar a alguien que no es tu amigo");
+		usuarioDao.borrarAmistad(borrador, borrado);
+		
 	}
 }
