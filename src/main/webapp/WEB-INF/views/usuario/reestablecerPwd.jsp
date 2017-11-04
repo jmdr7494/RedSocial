@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Recuperar Credenciales</title>
+<title>Reestablecer Contraseña</title>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link REL=StyleSheet HREF="css/login.css" TYPE="text/css" MEDIA=screen>
@@ -85,39 +85,35 @@ spam {
 	            <h4 class="modal-title" id="myModalLabel">Ayuda</h4>
 	          </div>
 	          <div class="modal-body">
-	            Si has olvidado tus credenciales, tendrás que introducir tu nombre de usuario y la respuesta clave
-	            a la pregunta que rellenaste en el registro. A continuación, le llegará un correo a su dirección
-	            con la nueva clave.
+	          	Introduzca la contraseña temporal recibida en su direccion de correo electronico, y posteriormente
+	          	una nueva contraseña personal.
 	          </div>
 	        </div>
 	      </div>
 	  </div>
+				
+	<form action="reestablecerPwd" method="POST">
 	
-
-	<div class="row">
-		<div class="col-md-1 col-md-offset-10">
-			<br>
-			<form action="irLogin" method="GET">
-				<button class="btn btn-danger btn-block btn-md login" type="submit">Volver</button>
-			</form>	
-					
-		<br/>
-		</div>
-	</div>
-
-	<form action="recuperarCredenciales" method="POST">
 		<div class="row">
 		 	<div class="col-md-8 col-md-offset-2">
-		 		<label for="usr" style="color:white; font-size:15px;">Usuario:</label>
-				<input name="txtUsuarioNombre" type="text" class="form-control" id="usr" placeholder="usuario">
+		 		<label for="usr" style="color:white; font-size:15px;">Introduzca su contraseña temporal:</label>
+				<input name="txtPwdTemporal" type="password" class="form-control" id="usr" placeholder="pwdC">
+				<br>
+			</div>  
+		</div>
+		
+		<div class="row">
+		 	<div class="col-md-8 col-md-offset-2">
+		 		<label for="usr" style="color:white; font-size:15px;">Introduzca una nueva contraseña:</label>
+				<input name="txtPwdNueva1" type="password" class="form-control" id="usr" placeholder="pwd1">
 				<br>
 			</div>  
 		</div>
 		
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
-				<label for="usr" style="color:white; font-size:15px;">¿Quién fue tu mejor amigo/a de la infancia?</label>
-				<input name="txtRespuesta" type="text" class="form-control" id="usr" placeholder="respuesta">
+				<label for="usr" style="color:white; font-size:15px;">Vuelva a introducir su nueva contraseña</label>
+				<input name="txtPwdNueva2" type="password" class="form-control" id="usr" placeholder="pwd2">
 				<br>
 			</div>
 		</div>	
@@ -125,7 +121,7 @@ spam {
 		<div class="row">
 			<div class="col-md-2 col-md-offset-8">
 				
-				<button class="boton btn-info btn-block" type="submit" value="recuperar" >Recuperar credenciales</button>
+				<button class="boton btn-info btn-block" type="submit" value="cambiar" >Cambiar contraseña</button>
 	
 			</div>	  
 		</div>
@@ -142,7 +138,7 @@ spam {
 		<div class="panel-footer">
 			<h5>© Copyright 2017 IntraVita. Todos los derechos reservados.</h5>
 		</div>
-	</div>
-	
+	</div>	
+		
 </body>
 </html>

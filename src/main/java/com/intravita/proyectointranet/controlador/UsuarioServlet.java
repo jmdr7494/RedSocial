@@ -56,6 +56,7 @@ public class UsuarioServlet {
  private final String admin_conect = "administradorConectado";
  private final String usuario_conect = "usuarioConectado";
  private final String alert = "alerta";
+
  
  private static final Logger logger = LoggerFactory.getLogger(UsuarioServlet.class);
  
@@ -388,7 +389,7 @@ public class UsuarioServlet {
  }
  /***
   * 
-  * @method permite crear una publicaci�n por parte de un usuario
+  * @method permite crear una publicaciï¿½n por parte de un usuario
   * 
   */
  @RequestMapping(value="/crearPublicacion", method = RequestMethod.POST)
@@ -457,7 +458,7 @@ public class UsuarioServlet {
  /***
   * 
   * @method permite ver las publicac
- iones realizadas por un usuario(de momento, luego cambiar a seg�n la visibilidad y amigos)
+ iones realizadas por un usuario(de momento, luego cambiar a segï¿½n la visibilidad y amigos)
   * 
   */
  @RequestMapping(value="/listarPublicacion", method = RequestMethod.POST)
@@ -482,7 +483,7 @@ public class UsuarioServlet {
 	  texto = texto+"<div class=\"panel panel-default\">\r\n" + 
 	  		"	<div class=\"panel-body\">\r\n" + 
 	  		"			<b> "+ todas[i].getUsuario().getNombre() +" </b> \r\n" + 
-	  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"�Qu� tal el d�a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
+	  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"ï¿½Quï¿½ tal el dï¿½a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
 	  		"			<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
 	  		"			<button class=\"btn btn-primary btn-block btn-md login\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModals\">Editar</button>\r\n" + 
 	  		"<div class=\"modal fade\" id=\"miModals\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalsLabel\" aria-hidden=\"true\">\r\n" + 
@@ -495,10 +496,10 @@ public class UsuarioServlet {
 	  		"						<h4 class=\"modal-title\" id=\"myModalsLabel\">Editar</h4>\r\n" + 
 	  		"					</div>\r\n" + 
 	  		"					<div class=\"modal-body\">\r\n" + 
-	  		"						�Est� seguro que desea editar la publicaci�n?\r\n" + 
+	  		"						¿Está seguro que desea editar la publicación?\r\n" + 
 	  		"						<br>\r\n" + 
 	  		"						<form action=\"editarPubli\" method=\"POST\">\r\n" + 
-	  		"							<textarea name=\"txtIntroducirTexto\" placeholder=\"�Qu� tal el d�a?\" class=\"form-control\" rows=\"5\" id=\"comment\">"+ todas[i].getTexto()+"</textarea>\r\n" + 
+	  		"							<textarea name=\"txtIntroducirTexto\" placeholder=\"ï¿½Quï¿½ tal el dï¿½a?\" class=\"form-control\" rows=\"5\" id=\"comment\">"+ todas[i].getTexto()+"</textarea>\r\n" + 
 	  		"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
 	  		"							<br>" + 
 	  		"							<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
@@ -523,7 +524,7 @@ public class UsuarioServlet {
 	"						<h4 class=\"modal-title\" id=\"myModalssLabel\">Editar</h4>\r\n" + 
 	"					</div>\r\n" + 
 	"					<div class=\"modal-body\">\r\n" + 
-	"						�Est� seguro que desea eliminar la publicaci�n?\r\n" + 
+	"						¿Está seguro que desea eliminar la publicación?\r\n" + 
 	"						<br>\r\n" + 
 	"						<form action=\"eliminarPubli\" method=\"POST\">\r\n" + 
 	"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
@@ -592,21 +593,56 @@ public class UsuarioServlet {
     
     mailSender.sendMailRecoverPwd(usuario.getEmail() , pinEmail);
     usuario.setClave(pinEmail);
-    usuarioDao.updatePwdEmail(usuario);
+    usuarioDao.updatePwd(usuario);
    }
    
-   return usuario_login;
+
+   return "usuario/reestablecerPwd";
    
   }
  
  
+  //By JA
+  @RequestMapping(value="/reestablecerPwd", method = RequestMethod.POST)
+  public String reestablecerPwd(HttpServletRequest request, Model model) throws Exception  {
+   String pwdTemporal=DigestUtils.md5Hex(request.getParameter("txtPwdTemporal"));
+   String pwdNueva1=request.getParameter("txtPwdNueva1");
+   String pwdNueva2=request.getParameter("txtPwdNueva2");
+   
+   System.out.println ("Hola voy a buscar el usuario");
+   Usuario usuario = usuarioDao.selectPwd(pwdTemporal);// buscar encriptada
+   if (usuario==null) {
+	   System.out.println ("hola soy nulo");
+   }
+    
+    
+   if (usuario==null || !(pwdNueva1.equals(pwdNueva2))) {
+	   model.addAttribute(alert, "Datos incorrectos");
+	   return "usuario/reestablecerPwd";
+			   
+   }
+   
+	  try {
+		   utilidades.seguridadPassword(pwdNueva1);
+	  }
+	   catch (Exception e) {
+		   model.addAttribute(alert, e.getMessage());
+		   return "usuario/reestablecerPwd"; 
+	   }
+   
+	   usuario.setClave(pwdNueva1); 
+	   usuarioDao.updatePwd(usuario);
+	   
+   return "usuario/login";
+   
+  } 
  
  
  
  
  /***
   * 
-  *@method Esta funci�n sirve para controlar los cambios de vista por nombre(string)
+  *@method Esta funciï¿½n sirve para controlar los cambios de vista por nombre(string)
   *
   */
  public ModelAndView cambiarVista(String nombreVista) {

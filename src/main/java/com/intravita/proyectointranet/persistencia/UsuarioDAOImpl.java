@@ -198,22 +198,8 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		usuarios.findOneAndUpdate(usuario, actualizacion);
 	}
 	
-	public String selectPwd(String nombre){
-		
-		BsonValue pwd;
-		
-		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
-		BsonDocument criterio = new BsonDocument();
-		criterio.append(name, new BsonString(nombre));
-		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
-		BsonDocument usuario = resultado.first();
-		pwd=usuario.get(contrasena);
-		BsonString password=pwd.asString();
-		String pwdFinal=password.getValue();
-		return pwdFinal;
-	}
 
-	public void updatePwdEmail(Usuario usuario) throws Exception{//sera posible reutilizar este metodo para hacer updates
+	public void updatePwd(Usuario usuario) throws Exception{//sera posible reutilizar este metodo para hacer updates
 		//preguntar a JA
 		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
 		BsonDocument criterio = new BsonDocument();
@@ -226,6 +212,40 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument(contrasena, new BsonString(DigestUtils.md5Hex(usuario.getClave()))));
 		usuarios.findOneAndUpdate(usuarioBso, actualizacion);
 	}
+
+	
+	public Usuario selectPwd (String pwdA) {
+		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
+		BsonDocument criterio = new BsonDocument();
+		criterio.append(password, new BsonString(pwdA));
+		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
+		BsonDocument usuario = resultado.first();
+		Usuario result;
+		if (usuario==null) {
+			return null;
+		}
+		else {
+			BsonValue nombre=usuario.get(name);
+			BsonString name=nombre.asString();
+			String nombreFinal=name.getValue();
+			
+			BsonValue pwd=usuario.get(password);
+			BsonString password=pwd.asString();
+			String pwdFinal=password.getValue();
+			
+			BsonValue email=usuario.get(e_mail);
+			BsonString correo=email.asString();
+			String emailFinal=correo.getValue();
+			
+			BsonValue respuesta=usuario.get(resp);
+			BsonString answer=respuesta.asString();
+			String respuestaFinal=answer.getValue();
+			
+			result = new Usuario(nombreFinal, pwdFinal, emailFinal, respuestaFinal);
+		}
+		return result;
+	}
+	
 	/**
 	 * 
 	 * @param usuario (solo necesario el nombre)
