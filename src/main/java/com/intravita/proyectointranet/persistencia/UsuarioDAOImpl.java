@@ -281,12 +281,12 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	 */
 	public void aceptarSolicitud(Usuario solicitante, Usuario acepta) {
 		List<BsonValue> lista=obtenerSolicitudes(acepta);
-		lista.remove(new BsonString(solicitante.getNombre()));
-		
 		List<BsonValue> listaAmigosSolicitante=obtenerAmigos(solicitante);
-		listaAmigosSolicitante.add(new BsonString(acepta.getNombre()));
+		List<BsonValue> listaAmigosAcepta=obtenerAmigos(acepta);
 		
-		List<BsonValue> listaAmigosAcepta=obtenerSolicitudes(acepta);
+		
+		lista.remove(new BsonString(solicitante.getNombre()));
+		listaAmigosSolicitante.add(new BsonString(acepta.getNombre()));
 		listaAmigosAcepta.add(new BsonString(solicitante.getNombre()));
 		
 		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
@@ -327,6 +327,37 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
 		BsonDocument usuario = resultado.first();
 		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument(solicitudes, new BsonArray(lista)));
+		usuarios.findOneAndUpdate(usuario, actualizacion);
+	}
+	/**
+	 * 
+	 * @param borrador
+	 * @param borrado
+	 * @result elimina de ambos usuarios la amistad del otro
+	 */
+	public void borrarAmistad(Usuario borrador, Usuario borrado) {
+		List<BsonValue> listaBorrador=obtenerAmigos(borrador);
+		listaBorrador.remove(new BsonString(borrado.getNombre()));
+
+		List<BsonValue> listaBorrado=obtenerAmigos(borrado);
+		System.out.println(listaBorrado.toString());
+		listaBorrado.remove(new BsonString(borrador.getNombre()));
+		System.out.println(listaBorrado.toString());
+		
+		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
+		
+		BsonDocument criterio = new BsonDocument();
+		criterio.append(name, new BsonString(borrador.getNombre()));
+		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
+		BsonDocument usuario = resultado.first();
+		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument(amigos, new BsonArray(listaBorrador)));
+		usuarios.findOneAndUpdate(usuario, actualizacion);
+		
+		criterio = new BsonDocument();
+		criterio.append(name, new BsonString(borrado.getNombre()));
+		resultado=usuarios.find(criterio);
+		usuario = resultado.first();
+		actualizacion= new BsonDocument("$set", new BsonDocument(amigos, new BsonArray(listaBorrado)));
 		usuarios.findOneAndUpdate(usuario, actualizacion);
 	}
 
