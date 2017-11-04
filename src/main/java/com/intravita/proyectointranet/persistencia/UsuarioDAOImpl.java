@@ -217,7 +217,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	public Usuario selectPwd (String pwdA) {
 		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
 		BsonDocument criterio = new BsonDocument();
-		criterio.append(password, new BsonString(pwdA));
+		criterio.append(contrasena, new BsonString(pwdA));
 		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
 		BsonDocument usuario = resultado.first();
 		Usuario result;
@@ -229,7 +229,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			BsonString name=nombre.asString();
 			String nombreFinal=name.getValue();
 			
-			BsonValue pwd=usuario.get(password);
+			BsonValue pwd=usuario.get(contrasena);
 			BsonString password=pwd.asString();
 			String pwdFinal=password.getValue();
 			

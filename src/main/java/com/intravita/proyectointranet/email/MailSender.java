@@ -40,9 +40,9 @@ public class MailSender {
 			Message message = new MimeMessage(getSession());
 			message.setFrom(new InternetAddress(userData.getUserName()));
 			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(usuario));
-			message.setSubject("Servicio de atención al cliente de IntraVita - Contraseña temporal");
-			message.setText("Saludos, su nueva contraseña para acceder a su cuenta es: "+pwd+
-							"\nPor favor, para una mayor seguridad, cambie esta contraseña por una nueva dentro de la configuración de su perfil.");
+			message.setSubject("Servicio de atención al cliente de IntraVita - Reestablecer contraseña");
+			message.setText("Saludos, su nueva clave temporal para reestablecer su contraseña es: "+pwd+
+							"\nPor favor, escriba esta clave temporal e introduzca y verifique una nueva contraseña para su cuenta.");
 			Transport.send(message);
 
 
