@@ -189,4 +189,17 @@ public class PublicacionDAOImpl {
 		}
 		return lista;
 	}
+	/**
+	 * 
+	 * @param usuario
+	 * @result todas las publicaciones del usuario a borrar se iran a un usuario llamado Papelera
+	 */
+	public void borradoUsuario(Usuario usuario) {
+		BsonDocument bso = new BsonDocument();
+		bso.append(author, new BsonString(usuario.getNombre()));
+		
+		MongoCollection<BsonDocument> publicaciones = obtenerPublicaciones();
+		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument(author, new BsonString("Papelera")));
+		publicaciones.updateMany(bso,actualizacion);		
+	}
 }

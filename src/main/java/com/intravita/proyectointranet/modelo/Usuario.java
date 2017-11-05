@@ -14,8 +14,7 @@ public class Usuario {
 	private String clave;
 	private String email;
 	private String respuesta;
-	private List<Usuario> solicitudes;
-	private List<Usuario> amigos;
+
 	
 	public Usuario(String nombre, String clave, String email, String respuesta) {
 		this.nombre=nombre;
