@@ -198,28 +198,28 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/borrarCuenta", method = RequestMethod.POST)
  public ModelAndView borrarCuenta(HttpServletRequest request, Model model) throws Exception {
-  Usuario usuario=(Usuario) request.getSession().getAttribute(usuario_conect);
-  String nombre=usuario.getNombre();
-  Usuario aux=usuarioDao.selectNombre(nombre);
-  
-  model.addAttribute("usuario", aux);
-  String pwd=request.getParameter("txtUsuarioPwd");
-  pwd=DigestUtils.md5Hex(pwd);
-  String respuesta=request.getParameter("txtRespuesta");
-  if(pwd.equals(aux.getClave()) && respuesta.equals(aux.getRespuesta())){
-   usuarioDao.delete(usuario);
-   administradorDao.delete(new Administrador(nombre));
-   HttpSession sesion = request.getSession();
-   
-   System.out.println("Sesion antes de invalidar: "+sesion);
-   sesion.invalidate();
-   System.out.println("Invalidamos la sesion: "+sesion);
-   
-   return cambiarVista(usuario_login);
-  }else {
-   model.addAttribute(alert, "Error en las credenciales");
-  }
-  return cambiarVista("usuario/borradoCuenta");
+	  Usuario usuario=(Usuario) request.getSession().getAttribute(user_conect);
+	  String nombre=usuario.getNombre();
+	  Usuario aux=usuarioDao.selectNombre(nombre);
+	  
+	  model.addAttribute("usuario", aux);
+	  String pwd=request.getParameter("txtUsuarioPwd");
+	  pwd=DigestUtils.md5Hex(pwd);
+	  String respuesta=request.getParameter("txtRespuesta");
+	  if(pwd.equals(aux.getClave()) && respuesta.equals(aux.getRespuesta())){
+		   usuarioDao.delete(usuario);
+		   administradorDao.delete(new Administrador(nombre));
+		   HttpSession sesion = request.getSession();
+		   
+		   System.out.println("Sesion antes de invalidar: "+sesion);
+		   sesion.invalidate();
+		   System.out.println("Invalidamos la sesion: "+sesion);
+		   
+		   return cambiarVista(user_login);
+	  }else {
+		  model.addAttribute(alert, "Error en las credenciales");
+	  }
+	  return cambiarVista("usuario/borradoCuenta");
  }
  
  /***
@@ -423,6 +423,8 @@ public class UsuarioServlet {
   cadenaUrl+=welcome; 
   return cadenaUrl;
  }
+ 
+ 
  @RequestMapping(value="/crearPublicacionPrivada", method = RequestMethod.POST)
  public String crearPublicacionPrivada(HttpServletRequest request, Model model) throws Exception  {
   String cadenaUrl=usuarioServ;

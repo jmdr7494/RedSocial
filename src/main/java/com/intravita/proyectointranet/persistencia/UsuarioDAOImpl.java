@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
-
+import com.intravita.proyectointranet.modelo.Publicacion;
 import com.intravita.proyectointranet.modelo.Usuario;
 import com.intravita.proyectointranet.persistencia.MongoBroker;
 import com.intravita.proyectointranet.persistencia.UsuarioDAO;
@@ -34,6 +34,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	private final String resp = "respuesta";
 	private final String amigos= "amigos";
 	private final String solicitudes= "solicitudes";
+	PublicacionDAOImpl publicacionDao= new PublicacionDAOImpl();
 	
 	public UsuarioDAOImpl() {
 		super();
@@ -182,7 +183,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		
 		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
 		usuarios.deleteOne(bso);
-
+		publicacionDao.borradoUsuario(usuario);
 	}
 	
 	public void update(String nombre, String pwdAntigua, String pwdNueva){
