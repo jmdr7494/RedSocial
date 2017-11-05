@@ -38,7 +38,7 @@ public class utilidades {
 	 * @return 
 	 * @throws Exception 
 	 */
-	static String [] diccionario = {"cabron", "cabronazo", "maricon", "gilipollas", "tonto", "capullo", "idiota", "fuck", "fucking", "huevon", "polla", "pollon", "coï¿½o"};
+	static String [] diccionario = {"cabron", "cabronazo", "maricon", "gilipollas", "tonto", "capullo", "idiota", "fuck", "fucking", "huevon", "polla", "pollon", "coño"};
 	 
 	 public static void credencialesValidas(String nombre, String email, String pwd1, String pwd2) throws Exception {
 	  if(nombre.equals("") ||email.equals("")|| pwd1.equals("")|| pwd2.equals(""))
@@ -98,7 +98,7 @@ public class utilidades {
 	
 	public static void publicacionValida(String nombre, String texto) throws Exception {
 		if(nombre.equals("") ||texto.equals(""))
-			throw new Exception ("Por favor rellene texto para guardar la publicaciï¿½n");
+			throw new Exception ("Por favor rellene texto para guardar la publicación");
 		
 	}
 	

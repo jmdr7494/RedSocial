@@ -14,9 +14,8 @@ import javax.mail.internet.MimeMessage;
  */
 
 public class MailSender {
-	private static String userName = "customer.service.intravita@gmail.com";
-	private static String password = "customerserviceintravita1234";
-	
+
+	static UserData userData = new UserData();
 
 	private static Session getSession() throws SQLException{
 		Properties props = new Properties();
@@ -29,20 +28,21 @@ public class MailSender {
 		
 		Session session = Session.getInstance(props, new javax.mail.Authenticator() {
 			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(userName, password);
+				return new PasswordAuthentication(userData.getUserName(), userData.getPassword());
 			}
 		});
 		return session;
 	}
+	
 	public void sendMailRecoverPwd(String usuario, String pwd) throws Exception{
 		try {
 
 			Message message = new MimeMessage(getSession());
-			message.setFrom(new InternetAddress(userName));
+			message.setFrom(new InternetAddress(userData.getUserName()));
 			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(usuario));
-			message.setSubject("Servicio de atencion al cliente de IntraVita - Contraseï¿½a temporal");
-			message.setText("Saludos, su nueva contraseï¿½a para acceder a su cuenta es: "+pwd+
-							"\nPor favor, para una mayor seguridad, cambie esta contraseï¿½a por una nueva dentro de la configuracion de su perfil.");
+			message.setSubject("Servicio de atención al cliente de IntraVita - Reestablecer contraseña");
+			message.setText("Saludos, su nueva clave temporal para reestablecer su contraseña es: "+pwd+
+							"\nPor favor, escriba esta clave temporal e introduzca y verifique una nueva contraseña para su cuenta.");
 			Transport.send(message);
 
 
