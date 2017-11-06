@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
-import com.intravita.proyectointranet.modelo.Publicacion;
+
 import com.intravita.proyectointranet.modelo.Usuario;
 import com.intravita.proyectointranet.persistencia.MongoBroker;
 import com.intravita.proyectointranet.persistencia.UsuarioDAO;
@@ -380,6 +380,23 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		usuario = resultado.first();
 		actualizacion= new BsonDocument("$set", new BsonDocument(amigos, new BsonArray(listaBorrado)));
 		usuarios.findOneAndUpdate(usuario, actualizacion);
+	}
+	/**
+	 * @result devuelve una lista de usuarios que tengan en su nombre el filtro indicado
+	 */
+	public List<Usuario> buscador(String filtro){
+		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
+		FindIterable<BsonDocument> resultado=usuarios.find();
+		String nombre;
+		BsonDocument usuario;
+		Iterator<BsonDocument> lista=resultado.iterator();
+		List<Usuario> retorno=new ArrayList<Usuario>();
+		while(lista.hasNext()) {
+			usuario=lista.next();
+			nombre=usuario.getString(name).getValue();
+			if(nombre.contains(filtro)) retorno.add(new Usuario(nombre));
+		}
+		return retorno;
 	}
 
 }
