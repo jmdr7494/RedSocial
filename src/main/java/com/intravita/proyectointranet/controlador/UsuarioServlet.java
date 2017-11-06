@@ -358,8 +358,8 @@ public class UsuarioServlet {
  @RequestMapping(value="/listarUsuario", method = RequestMethod.POST)
  public String listarUsuario(Model model) throws Exception  {
   String cadenaUrl=usuarioServ;
-  model.addAttribute("usuarios", usuarioDao.list());
-  model.addAttribute("administradores", administradorDao.list());
+  model.addAttribute("usuarios", utilidades.listarUsuarios());
+  model.addAttribute("administradores", utilidades.listarAdministradores());
   cadenaUrl+=ini_admin;  
   return cadenaUrl;
  }

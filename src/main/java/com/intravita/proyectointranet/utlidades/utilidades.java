@@ -14,6 +14,7 @@ import org.bson.BsonValue;
 import com.intravita.proyectointranet.modelo.Administrador;
 import com.intravita.proyectointranet.modelo.Publicacion;
 import com.intravita.proyectointranet.modelo.Usuario;
+import com.intravita.proyectointranet.persistencia.AdministradorDAOImpl;
 import com.intravita.proyectointranet.persistencia.UsuarioDAOImpl;
 
 /**
@@ -25,6 +26,7 @@ import com.intravita.proyectointranet.persistencia.UsuarioDAOImpl;
 
 public class utilidades {
 	static UsuarioDAOImpl usuarioDao= new UsuarioDAOImpl();
+	static AdministradorDAOImpl administradorDao=new AdministradorDAOImpl();
 	/**
 	 * Extension de email permitida
 	 */
@@ -280,5 +282,55 @@ public class utilidades {
 					"		</form>";
 		}
 		return retorno;
+	}
+	/**
+	 * 
+	 * @return String html para mostrar a los usuarios/administradores con sus botones
+	 */
+	public static String listarUsuarios() {
+		List<Usuario> usuarios=usuarioDao.list();
+		Iterator<Usuario> it=usuarios.iterator();
+		Usuario aux;
+		String texto="";
+		while(it.hasNext()) {
+			aux=it.next();
+			texto+="<form action=\"borrar\" method=\"POST\">\r\n" + 
+					"	<div class=\"row\">\r\n" + 
+					"		<div class=\"col-md-6\">\r\n" + 
+					"			<input name=\"noSirve\" type=\"text\" class=\"form-control\" value=\""+ aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\" disabled>\r\n" + 
+					"			<input name=\"txtNombre\" type=\"hidden\" class=\"form-control\" value=\""+aux.getNombre() +"\" id=\"usr\" placeholder=\"usuario\" >\r\n" + 
+					"		</div>\r\n" + 
+					"		<div class=\"col-md-3\">\r\n" + 
+					"			<button class=\"btn btn-success btn-block login\" formaction=\"promover\" type=\"submit\"><strong>Promover</strong></button>\r\n" + 
+					"		</div>\r\n" + 
+					"		<div class=\"col-md-3\">\r\n" + 
+					"			<button class=\"btn btn-danger btn-block login\" type=\"submit\"><strong>Borrar</strong></button>\r\n" + 
+					"		</div></div>\r\n" + 
+					"</form>	";
+		}
+		return texto;
+	}
+	public static String listarAdministradores() {
+		List<Administrador> administradores=administradorDao.list();
+		Iterator<Administrador> it=administradores.iterator();
+		Administrador aux;
+		String texto="";
+		while(it.hasNext()) {
+			aux=it.next();
+			texto+="<form action=\"borrar\" method=\"POST\">\r\n" + 
+					"	<div class=\"row\">\r\n" + 
+					"		<div class=\"col-md-6\">\r\n" + 
+					"			<input name=\"noSirve\" type=\"text\" class=\"form-control\" value=\""+ aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\" disabled>\r\n" + 
+					"			<input name=\"txtNombre\" type=\"hidden\" class=\"form-control\" value=\""+aux.getNombre() +"\" id=\"usr\" placeholder=\"usuario\" >\r\n" + 
+					"		</div>\r\n" + 
+					"		<div class=\"col-md-3\">\r\n" + 
+					"			<button class=\"btn btn-success btn-block login\" formaction=\"degradar\" type=\"submit\"><strong>Degradar</strong></button>\r\n" + 
+					"		</div>\r\n" + 
+					"		<div class=\"col-md-3\">\r\n" + 
+					"			<button class=\"btn btn-danger btn-block login\" type=\"submit\"><strong>Borrar</strong></button>\r\n" + 
+					"		</div></div>\r\n" + 
+					"</form>	";
+		}
+		return texto;		
 	}
 }
