@@ -198,7 +198,7 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/borrarCuenta", method = RequestMethod.POST)
  public ModelAndView borrarCuenta(HttpServletRequest request, Model model) throws Exception {
-	  Usuario usuario=(Usuario) request.getSession().getAttribute(user_conect);
+	  Usuario usuario=(Usuario) request.getSession().getAttribute(usuario_conect);
 	  String nombre=usuario.getNombre();
 	  Usuario aux=usuarioDao.selectNombre(nombre);
 	  
@@ -215,7 +215,7 @@ public class UsuarioServlet {
 		   sesion.invalidate();
 		   System.out.println("Invalidamos la sesion: "+sesion);
 		   
-		   return cambiarVista(user_login);
+		   return cambiarVista(usuario_login);
 	  }else {
 		  model.addAttribute(alert, "Error en las credenciales");
 	  }

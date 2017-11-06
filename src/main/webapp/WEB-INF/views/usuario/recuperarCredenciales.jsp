@@ -140,7 +140,7 @@ spam {
 	
 	<div class="col-md-12" style="position: fixed; bottom: 0;">
 		<div class="panel-footer">
-			<h5>© Copyright 2017 IntraVita. Todos los derechos reservados.</h5>
+			© Copyright 2017 IntraVita. Todos los derechos reservados.
 		</div>
 	</div>
 	
