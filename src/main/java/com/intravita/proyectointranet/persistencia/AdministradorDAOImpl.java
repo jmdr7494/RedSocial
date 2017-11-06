@@ -1,6 +1,8 @@
 package com.intravita.proyectointranet.persistencia;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.codec.digest.DigestUtils;
 import org.bson.BsonDocument;
@@ -8,6 +10,7 @@ import org.bson.BsonString;
 import org.bson.BsonValue;
 
 import com.intravita.proyectointranet.modelo.Administrador;
+import com.intravita.proyectointranet.modelo.Usuario;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 
@@ -36,22 +39,19 @@ public class AdministradorDAOImpl {
 	 * @method select que devuelve todos los administradores
 	 * @return texto con la lista de administradores
 	 */
-	public String list() {
-		
+	public List<Administrador> list() {
 		MongoCollection<BsonDocument> administradores = obtenerAdministradores();
 		FindIterable<BsonDocument> resultado=administradores.find();
-		String texto="";
-		BsonDocument administrador;
+		String nombre;
+		BsonDocument admin;
 		Iterator<BsonDocument> lista=resultado.iterator();
+		List<Administrador> retorno=new ArrayList<Administrador>();
 		while(lista.hasNext()) {
-			texto = texto + "<b>Usuario:</b> ";
-			administrador = lista.next();
-			texto =texto + administrador.getString(name).getValue();
-			texto = texto + " <b>Email: </b>";
-			texto = texto + administrador.getString(e_mail).getValue();
-			texto = texto + "<br>";
+			admin=lista.next();
+			nombre=admin.getString(name).getValue();
+			if(!nombre.equals("admin"))retorno.add(new Administrador(nombre));
 		}
-		return texto;
+		return retorno;	
 	}
 	/**
 	 * @method login

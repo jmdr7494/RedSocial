@@ -34,6 +34,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	private final String amigos= "amigos";
 	private final String solicitudes= "solicitudes";
 	PublicacionDAOImpl publicacionDao= new PublicacionDAOImpl();
+	AdministradorDAOImpl administradorDao= new AdministradorDAOImpl();
 	
 	public UsuarioDAOImpl() {
 		super();
@@ -150,29 +151,21 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	}
 	/***
 	 * @method select que devuelve todos los usuarios
-	 * @return texto con la lista de usuarios
+	 * @return la lista de usuarios
 	 */
-	public String list() {
-		AdministradorDAOImpl administradorDao= new AdministradorDAOImpl();
-		
+	public List<Usuario> list() {
 		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
 		FindIterable<BsonDocument> resultado=usuarios.find();
-		String texto="";
 		String nombre;
 		BsonDocument usuario;
 		Iterator<BsonDocument> lista=resultado.iterator();
+		List<Usuario> retorno=new ArrayList<Usuario>();
 		while(lista.hasNext()) {
 			usuario=lista.next();
 			nombre=usuario.getString(name).getValue();
-			if(administradorDao.selectNombre(nombre)==null) {
-				texto = texto +"<b>Usuario: </b>";
-				texto = texto +nombre;
-				texto = texto +" <b>Email: </b>";
-				texto = texto +usuario.getString(e_mail).getValue();
-				texto = texto +"<br>";
-			}
+			if(administradorDao.selectNombre(nombre)==null)retorno.add(new Usuario(nombre));
 		}
-		return texto;
+		return retorno;
 	}
 
 	public void delete (Usuario usuario){
