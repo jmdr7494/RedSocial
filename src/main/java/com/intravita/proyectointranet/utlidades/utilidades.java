@@ -28,7 +28,8 @@ public class utilidades {
 	/**
 	 * Extension de email permitida
 	 */
-	public static String extensionEmail="@alu.uclm.es";
+	public static String extensionEmail1="@alu.uclm.es";
+	public static String extensionEmail2="@uclm.es";
 	/**
 	 * @method comprobacion de credenciales validas para el registro
 	 * @param nombre
@@ -44,14 +45,40 @@ public class utilidades {
 	  if(nombre.equals("") ||email.equals("")|| pwd1.equals("")|| pwd2.equals(""))
 	   throw new Exception ("Por favor rellene todos los campos");
 	  comprobacionNombre(nombre);
-
-	  if(email.length()<=extensionEmail.length())
-		  throw new Exception("Email invalido");
-	  String extension=email.substring(email.length()-extensionEmail.length(), email.length());
-	  palabrasMalas(email);
 	  
-	  if(!extension.equals(extensionEmail))
-	   throw new Exception("Email invalido");
+	  boolean emailInvalido=true;
+	  
+	  if (email.contains(extensionEmail1)) {
+	  
+		  if(email.length()<=extensionEmail1.length()) 
+			  throw new Exception("Email invalido");
+		  String extension1=email.substring(email.length()-extensionEmail1.length(), email.length());
+		  palabrasMalas(email);
+	  
+		  if(!extension1.equals(extensionEmail1))
+			   throw new Exception("Email invalido");
+		  	
+		  emailInvalido=false;
+		  
+	  }
+	  
+	  if (email.contains(extensionEmail2)) {
+		  
+		  if(email.length()<=extensionEmail2.length()) 
+			  throw new Exception("Email invalido");
+		  String extension2=email.substring(email.length()-extensionEmail2.length(), email.length());
+		  palabrasMalas(email);
+	  
+		  if(!extension2.equals(extensionEmail2))
+			  throw new Exception("Email invalido");
+		  
+		  emailInvalido=false;
+	  
+	  }
+	  
+	  if (emailInvalido) {
+		  throw new Exception("Email invalido");
+	  }
 	  
 	  if(!pwd1.equals(pwd2))
 	   throw new Exception("No coinciden las password");
