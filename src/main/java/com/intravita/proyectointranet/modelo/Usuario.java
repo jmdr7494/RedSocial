@@ -1,6 +1,5 @@
 package com.intravita.proyectointranet.modelo;
 
-import java.util.List;
 
 /**
  * Usuario- Modelo de los usuarios del sistema
