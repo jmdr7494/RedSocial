@@ -124,6 +124,9 @@ body > #wrap {
 					<li><form action="irBorradoCuenta" method="GET">
 							<button class="btn btn-primary btn-block btn-md login" type="submit">Borrar Cuenta</button>
 						</form>	
+					<li><form action="irVistaAmigos" method="GET">
+							<button class="btn btn-primary btn-block btn-md login" type="submit">Amigos</button>
+						</form>
 				</ul>
 			</div>
 			

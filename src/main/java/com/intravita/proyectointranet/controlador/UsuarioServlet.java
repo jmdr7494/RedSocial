@@ -99,6 +99,10 @@ public class UsuarioServlet {
  public ModelAndView irBienvenido(){
   return cambiarVista("usuario/bienvenido");
  }
+ @RequestMapping(value="/irVistaAmigos",method = RequestMethod.GET)
+ public ModelAndView irVistaAmigos(){
+  return cambiarVista("usuario/vistaAmigos");
+ }
  
  /***
   * 
@@ -638,10 +642,98 @@ public class UsuarioServlet {
    return "usuario/login";
    
   } 
- 
- 
- 
- 
+  /**
+   * 
+   * @return dado un filtro busca todas las coincidencias
+   * @throws Exception
+   */
+  @RequestMapping(value="/buscarAmigos", method = RequestMethod.POST)
+  public String buscarAmigos(HttpServletRequest request, Model model) throws Exception  {
+	   String filtro=request.getParameter("txtUsuarioNombre");
+	   Usuario usuario;
+	   usuario=(Usuario) request.getSession().getAttribute(usuario_conect);
+	   model.addAttribute("amigos", utilidades.buscadorUsuario(usuario, filtro));
+	   return "usuario/vistaAmigos";
+   
+  } 
+  /**
+   * 
+   * @return enviar solicitud a la persona seleccionado
+   * @throws Exception
+   */
+  @RequestMapping(value="/enviarSolicitud", method = RequestMethod.POST)
+  public String enviarSolicitud(HttpServletRequest request, Model model) throws Exception  {
+	   String receptor=request.getParameter("txtNombreEnviar");
+	   Usuario usuario;
+	   usuario=(Usuario) request.getSession().getAttribute(usuario_conect);
+	   try {
+		   utilidades.enviarSolicitud(usuario, new Usuario(receptor));
+	   }catch(Exception e) {
+		   model.addAttribute("alerta", e.getMessage());
+	   }
+	   return "usuario/vistaAmigos";
+  } 
+  
+  /**
+   * 
+   * @return eliminar el amigo seleccionado
+   * @throws Exception
+   */
+  @RequestMapping(value="/eliminarAmigo", method = RequestMethod.POST)
+  public String eliminarAmigo(HttpServletRequest request, Model model) throws Exception  {
+	   String receptor=request.getParameter("txtNombreEliminar");
+	   Usuario usuario;
+	   usuario=(Usuario) request.getSession().getAttribute(usuario_conect);
+	   try {
+		   utilidades.borrarAmistad(usuario, new Usuario(receptor));
+	   }catch(Exception e) {
+		   model.addAttribute("alerta", e.getMessage());
+	   }
+	   return "usuario/vistaAmigos";
+  } 
+  
+  /**
+   * 
+   * @return aceptar solicitud
+   * @throws Exception
+   */
+  @RequestMapping(value="/aceptarSolicitud", method = RequestMethod.POST)
+  public String aceptarSolicitud(HttpServletRequest request, Model model) throws Exception  {
+	   String emisor=request.getParameter("txtNombre");
+	   Usuario usuario;
+	   usuario=(Usuario) request.getSession().getAttribute(usuario_conect);
+	   try {
+		   utilidades.aceptarSolicitud(new Usuario(emisor), usuario);
+	   }catch(Exception e) {
+		   model.addAttribute("alerta", e.getMessage());
+	   }
+	   return "usuario/vistaAmigos";
+  } 
+  /**
+   * 
+   * @return rechazar solicitud
+   * @throws Exception
+   */
+  @RequestMapping(value="/rechazarSolicitud", method = RequestMethod.POST)
+  public String rechazarSolicitud(HttpServletRequest request, Model model) throws Exception  {
+	   String emisor=request.getParameter("txtNombre");
+	   Usuario usuario;
+	   usuario=(Usuario) request.getSession().getAttribute(usuario_conect);
+	   try {
+		   utilidades.rechazarSolicitud(new Usuario(emisor), usuario);
+	   }catch(Exception e) {
+		   model.addAttribute("alerta", e.getMessage());
+	   }
+	   return "usuario/vistaAmigos";
+  } 
+  
+  @RequestMapping(value="/mostrarNotificaciones", method = RequestMethod.GET)
+  public String mostrarNotificaciones(HttpServletRequest request, Model model) throws Exception  {
+	   Usuario usuario;
+	   usuario=(Usuario) request.getSession().getAttribute(usuario_conect);
+	   model.addAttribute("notificaciones", utilidades.mostrarNotificaciones(usuario));
+	   return "usuario/vistaAmigos";
+  } 
  /***
   * 
   *@method Esta funciï¿½n sirve para controlar los cambios de vista por nombre(string)
