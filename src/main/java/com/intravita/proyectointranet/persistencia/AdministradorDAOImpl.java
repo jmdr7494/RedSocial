@@ -10,7 +10,6 @@ import org.bson.BsonString;
 import org.bson.BsonValue;
 
 import com.intravita.proyectointranet.modelo.Administrador;
-import com.intravita.proyectointranet.modelo.Usuario;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 
