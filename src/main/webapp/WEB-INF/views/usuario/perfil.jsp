@@ -75,7 +75,7 @@ spam {
 						</button>
 						<h4 class="modal-title" id="myModalLabel">Ayuda</h4>
 					</div>
-					<div class="modal-body">
+					<div class="modal-body"><%-- Poner ayuda para modificar el perfil --%>
 						Para poder usar IntraVita tendrá que rellenar el cuestionario con sus datos personales, 
 						respetando las políticas de seguridad y estructuras que son necesarias.<br><br>
 						- Para el nombre de usuario: nombre.apellido<br>
@@ -89,7 +89,7 @@ spam {
 				</div>
 			</div>
 		</div>
-
+	<%-- volver al muro --%>
 	<div class="row">
 		<div class="col-md-1 col-md-offset-10">
 			<br>
@@ -101,23 +101,23 @@ spam {
 		</div>
 	</div>
 
-
+	<%-- action modificar perfil --%>
 	<form action="registrar" method="POST"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-				<label for="usr" style="color:white; font-size:15px;">Usuario:</label>
+				<label for="usr" style="color:white; font-size:15px;">Modificar usuario:</label>
 				<input type="text" class="form-control" id="usr" name="txtUsuarioNombre" autofocus placeholder="usuario" onFocus="if(this.value!='')this.value=''"/>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-				<label for="email" style="color:white; font-size:15px">Email:</label>
+				<label for="email" style="color:white; font-size:15px">Modificar email:</label>
 				<input type="text" class="form-control" id="email" name="txtEmail" placeholder="@alu.uclm.es""/>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-				<label for="pwd" style="color:white; font-size:15px">Contraseña:</label>
+				<label for="pwd" style="color:white; font-size:15px">Modificar contraseña:</label>
 		  		<input type="password" class="form-control" id="pwd" name="txtUsuarioClave" placeholder="password">
 			</div>
 		</div>
@@ -136,7 +136,7 @@ spam {
 		
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-			<label for="imagen" style="color:white; font-size:15px">Avatar:</label>
+			<label for="imagen" style="color:white; font-size:15px">Modificar avatar:</label>
 			<label class="control-label" style="color:white; font-size:15px">Select File</label>
 			<input id="input-b5" name="input-b5[]" type="file" multiple>
 			
@@ -156,7 +156,7 @@ spam {
 		
 		<div class="row">
 			<div class="col-md-2 col-md-offset-5">
-				<button type="submit" class="boton btn-info btn-block" value="Registrar">Registrar</button>	
+				<button type="submit" class="boton btn-info btn-block" value="Registrar">Modificar perfil</button>	
 			</div>
 		</div>		
 	</form>
