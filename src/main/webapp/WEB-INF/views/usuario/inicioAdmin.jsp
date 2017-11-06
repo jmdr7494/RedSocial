@@ -62,10 +62,15 @@ body > #wrap {
 				<img src="http://i65.tinypic.com/2dvizyh.png" style="width:30%;">
 			</div>
 			
-			<div class="col-md-2 col-md-offset-4">
+			<div class="col-md-1 col-md-offset-3">
 					<button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#miModal" style="border-width: 10px;"><strong>?</strong></button>
 			</div>
+			
+			<div class="col-md-1 fixed-top" style="position: relative; top: 8px">
+				<form action="logout" method="GET"> <button class="btn btn-danger" type="submit"><strong><span class="glyphicon glyphicon-log-out"></span>Salir</strong></button></form>
+			</div>
 		</div>
+	
 		
 		<div class="modal fade" id="miModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
@@ -92,35 +97,28 @@ body > #wrap {
 			</div>
 		</div>
 		
+		
 		<div class="row">
 			<div class="col-md-5 col-md-offset-1">
 				<h3>
 					<jsp:getProperty name="administradorConectado" property="nombre"/>
 				</h3>
 			</div>
-			<div class="col-md-1 col-md-offset-4">
-				<br>
-				<form action="logout" method="GET">
-					<button class="btn btn-danger btn-block btn-md login" type="submit"><strong>Salir</strong></button>
-				</form>	
-				
-				<br/>
-				
-				<div class="btn-group">
-					<button type="button" class="btn btn-info btn-block btn-md"><strong>Ajustes</strong></button>
-					<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-						<span class="caret"></span>
-					</button>
-					<ul class="dropdown-menu" role="menu">
-						<li><form action="changeToUser" method="post">
-								<button class="btn btn-primary btn-block btn-md login" type="submit"><strong>Cambiar Rol</strong></button>
-							</form>
-					</ul>
-				</div>
-				
-			</div>
-		</div>
+			
+			<div class="col-md-4">
 
+			</div>
+			<div class="col-md-1">
+				<br>
+				<form action="changeToUser" method="post"><button type="submit" class="btn btn-success"><strong><span class="glyphicon glyphicon-user"></span> Cambiar Rol </strong></button></form>
+			</div>
+			<%--
+			<div class="col-md-1">
+				<br>
+				<form action="logout" method="GET"> <button class="btn btn-danger" type="submit">Salir</button></form>	
+			</div>
+			 --%>
+		</div>
 
 	
 	<form action="promover" method="post">
@@ -191,7 +189,7 @@ body > #wrap {
 	
 	<div class="col-md-12" style="position: fixed; bottom: 0;">
 		<div class="panel-footer">
-			<h5>© Copyright 2017 IntraVita. Todos los derechos reservados.</h5>
+			© Copyright 2017 IntraVita. Todos los derechos reservados.
 		</div>
 	</div>
 	
