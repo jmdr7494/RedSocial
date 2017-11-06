@@ -18,9 +18,13 @@
 		
 </head>
 
-<body style="background-color: #2CC8E7;">
+<body>
 
 <style>
+body{
+	background-color: #2CC8E7;
+}
+
 .boton {
   padding: 15px 35px;
   font-size: 18px;

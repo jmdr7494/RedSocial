@@ -18,7 +18,6 @@
 .btn {
   padding: 15px 35px;
   font-size: 18px;
-  text-align: center;
   cursor: pointer;
   outline: none;
   color: #fff;

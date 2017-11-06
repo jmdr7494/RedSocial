@@ -17,10 +17,9 @@
 
 <style>
 body {
-background-color: #2CCBE7;
-background-size:100%;
-width: 100%;
-heigth: 100%;
+	background-color: #2CCBE7;
+	width: 100%;
+	heigth: 100%;
 }
 
 
