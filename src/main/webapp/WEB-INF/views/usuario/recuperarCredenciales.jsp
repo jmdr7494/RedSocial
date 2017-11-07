@@ -8,7 +8,6 @@
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link REL=StyleSheet HREF="css/login.css" TYPE="text/css" MEDIA=screen>
-<!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 <!-- Latest compiled JavaScript -->
@@ -17,10 +16,9 @@
 
 <style>
 body {
-background-color: #2CCBE7;
-background-size:100%;
-width: 100%;
-heigth: 100%;
+	background-color: #2CCBE7;
+	width: 100%;
+	heigth: 100%;
 }
 
 
@@ -140,7 +138,7 @@ spam {
 	
 	<div class="col-md-12" style="position: fixed; bottom: 0;">
 		<div class="panel-footer">
-			<h5>© Copyright 2017 IntraVita. Todos los derechos reservados.</h5>
+			© Copyright 2017 IntraVita. Todos los derechos reservados.
 		</div>
 	</div>
 	

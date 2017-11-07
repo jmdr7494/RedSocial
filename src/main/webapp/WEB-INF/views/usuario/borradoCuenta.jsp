@@ -8,7 +8,6 @@
 <title>Recuperar Credenciales</title>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<link REL=StyleSheet HREF="css/login.css" TYPE="text/css" MEDIA=screen>
 <!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -86,9 +85,9 @@
 	
 	<div class="col-md-12" style="position: fixed; bottom: 0;">
 		<div class="panel-footer">
-			<h5>© Copyright 2017 IntraVita. Todos los derechos reservados.</h5>
+			© Copyright 2017 IntraVita. Todos los derechos reservados.
 		</div>
-	</div>
+	</div>>
 	
 </body>
 </html>

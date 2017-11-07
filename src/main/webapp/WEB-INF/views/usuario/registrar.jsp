@@ -8,7 +8,6 @@
 		<title>Registro</title>
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
 		<!-- jQuery library -->
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
@@ -18,9 +17,13 @@
 		
 </head>
 
-<body style="background-color: #2CC8E7;">
+<body>
 
 <style>
+body{
+	background-color: #2CC8E7;
+}
+
 .boton {
   padding: 15px 35px;
   font-size: 18px;
@@ -172,7 +175,7 @@ spam {
 	
 	<div class="col-md-12" style="position: fixed; bottom: 0;">
 		<div class="panel-footer">
-			<h5>© Copyright 2017 IntraVita. Todos los derechos reservados.</h5>
+			© Copyright 2017 IntraVita. Todos los derechos reservados.
 		</div>
 	</div>
 

@@ -124,6 +124,9 @@ body > #wrap {
 					<li><form action="irBorradoCuenta" method="GET">
 							<button class="btn btn-primary btn-block btn-md login" type="submit">Borrar Cuenta</button>
 						</form>	
+					<li><form action="irVistaAmigos" method="GET">
+							<button class="btn btn-primary btn-block btn-md login" type="submit">Amigos</button>
+						</form>
 				</ul>
 			</div>
 			
@@ -174,7 +177,7 @@ body > #wrap {
 	
 	<div class="col-md-12" style="position: fixed; bottom: 0;">
 		<div class="panel-footer">
-			<h5>© Copyright 2017 IntraVita. Todos los derechos reservados.</h5>
+			© Copyright 2017 IntraVita. Todos los derechos reservados.
 		</div>
 	</div>
 

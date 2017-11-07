@@ -1,7 +1,6 @@
 package com.intravita.proyectointranet.controlador;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -98,6 +97,10 @@ public class UsuarioServlet {
  @RequestMapping(value="/irBienvenido",method = RequestMethod.GET)
  public ModelAndView irBienvenido(){
   return cambiarVista("usuario/bienvenido");
+ }
+ @RequestMapping(value="/irVistaAmigos",method = RequestMethod.GET)
+ public ModelAndView irVistaAmigos(){
+  return cambiarVista("usuario/vistaAmigos");
  }
  
  /***
@@ -198,28 +201,28 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/borrarCuenta", method = RequestMethod.POST)
  public ModelAndView borrarCuenta(HttpServletRequest request, Model model) throws Exception {
-  Usuario usuario=(Usuario) request.getSession().getAttribute(usuario_conect);
-  String nombre=usuario.getNombre();
-  Usuario aux=usuarioDao.selectNombre(nombre);
-  
-  model.addAttribute("usuario", aux);
-  String pwd=request.getParameter("txtUsuarioPwd");
-  pwd=DigestUtils.md5Hex(pwd);
-  String respuesta=request.getParameter("txtRespuesta");
-  if(pwd.equals(aux.getClave()) && respuesta.equals(aux.getRespuesta())){
-   usuarioDao.delete(usuario);
-   administradorDao.delete(new Administrador(nombre));
-   HttpSession sesion = request.getSession();
-   
-   System.out.println("Sesion antes de invalidar: "+sesion);
-   sesion.invalidate();
-   System.out.println("Invalidamos la sesion: "+sesion);
-   
-   return cambiarVista(usuario_login);
-  }else {
-   model.addAttribute(alert, "Error en las credenciales");
-  }
-  return cambiarVista("usuario/borradoCuenta");
+	  Usuario usuario=(Usuario) request.getSession().getAttribute(usuario_conect);
+	  String nombre=usuario.getNombre();
+	  Usuario aux=usuarioDao.selectNombre(nombre);
+	  
+	  model.addAttribute("usuario", aux);
+	  String pwd=request.getParameter("txtUsuarioPwd");
+	  pwd=DigestUtils.md5Hex(pwd);
+	  String respuesta=request.getParameter("txtRespuesta");
+	  if(pwd.equals(aux.getClave()) && respuesta.equals(aux.getRespuesta())){
+		   usuarioDao.delete(usuario);
+		   administradorDao.delete(new Administrador(nombre));
+		   HttpSession sesion = request.getSession();
+		   
+		   System.out.println("Sesion antes de invalidar: "+sesion);
+		   sesion.invalidate();
+		   System.out.println("Invalidamos la sesion: "+sesion);
+		   
+		   return cambiarVista(usuario_login);
+	  }else {
+		  model.addAttribute(alert, "Error en las credenciales");
+	  }
+	  return cambiarVista("usuario/borradoCuenta");
  }
  
  /***
@@ -354,8 +357,8 @@ public class UsuarioServlet {
  @RequestMapping(value="/listarUsuario", method = RequestMethod.POST)
  public String listarUsuario(Model model) throws Exception  {
   String cadenaUrl=usuarioServ;
-  model.addAttribute("usuarios", usuarioDao.list());
-  model.addAttribute("administradores", administradorDao.list());
+  model.addAttribute("usuarios", utilidades.listarUsuarios());
+  model.addAttribute("administradores", utilidades.listarAdministradores());
   cadenaUrl+=ini_admin;  
   return cadenaUrl;
  }
@@ -423,6 +426,8 @@ public class UsuarioServlet {
   cadenaUrl+=welcome; 
   return cadenaUrl;
  }
+ 
+ 
  @RequestMapping(value="/crearPublicacionPrivada", method = RequestMethod.POST)
  public String crearPublicacionPrivada(HttpServletRequest request, Model model) throws Exception  {
   String cadenaUrl=usuarioServ;
@@ -636,10 +641,98 @@ public class UsuarioServlet {
    return "usuario/login";
    
   } 
- 
- 
- 
- 
+  /**
+   * 
+   * @return dado un filtro busca todas las coincidencias
+   * @throws Exception
+   */
+  @RequestMapping(value="/buscarAmigos", method = RequestMethod.POST)
+  public String buscarAmigos(HttpServletRequest request, Model model) throws Exception  {
+	   String filtro=request.getParameter("txtUsuarioNombre");
+	   Usuario usuario;
+	   usuario=(Usuario) request.getSession().getAttribute(usuario_conect);
+	   model.addAttribute("amigos", utilidades.buscadorUsuario(usuario, filtro));
+	   return "usuario/vistaAmigos";
+   
+  } 
+  /**
+   * 
+   * @return enviar solicitud a la persona seleccionado
+   * @throws Exception
+   */
+  @RequestMapping(value="/enviarSolicitud", method = RequestMethod.POST)
+  public String enviarSolicitud(HttpServletRequest request, Model model) throws Exception  {
+	   String receptor=request.getParameter("txtNombreEnviar");
+	   Usuario usuario;
+	   usuario=(Usuario) request.getSession().getAttribute(usuario_conect);
+	   try {
+		   utilidades.enviarSolicitud(usuario, new Usuario(receptor));
+	   }catch(Exception e) {
+		   model.addAttribute("alerta", e.getMessage());
+	   }
+	   return "usuario/vistaAmigos";
+  } 
+  
+  /**
+   * 
+   * @return eliminar el amigo seleccionado
+   * @throws Exception
+   */
+  @RequestMapping(value="/eliminarAmigo", method = RequestMethod.POST)
+  public String eliminarAmigo(HttpServletRequest request, Model model) throws Exception  {
+	   String receptor=request.getParameter("txtNombreEliminar");
+	   Usuario usuario;
+	   usuario=(Usuario) request.getSession().getAttribute(usuario_conect);
+	   try {
+		   utilidades.borrarAmistad(usuario, new Usuario(receptor));
+	   }catch(Exception e) {
+		   model.addAttribute("alerta", e.getMessage());
+	   }
+	   return "usuario/vistaAmigos";
+  } 
+  
+  /**
+   * 
+   * @return aceptar solicitud
+   * @throws Exception
+   */
+  @RequestMapping(value="/aceptarSolicitud", method = RequestMethod.POST)
+  public String aceptarSolicitud(HttpServletRequest request, Model model) throws Exception  {
+	   String emisor=request.getParameter("txtNombre");
+	   Usuario usuario;
+	   usuario=(Usuario) request.getSession().getAttribute(usuario_conect);
+	   try {
+		   utilidades.aceptarSolicitud(new Usuario(emisor), usuario);
+	   }catch(Exception e) {
+		   model.addAttribute("alerta", e.getMessage());
+	   }
+	   return "usuario/vistaAmigos";
+  } 
+  /**
+   * 
+   * @return rechazar solicitud
+   * @throws Exception
+   */
+  @RequestMapping(value="/rechazarSolicitud", method = RequestMethod.POST)
+  public String rechazarSolicitud(HttpServletRequest request, Model model) throws Exception  {
+	   String emisor=request.getParameter("txtNombre");
+	   Usuario usuario;
+	   usuario=(Usuario) request.getSession().getAttribute(usuario_conect);
+	   try {
+		   utilidades.rechazarSolicitud(new Usuario(emisor), usuario);
+	   }catch(Exception e) {
+		   model.addAttribute("alerta", e.getMessage());
+	   }
+	   return "usuario/vistaAmigos";
+  } 
+  
+  @RequestMapping(value="/mostrarNotificaciones", method = RequestMethod.GET)
+  public String mostrarNotificaciones(HttpServletRequest request, Model model) throws Exception  {
+	   Usuario usuario;
+	   usuario=(Usuario) request.getSession().getAttribute(usuario_conect);
+	   model.addAttribute("notificaciones", utilidades.mostrarNotificaciones(usuario));
+	   return "usuario/vistaAmigos";
+  } 
  /***
   * 
   *@method Esta funciï¿½n sirve para controlar los cambios de vista por nombre(string)

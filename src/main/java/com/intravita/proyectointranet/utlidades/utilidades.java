@@ -5,11 +5,15 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+
+import org.apache.commons.codec.digest.DigestUtils;
 import org.bson.BsonString;
 import org.bson.BsonValue;
 
+import com.intravita.proyectointranet.modelo.Administrador;
 import com.intravita.proyectointranet.modelo.Publicacion;
 import com.intravita.proyectointranet.modelo.Usuario;
+import com.intravita.proyectointranet.persistencia.AdministradorDAOImpl;
 import com.intravita.proyectointranet.persistencia.UsuarioDAOImpl;
 
 /**
@@ -21,6 +25,7 @@ import com.intravita.proyectointranet.persistencia.UsuarioDAOImpl;
 
 public class utilidades {
 	static UsuarioDAOImpl usuarioDao= new UsuarioDAOImpl();
+	static AdministradorDAOImpl administradorDao=new AdministradorDAOImpl();
 	/**
 	 * Extension de email permitida
 	 */
@@ -227,5 +232,104 @@ public class utilidades {
 		if(!comprobarAmistad(borrado,borrador)) throw new Exception("No puedes eliminar a alguien que no es tu amigo");
 		usuarioDao.borrarAmistad(borrador, borrado);
 		
+	}
+	
+	public static String buscadorUsuario(Usuario busca, String filtro) {
+		List <Usuario> coincidencias=usuarioDao.buscador(filtro);
+		String retorno="";
+		Iterator <Usuario> it=coincidencias.iterator();
+		if(!it.hasNext()) return "No se encontraron resultados";
+		Usuario aux;
+		while(it.hasNext()) {
+			aux=it.next();
+			if(!aux.getNombre().equals(busca.getNombre())) {
+				if(!comprobarAmistad(busca, aux) && !comprobarAmistad(busca,aux)) {
+					retorno+="		<form action=\"enviarSolicitud\" method=\"POST\">	\r\n" + 
+							"			<input name=\"noSirve\" class=\"form-control\" value=\""+aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\" disabled>"+ 
+							"			<input name=\"txtNombreEnviar\" type=\"hidden\" class=\"form-control\" value=\""+aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\">"+ 
+							"			<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">Agregar</button>\r\n" + 
+							"		</form>";
+				}else {
+					retorno+="		<form action=\"eliminarAmigo\" method=\"POST\">	\r\n" + 
+							"			<input name=\"noSirve\" class=\"form-control\" value=\""+aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\" disabled>"+ 
+							"			<input name=\"txtNombreEliminar\" type=\"hidden\" class=\"form-control\" value=\""+aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\">"+ 
+							"			<button class=\"btn btn-danger btn-block btn-md login\"  type=\"submit\">Eliminar</button>\r\n" + 
+							"		</form>";
+				}
+			}
+		}
+		return retorno;
+	}
+	/**
+	 * 
+	 * @param usuario (solo el nombre)
+	 * @return devuelve las peticiones de amistad pendientes
+	 */
+	public static String mostrarNotificaciones(Usuario usuario) {
+		List<BsonValue> notificacionesPendientes=usuarioDao.obtenerSolicitudes(usuario);
+		Iterator<BsonValue> it=notificacionesPendientes.iterator();
+		BsonString aux;
+		String retorno="";
+		if(!it.hasNext()) return "No tienes notificaciones pendientes";
+		while(it.hasNext()) {
+			aux=it.next().asString();
+			retorno+="		<form action=\"aceptarSolicitud\" method=\"POST\">\r\n" + 
+					"			<input name=\"noSirve\" type=\"text\" class=\"form-control\" value=\""+aux.getValue()+"\" id=\"usr\" placeholder=\"usuario\" disabled>\r\n" + 
+					"			<input name=\"txtNombre\" type=\"hidden\" class=\"form-control\" value=\""+aux.getValue()+"\" id=\"usr\" placeholder=\"usuario\" >\r\n" + 
+					"			<button class=\"btn btn-danger btn-block btn-md login\"  type=\"submit\">Aceptar</button>\r\n" + 
+					"			<button class=\"btn btn-danger btn-block btn-md login\"  formaction=\"rechazarSolicitud\" type=\"submit\">Rechazar</button>\r\n" + 
+					"		</form>";
+		}
+		return retorno;
+	}
+	/**
+	 * 
+	 * @return String html para mostrar a los usuarios/administradores con sus botones
+	 */
+	public static String listarUsuarios() {
+		List<Usuario> usuarios=usuarioDao.list();
+		Iterator<Usuario> it=usuarios.iterator();
+		Usuario aux;
+		String texto="";
+		while(it.hasNext()) {
+			aux=it.next();
+			texto+="<form action=\"borrar\" method=\"POST\">\r\n" + 
+					"	<div class=\"row\">\r\n" + 
+					"		<div class=\"col-md-6\">\r\n" + 
+					"			<input name=\"noSirve\" type=\"text\" class=\"form-control\" value=\""+ aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\" disabled>\r\n" + 
+					"			<input name=\"txtNombre\" type=\"hidden\" class=\"form-control\" value=\""+aux.getNombre() +"\" id=\"usr\" placeholder=\"usuario\" >\r\n" + 
+					"		</div>\r\n" + 
+					"		<div class=\"col-md-3\">\r\n" + 
+					"			<button class=\"btn btn-success btn-block login\" formaction=\"promover\" type=\"submit\"><strong>Promover</strong></button>\r\n" + 
+					"		</div>\r\n" + 
+					"		<div class=\"col-md-3\">\r\n" + 
+					"			<button class=\"btn btn-danger btn-block login\" type=\"submit\"><strong>Borrar</strong></button>\r\n" + 
+					"		</div></div>\r\n" + 
+					"</form>	";
+		}
+		return texto;
+	}
+	public static String listarAdministradores() {
+		List<Administrador> administradores=administradorDao.list();
+		Iterator<Administrador> it=administradores.iterator();
+		Administrador aux;
+		String texto="";
+		while(it.hasNext()) {
+			aux=it.next();
+			texto+="<form action=\"borrar\" method=\"POST\">\r\n" + 
+					"	<div class=\"row\">\r\n" + 
+					"		<div class=\"col-md-6\">\r\n" + 
+					"			<input name=\"noSirve\" type=\"text\" class=\"form-control\" value=\""+ aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\" disabled>\r\n" + 
+					"			<input name=\"txtNombre\" type=\"hidden\" class=\"form-control\" value=\""+aux.getNombre() +"\" id=\"usr\" placeholder=\"usuario\" >\r\n" + 
+					"		</div>\r\n" + 
+					"		<div class=\"col-md-3\">\r\n" + 
+					"			<button class=\"btn btn-success btn-block login\" formaction=\"degradar\" type=\"submit\"><strong>Degradar</strong></button>\r\n" + 
+					"		</div>\r\n" + 
+					"		<div class=\"col-md-3\">\r\n" + 
+					"			<button class=\"btn btn-danger btn-block login\" type=\"submit\"><strong>Borrar</strong></button>\r\n" + 
+					"		</div></div>\r\n" + 
+					"</form>	";
+		}
+		return texto;		
 	}
 }
