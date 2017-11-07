@@ -26,6 +26,7 @@ public class borrarCuentaTest {
 		usuario=new Usuario("borrar.borrar", "1234qwer", "borrar@alu.uclm.es", "borrar");
 		publicacion= new Publicacion(usuario, "Quiero que me cambies de usuario");
 		try {
+			usuarioDao.delete(usuario);
 			usuarioDao.insert(usuario);
 			publicacionDao.insert(publicacion);
 		}catch(Exception e) {

@@ -33,6 +33,7 @@ public class solicitudEnviarTest {
 		solicitante=new Usuario("solicitante.solicitante");
 		solicitado=new Usuario("solicitado.solicitado", "1234qwer", "solicitado@alu.uclm.es", "solicitado");
 		try {
+			usuarioDao.delete(solicitado);
 			usuarioDao.insert(solicitado);
 		} catch (Exception e) {
 			assertFalse(true);
@@ -56,6 +57,7 @@ public class solicitudEnviarTest {
 		solicitante=new Usuario("solicitante.solicitante");
 		solicitado2=new Usuario("solicitado2.solicitado2", "1234qwer", "solicitado2@alu.uclm.es", "solicitado2");
 		try {
+			usuarioDao.delete(solicitado2);
 			usuarioDao.insert(solicitado2);
 			utilidades.enviarSolicitud(solicitante, solicitado2);
 			utilidades.aceptarSolicitud(solicitante, solicitado2);
@@ -80,6 +82,7 @@ public class solicitudEnviarTest {
 		solicitante=new Usuario("solicitante.solicitante");
 		solicitado3=new Usuario("solicitado3.solicitado3", "1234qwer", "solicitado3@alu.uclm.es", "solicitado3");
 		try {
+			usuarioDao.delete(solicitado3);
 			usuarioDao.insert(solicitado3);
 			utilidades.enviarSolicitud(solicitante, solicitado3);
 		} catch (Exception e) {
