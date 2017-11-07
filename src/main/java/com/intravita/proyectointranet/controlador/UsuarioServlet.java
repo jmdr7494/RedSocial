@@ -652,6 +652,7 @@ public class UsuarioServlet {
 	   Usuario usuario;
 	   usuario=(Usuario) request.getSession().getAttribute(usuario_conect);
 	   model.addAttribute("amigos", utilidades.buscadorUsuario(usuario, filtro));
+	   mostrarNotificaciones(request, model);
 	   return "usuario/vistaAmigos";
    
   } 
@@ -670,6 +671,7 @@ public class UsuarioServlet {
 	   }catch(Exception e) {
 		   model.addAttribute("alerta", e.getMessage());
 	   }
+	   mostrarNotificaciones(request, model);
 	   return "usuario/vistaAmigos";
   } 
   
@@ -688,6 +690,7 @@ public class UsuarioServlet {
 	   }catch(Exception e) {
 		   model.addAttribute("alerta", e.getMessage());
 	   }
+	   mostrarNotificaciones(request, model);
 	   return "usuario/vistaAmigos";
   } 
   
@@ -706,6 +709,7 @@ public class UsuarioServlet {
 	   }catch(Exception e) {
 		   model.addAttribute("alerta", e.getMessage());
 	   }
+	   mostrarNotificaciones(request, model);
 	   return "usuario/vistaAmigos";
   } 
   /**
@@ -723,6 +727,7 @@ public class UsuarioServlet {
 	   }catch(Exception e) {
 		   model.addAttribute("alerta", e.getMessage());
 	   }
+	   mostrarNotificaciones(request, model);
 	   return "usuario/vistaAmigos";
   } 
   
