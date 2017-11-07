@@ -36,6 +36,11 @@ body,
 body > #wrap {
    height: auto;
    min-height: 100%;
+
+}
+
+body{
+   background-color: #FAFAFA;
 }
 #content {
    padding-bottom: 50px; /* Mis altura que el footer */
@@ -47,27 +52,41 @@ body > #wrap {
    clear: both;
 }
 
+.boton{
+        font-size:16px;
+        font-weight:bold;
+        color:white;
+        border:0px;
+        background:#337ab7;
+        width:100%;
+        height:100%;
+        text-align: left;
+       }
 
 </style>
 	
 	
 </head>
-<body style="background-color: #FAFAFA;">
+<body>
  	<jsp:useBean id="usuarioConectado" scope="session" class="com.intravita.proyectointranet.modelo.Usuario"></jsp:useBean>
  
  	<!--  
 	 	<p>El nombre es: <jsp:getProperty name="usuarioConectado" property="nombre"/></p>
 	 	<p>El email es: <jsp:getProperty name="usuarioConectado" property="email"/></p>
 	-->
-	<div class="row bg-primary">
-		<div class="col-md-5 col-md-offset-1">
-			<img src="http://i65.tinypic.com/2dvizyh.png" style="width:30%;">
+		<div class="row bg-primary">
+			<div class="col-md-5 col-md-offset-1">
+				<img src="http://i65.tinypic.com/2dvizyh.png" style="width:30%;">
+			</div>
+			
+			<div class="col-md-1 col-md-offset-3">
+					<button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#miModal" style="border-width: 10px;"><strong>?</strong></button>
+			</div>
+			
+			<div class="col-md-1 fixed-top" style="position: relative; top: 8px">
+				<form action="logout" method="GET"> <button class="btn btn-danger" type="submit"><strong><span class="glyphicon glyphicon-log-out"></span>Salir</strong></button></form>
+			</div>
 		</div>
-		
-		<div class="col-md-2 col-md-offset-4">
-				<button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#miModal" style="border-width: 10px;"><strong>?</strong></button>
-		</div>
-	</div>
 	
 	<div class="modal fade" id="miModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
@@ -97,41 +116,55 @@ body > #wrap {
 	
 	
 	<div class="row">
-		<div class="col-md-5 col-md-offset-1">
+		<div class="col-md-1 col-md-offset-1">
 			<h3>
 				<jsp:getProperty name="usuarioConectado" property="nombre"/>
 			</h3>
 		</div>
+		<div class="col-md-1">
 
-		<br/>
-
-		<div class="col-md-1 col-md-offset-4">
-			<form action="logout" method="GET">
-				<button class="btn btn-danger btn-block btn-md login" type="submit">Salir</button>
-			</form>	
-			<br/>
-			
-			
-			<div class="btn-group">
-				<button type="button" class="btn btn-info btn-block btn-md">Ajustes</button>
-				<button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown">
-					<span class="caret"></span>
-				</button>
-				<ul class="dropdown-menu" role="menu">
-					<li><form action="changeToAdmin" method="POST">
-							<button class="btn btn-primary btn-block btn-md login" type="submit">Cambiar Rol</button>
-						</form>
-					<li><form action="irBorradoCuenta" method="GET">
-							<button class="btn btn-primary btn-block btn-md login" type="submit">Borrar Cuenta</button>
-						</form>	
-					<li><form action="irVistaAmigos" method="GET">
-							<button class="btn btn-primary btn-block btn-md login" type="submit">Amigos</button>
-						</form>
-				</ul>
-			</div>
-			
-					
 		</div>
+
+		<div class="col-md-1 col-md-offset-8">
+			<%-- <form action="logout" method="GET">
+				<button class="btn btn-danger btn-block btn-md login" type="submit">Salir</button>
+			</form>--%>	
+		</div>
+		
+		<br/>
+			
+			<div class="btn-group col-md-1 col-md-offset-8">
+				 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+				    <span class="glyphicon glyphicon-cog"></span>&nbsp;<strong>&nbsp;Ajustes&nbsp;</strong><span class="caret"></span>
+				  </button>
+					<ul class="dropdown-menu" style="background:#337ab7;">
+						<li>
+							<form action="changeToAdmin" method="POST">
+								<button type="submit" class="boton btn-default"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;Modo Admin.</button>
+							</form>
+						</li>
+						<li>
+							<form action="changeToUser" method="post">
+								<button type="submit" class="boton btn-default">
+									<strong>
+										<span class="glyphicon glyphicon-wrench"></span> Editar Perfil 
+									</strong>
+								</button>
+							</form>						
+						</li>
+						<li>
+							<form action="irBorradoCuenta" method="GET">
+								<button type="submit" class="boton btn-default"><span class="glyphicon glyphicon-remove-circle"></span>&nbsp;Borrar Cuenta</button>
+							</form>
+						</li>
+						<li>
+							<form action="irVistaAmigos" method="GET">
+								<button type="submit" class="boton btn-default"><span class="glyphicon glyphicon-user"></span>&nbsp;Amigos</button>
+							</form>
+						</li>
+						
+				</ul>
+			</div>					
 	</div>
 	
 	
@@ -168,9 +201,7 @@ body > #wrap {
 						<button class="btn btn-info btn-block login" type="submit">Mostrar Publicaciones</button>
 					</form>
 				</div>
-				
 				${publicaciones}
-				
 			</div>	
 		</div>
 	</div>
