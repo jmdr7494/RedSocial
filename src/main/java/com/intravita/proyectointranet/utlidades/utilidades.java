@@ -6,7 +6,6 @@ import java.util.Iterator;
 import java.util.List;
 
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.bson.BsonString;
 import org.bson.BsonValue;
 
