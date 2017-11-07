@@ -192,8 +192,8 @@ public class utilidades {
 	 * @return excepcion si algo falla, si no, envia la solicitud emisor->receptor
 	 */
 	public static void enviarSolicitud(Usuario emisor, Usuario receptor) throws Exception{
-		if(comprobarSolicitudes(emisor,receptor)) throw new Exception("Ya tienes una solicitud de ese usuario");
-		
+		if(comprobarSolicitudes(emisor,receptor)) throw new Exception("Ya has enviado una solicitud a ese usuario");
+		if(comprobarSolicitudes(receptor,emisor)) throw new Exception("Ya tienes una solicitud de ese usuario");
 		if(comprobarAmistad(emisor,receptor)) throw new Exception("Ya sois amigos");
 		if(comprobarAmistad(receptor,emisor)) throw new Exception("Ya sois amigos");
 		
@@ -244,16 +244,28 @@ public class utilidades {
 			aux=it.next();
 			if(!aux.getNombre().equals(busca.getNombre())) {
 				if(!comprobarAmistad(busca, aux) && !comprobarAmistad(busca,aux)) {
-					retorno+="		<form action=\"enviarSolicitud\" method=\"POST\">	\r\n" + 
-							"			<input name=\"noSirve\" class=\"form-control\" value=\""+aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\" disabled>"+ 
-							"			<input name=\"txtNombreEnviar\" type=\"hidden\" class=\"form-control\" value=\""+aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\">"+ 
-							"			<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">Agregar</button>\r\n" + 
+					retorno+="		<form action=\"enviarSolicitud\" method=\"POST\">	\r\n" +
+							"	      <div class=\"row\">\r\n" + 
+							"	        <div class=\"col-md-6\">\r\n" +
+							"				<input name=\"noSirve\" class=\"form-control\" value=\""+aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\" disabled>"+ 
+							"				<input name=\"txtNombreEnviar\" type=\"hidden\" class=\"form-control\" value=\""+aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\">"+
+							"        	</div>\r\n" +
+							"        	<div class=\"col-md-3\">\r\n" +
+							"				<button class=\"btn btn-info btn-block btn-md login\" type=\"submit\">Agregar</button>\r\n" +
+							"      		</div></div>\r\n" + 
+							"			<br>\r\n" +
 							"		</form>";
 				}else {
 					retorno+="		<form action=\"eliminarAmigo\" method=\"POST\">	\r\n" + 
-							"			<input name=\"noSirve\" class=\"form-control\" value=\""+aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\" disabled>"+ 
-							"			<input name=\"txtNombreEliminar\" type=\"hidden\" class=\"form-control\" value=\""+aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\">"+ 
-							"			<button class=\"btn btn-danger btn-block btn-md login\"  type=\"submit\">Eliminar</button>\r\n" + 
+							"	      <div class=\"row\">\r\n" + 
+							"	        <div class=\"col-md-6\">\r\n" +
+							"				<input name=\"noSirve\" class=\"form-control\" value=\""+aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\" disabled>"+ 
+							"				<input name=\"txtNombreEliminar\" type=\"hidden\" class=\"form-control\" value=\""+aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\">"+
+							"        	</div>\r\n" +
+							"        	<div class=\"col-md-3\">\r\n" + 
+							"				<button class=\"btn btn-danger btn-block btn-md login\"  type=\"submit\">Eliminar</button>\r\n" +
+							"      		</div></div>\r\n" + 
+							"			<br>\r\n" +
 							"		</form>";
 				}
 			}
@@ -280,7 +292,7 @@ public class utilidades {
 			          "          <input name=\"txtNombre\" type=\"hidden\" class=\"form-control\" value=\""+aux.getValue()+"\" id=\"usr\" placeholder=\"usuario\" >\r\n" +
 			          "        </div>\r\n" + 
 			          "        <div class=\"col-md-3\">\r\n" + 
-			          "          <button class=\"btn btn-danger btn-block btn-md login\"  type=\"submit\">Aceptar</button>\r\n" +
+			          "          <button class=\"btn btn-success btn-block btn-md login\"  type=\"submit\">Aceptar</button>\r\n" +
 			          "        </div>\r\n" + 
 			          "        <div class=\"col-md-3\">\r\n" +
 			          "          <button class=\"btn btn-danger btn-block btn-md login\"  formaction=\"rechazarSolicitud\" type=\"submit\">Rechazar</button>\r\n" +
