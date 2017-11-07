@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>IntraVita - Login</title>
+<title>IntraVita - Amigos</title>
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <!-- jQuery library -->
@@ -15,7 +15,7 @@
 
 
 <style>
-.btn {
+.boton {
   padding: 15px 35px;
   font-size: 18px;
   text-align: center;
@@ -72,57 +72,117 @@ body > #wrap {
 
 
 </head>
-<body style="background-color: #2CC8E7;">
+<body style="background-color: #FAFAFA;">
 
-<div class="container">
-	<div class="col-md-6">
+	<div class="row bg-primary">
+		<div class="col-md-5 col-md-offset-1">
+			<img src="http://i65.tinypic.com/2dvizyh.png" style="width:30%;">
+		</div>
+		
+		<div class="col-md-2 col-md-offset-4">
+				<button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#miModal" style="border-width: 10px;"><strong>?</strong></button>
+		</div>
+	</div>
+	
+	<div class="modal fade" id="miModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	      <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+	          <div class="modal-header">
+	            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	              <span aria-hidden="true">&times;</span>
+	            </button>
+	            <h4 class="modal-title" id="myModalLabel">Ayuda</h4>
+	          </div>
+	          <div class="modal-body">
+	            Introduzca el nombre del amigo que quiera buscar y a continuación haga click en buscar.
+	            Si existe algún usuario con ese nombre, le aparecerá en la lista, de forma que tendrá
+	            que agregarlo como amigo en caso de que no lo tengas ya.
+	          </div>
+	        </div>
+	      </div>
+	  </div>
+	
+
+		
 		<div class="row">
-			<div class="col-md-1 col-md-offset-5">
-				<form action="mostrarNotificaciones" method="get"><button class="btn login" type="submit">&nbsp;&nbsp;   Notificaciones   &nbsp;&nbsp;</button></form>
+			<div class="col-md-1 col-md-offset-10">
+				<br>
+				<form action="irBienvenido" method="GET">
+					<button class="btn btn-danger btn-block btn-md login" type="submit">Volver</button>
+				</form>	
+						
+				<br/>
 			</div>
 		</div>
-		<br>
-	</div>
-	<div class="col-md-6">
-		<span><em>${notificaciones}</em></span>
-	</div>
-    <form action="buscarAmigos" method="post" id="formlogin">
-    	<div class="row">
-	 		<div class="col-md-8 col-md-offset-2">
-	 			<br/>
-	 			<label for="usr" style="color:white; font-size:15px;">Nombre:</label>
-				<input name="txtUsuarioNombre" autofocus type="text" class="form-control" id="usr" placeholder="usuario" onFocus="if(this.value!='')this.value=''">
-			</div>  
-		</div>
+			
 		<div class="row">
-			<div class="col-md-1 col-md-offset-5">
-				<br/>
-				<button class="btn login" type="submit">Buscar</button>
-				<br/>
-	
-			</div>	  
+			<div class="col-md-8 col-md-offset-2">
+				<div class="panel panel-default">
+					 <div class="panel-body">
+					 
+					    <form action="buscarAmigos" method="post" id="formlogin">
+					    	<div class="row">
+						 		<div class="col-md-12">
+						 			<br/>
+						 			<label for="usr" style="color:black; font-size:15px;">Buscar:</label>
+									<input name="txtUsuarioNombre" autofocus type="text" class="form-control" id="usr" placeholder="usuario" onFocus="if(this.value!='')this.value=''">
+								</div>  
+							</div>
+							
+							<div class="row">
+								<div class="col-md-2 col-md-offset-10">
+									<br/>
+									<button class="btn btn-primary btn-block" type="submit">Buscar</button>
+									<br/>
+								</div>	  
+							</div>
+						</form>	
+						
+						<br>
+					
+					
+						<div class="row">
+							<div class="col-md-12">
+								<span><em>${amigos}</em></span>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="col-md-12">
+								<span><em>${alerta}</em></span>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
 		</div>
-	</form>	
-	
-	<br>
-	<div class="row">
-		<div class="col-md-1 col-md-offset-5">
-			<form action="irBienvenido" method="get"><button class="btn login" type="submit">&nbsp;&nbsp;   Volver   &nbsp;&nbsp;</button></form>
-		</div>
-	</div>
+		
+		
+		
 
-
-	<div class="row">
-		<div class="col-md-12">
-			<span><em>${amigos}</em></span>
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+				<div class="panel panel-default">
+					 <div class="panel-body">
+						<div class="col-md-12">
+							<form action="mostrarNotificaciones" method="get"><button class="btn btn-primary btn-block login" type="submit">&nbsp;&nbsp;   Notificaciones   &nbsp;&nbsp;</button></form>
+						</div>
+					
+						<div class="col-md-12">
+							<span><em>${notificaciones}</em></span>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-12">
-			<span><em>${alerta}</em></span>
+		
+	
+	<div class="col-md-12" style="position: fixed; bottom: 0;">
+		<div class="panel-footer">
+			© Copyright 2017 IntraVita. Todos los derechos reservados.
 		</div>
 	</div>
 	
-</div>
 </body>
 </html>
