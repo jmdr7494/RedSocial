@@ -764,6 +764,15 @@ public class UsuarioServlet {
   *@method Esta funciï¿½n sirve para controlar los cambios de vista por nombre(string)
   *
   */
+  
+  
+//By JA
+  @RequestMapping(value="/irPerfilUsuario", method = RequestMethod.GET)
+  public ModelAndView irPerfilUsuario() throws Exception  {
+   return cambiarVista("usuario/perfilUsuario");
+  }
+  
+  
  public ModelAndView cambiarVista(String nombreVista) {
   ModelAndView vista =new ModelAndView(nombreVista);
   return vista;

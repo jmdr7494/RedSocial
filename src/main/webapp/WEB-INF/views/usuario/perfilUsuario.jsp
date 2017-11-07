@@ -102,20 +102,8 @@ spam {
 	</div>
 
 	<%-- action modificar perfil --%>
-	<form action="registrar" method="POST"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
-				<label for="usr" style="color:white; font-size:15px;">Modificar usuario:</label>
-				<input type="text" class="form-control" id="usr" name="txtUsuarioNombre" autofocus placeholder="usuario" onFocus="if(this.value!='')this.value=''"/>
-			</div>
-		</div>
-		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
-				<label for="email" style="color:white; font-size:15px">Modificar email:</label>
-				<input type="text" class="form-control" id="email" name="txtEmail" placeholder="@alu.uclm.es""/>
-			</div>
-		</div>
-		<div class="row">
+	<form action="modificarPerfilUsuario" method="POST"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+				<div class="row">
 			<div class="col-md-6 col-md-offset-3">
 				<label for="pwd" style="color:white; font-size:15px">Modificar contraseña:</label>
 		  		<input type="password" class="form-control" id="pwd" name="txtUsuarioClave" placeholder="password">
@@ -127,19 +115,8 @@ spam {
 			  	<input type="password" class="form-control" id="pwd1" name="txtUsuarioClave1" placeholder="confirmacion password">	
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
-				<label for="usr" style="color:white; font-size:15px">¿Cual es tu mejor amigo/a de la infancia?</label>
-				<input name="txtRespuesta" type="text" class="form-control" id="usr" placeholder="respuesta" onFocus="if(this.value!='')this.value=''">
-			</div>
-		</div>
 		
-		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
-			<label for="imagen" style="color:white; font-size:15px">Modificar avatar:</label>
-			<label class="control-label" style="color:white; font-size:15px">Select File</label>
-			<input id="input-b5" name="input-b5[]" type="file" multiple>
-			
+	
 			<script>
 				$(document).on('ready', function() {
 				    $("#input-b5").fileinput({showCaption: false});
@@ -156,7 +133,7 @@ spam {
 		
 		<div class="row">
 			<div class="col-md-2 col-md-offset-5">
-				<button type="submit" class="boton btn-info btn-block" value="Registrar">Modificar perfil</button>	
+				<button type="submit" class="boton btn-info btn-block" value="Modificar">Modificar perfil</button>	
 			</div>
 		</div>		
 	</form>
