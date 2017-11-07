@@ -273,19 +273,19 @@ public class utilidades {
 		if(!it.hasNext()) return "No tienes notificaciones pendientes";
 		while(it.hasNext()) {
 			aux=it.next().asString();
-			retorno+="		<form action=\"aceptarSolicitud\" method=\"POST\">\r\n" + 
-					"			<div class=\"row\">\r\n" + 
-					"				<div class=\"col-md-6\">\r\n" + 
-					"					<input name=\"noSirve\" type=\"text\" class=\"form-control\" value=\""+aux.getValue()+"\" id=\"usr\" placeholder=\"usuario\" disabled>\r\n" + 
-					"					<input name=\"txtNombre\" type=\"hidden\" class=\"form-control\" value=\""+aux.getValue()+"\" id=\"usr\" placeholder=\"usuario\" >\r\n" +
-					"			</div>\r\n" +
-					"			<div class=\"col-md-3\">\r\n" +
-					"					<button class=\"btn btn-danger btn-block btn-md login\"  type=\"submit\">Aceptar</button>\r\n" +
-					"			</div>\r\n" + 
-					"			<div class=\"col-md-3\">\r\n" +
-					"					<button class=\"btn btn-danger btn-block btn-md login\"  formaction=\"rechazarSolicitud\" type=\"submit\">Rechazar</button>\r\n" +
-					"			</div>\r\n" +
-					"		</form>";
+			retorno+="    <form action=\"aceptarSolicitud\" method=\"POST\">\r\n" +
+			          "      <div class=\"row\">\r\n" + 
+			          "        <div class=\"col-md-6\">\r\n" +
+			          "          <input name=\"noSirve\" type=\"text\" class=\"form-control\" value=\""+aux.getValue()+"\" id=\"usr\" placeholder=\"usuario\" disabled>\r\n" + 
+			          "          <input name=\"txtNombre\" type=\"hidden\" class=\"form-control\" value=\""+aux.getValue()+"\" id=\"usr\" placeholder=\"usuario\" >\r\n" +
+			          "        </div>\r\n" + 
+			          "        <div class=\"col-md-3\">\r\n" + 
+			          "          <button class=\"btn btn-danger btn-block btn-md login\"  type=\"submit\">Aceptar</button>\r\n" +
+			          "        </div>\r\n" + 
+			          "        <div class=\"col-md-3\">\r\n" +
+			          "          <button class=\"btn btn-danger btn-block btn-md login\"  formaction=\"rechazarSolicitud\" type=\"submit\">Rechazar</button>\r\n" +
+			          "      </div></div>\r\n" +  
+			          "    </form>";
 		}
 		return retorno;
 	}

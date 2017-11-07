@@ -21,9 +21,12 @@ import com.intravita.proyectointranet.utlidades.utilidades;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.bson.BsonValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
@@ -474,78 +477,96 @@ public class UsuarioServlet {
   
   ArrayList<Publicacion> publicas=publicacionDao.selectPublicas(usuario);
   ArrayList<Publicacion> privadas=publicacionDao.selectPrivadas(usuario);
-  
+  List<BsonValue> amigos=usuarioDao.obtenerAmigos(usuario);
+  ArrayList<Publicacion> publicasAmigos=new ArrayList<Publicacion>();
+  ArrayList<Publicacion> aux;
+  Iterator<BsonValue> it=amigos.iterator();
+  while(it.hasNext()) {
+	  aux=publicacionDao.selectPublicas(new Usuario(it.next().asString().getValue()));
+	  publicasAmigos.addAll(aux);
+  }
+  publicas.addAll(publicasAmigos);
   Publicacion[] todas=utilidades.mostrarPublicaciones(publicas, privadas);
   String texto="";
+  String nombre="";
   for(int i=0; i<todas.length; i++) {
-	  /*
-	  texto+="		<div class=\"panel panel-default\">\r\n" + 
-	  				"			 <div class=\"panel-body\">";
-	  texto+=todas[i].toString();
-	  texto+="<br>";
-	  texto+="		</div>	\r\n" + 
-	  			"	</div>";*/
-	  texto = texto+"<div class=\"panel panel-default\">\r\n" + 
-	  		"	<div class=\"panel-body\">\r\n" + 
-	  		"			<b> "+ todas[i].getUsuario().getNombre() +" </b> \r\n" + 
-	  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"ï¿½Quï¿½ tal el dï¿½a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
-	  		"			<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
-	  		"			<button class=\"btn btn-primary btn-block btn-md login\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModals\">Editar</button>\r\n" + 
-	  		"<div class=\"modal fade\" id=\"miModals\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalsLabel\" aria-hidden=\"true\">\r\n" + 
-	  		"			<div class=\"modal-dialog\" role=\"document\">\r\n" + 
-	  		"				<div class=\"modal-content\">\r\n" + 
-	  		"					<div class=\"modal-header\">\r\n" + 
-	  		"						<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n" + 
-	  		"							<span aria-hidden=\"true\">&times;</span>\r\n" + 
-	  		"						</button>\r\n" + 
-	  		"						<h4 class=\"modal-title\" id=\"myModalsLabel\">Editar</h4>\r\n" + 
-	  		"					</div>\r\n" + 
-	  		"					<div class=\"modal-body\">\r\n" + 
-	  		"						¿Está seguro que desea editar la publicación?\r\n" + 
-	  		"						<br>\r\n" + 
-	  		"						<form action=\"editarPubli\" method=\"POST\">\r\n" + 
-	  		"							<textarea name=\"txtIntroducirTexto\" placeholder=\"ï¿½Quï¿½ tal el dï¿½a?\" class=\"form-control\" rows=\"5\" id=\"comment\">"+ todas[i].getTexto()+"</textarea>\r\n" + 
-	  		"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
-	  		"							<br>" + 
-	  		"							<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
-	  		"						</form>\r\n" + 
-	  		"						<form action=\"listarPublicacion\" method=\"POST\">\r\n" + 
-	  		"							<br>\r\n" + 
-	  		"							<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
-	  		"						</form>\r\n" + 
-	  		"					</div>\r\n" + 
-	  		"				</div>\r\n" + 
-	  		"			</div>\r\n" + 
-	  		"		</div>" + 
-	  		
-	"<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModalss\">Eliminar</button>\r\n" + 
-	"<div class=\"modal fade\" id=\"miModalss\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalssLabel\" aria-hidden=\"true\">\r\n" + 
-	"			<div class=\"modal-dialog\" role=\"document\">\r\n" + 
-	"				<div class=\"modal-content\">\r\n" + 
-	"					<div class=\"modal-header\">\r\n" + 
-	"						<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n" + 
-	"							<span aria-hidden=\"true\">&times;</span>\r\n" + 
-	"						</button>\r\n" + 
-	"						<h4 class=\"modal-title\" id=\"myModalssLabel\">Editar</h4>\r\n" + 
-	"					</div>\r\n" + 
-	"					<div class=\"modal-body\">\r\n" + 
-	"						¿Está seguro que desea eliminar la publicación?\r\n" + 
-	"						<br>\r\n" + 
-	"						<form action=\"eliminarPubli\" method=\"POST\">\r\n" + 
-	"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
-	"							<br>" + 
-	"							<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
-	"						</form>\r\n" + 
-	"						<form action=\"listarPublicacion\" method=\"POST\">\r\n" + 
-	"							<br>\r\n" + 
-	"							<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
-	"						</form>\r\n" + 
-	"					</div>\r\n" + 
-	"				</div>\r\n" + 
-	"			</div>\r\n" + 
-	"		</div>" + 
-	  		"	</div>\r\n" + 
-	  		"</div>	";
+	  nombre=todas[i].getUsuario().getNombre();
+	  if(nombre.equals(usuario.getNombre())) {
+		  texto = texto+"<div class=\"panel panel-default\">\r\n" + 
+			  		"	<div class=\"panel-body\">\r\n" + 
+			  		"			<b> "+ nombre +" </b> \r\n" + 
+			  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"ï¿½Quï¿½ tal el dï¿½a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
+			  		"			<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
+			  		"			<button class=\"btn btn-primary btn-block btn-md login\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModals\">Editar</button>\r\n" + 
+			  		"<div class=\"modal fade\" id=\"miModals\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalsLabel\" aria-hidden=\"true\">\r\n" + 
+			  		"			<div class=\"modal-dialog\" role=\"document\">\r\n" + 
+			  		"				<div class=\"modal-content\">\r\n" + 
+			  		"					<div class=\"modal-header\">\r\n" + 
+			  		"						<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n" + 
+			  		"							<span aria-hidden=\"true\">&times;</span>\r\n" + 
+			  		"						</button>\r\n" + 
+			  		"						<h4 class=\"modal-title\" id=\"myModalsLabel\">Editar</h4>\r\n" + 
+			  		"					</div>\r\n" + 
+			  		"					<div class=\"modal-body\">\r\n" + 
+			  		"						¿Está seguro que desea editar la publicación?\r\n" + 
+			  		"						<br>\r\n" + 
+			  		"						<form action=\"editarPubli\" method=\"POST\">\r\n" + 
+			  		"							<textarea name=\"txtIntroducirTexto\" placeholder=\"ï¿½Quï¿½ tal el dï¿½a?\" class=\"form-control\" rows=\"5\" id=\"comment\">"+ todas[i].getTexto()+"</textarea>\r\n" + 
+			  		"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
+			  		"							<br>" + 
+			  		"							<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
+			  		"						</form>\r\n" + 
+			  		"						<form action=\"listarPublicacion\" method=\"POST\">\r\n" + 
+			  		"							<br>\r\n" + 
+			  		"							<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
+			  		"						</form>\r\n" + 
+			  		"					</div>\r\n" + 
+			  		"				</div>\r\n" + 
+			  		"			</div>\r\n" + 
+			  		"		</div>" + 
+			  		
+			"<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModalss\">Eliminar</button>\r\n" + 
+			"<div class=\"modal fade\" id=\"miModalss\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalssLabel\" aria-hidden=\"true\">\r\n" + 
+			"			<div class=\"modal-dialog\" role=\"document\">\r\n" + 
+			"				<div class=\"modal-content\">\r\n" + 
+			"					<div class=\"modal-header\">\r\n" + 
+			"						<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n" + 
+			"							<span aria-hidden=\"true\">&times;</span>\r\n" + 
+			"						</button>\r\n" + 
+			"						<h4 class=\"modal-title\" id=\"myModalssLabel\">Editar</h4>\r\n" + 
+			"					</div>\r\n" + 
+			"					<div class=\"modal-body\">\r\n" + 
+			"						¿Está seguro que desea eliminar la publicación?\r\n" + 
+			"						<br>\r\n" + 
+			"						<form action=\"eliminarPubli\" method=\"POST\">\r\n" + 
+			"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
+			"							<br>" + 
+			"							<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
+			"						</form>\r\n" + 
+			"						<form action=\"listarPublicacion\" method=\"POST\">\r\n" + 
+			"							<br>\r\n" + 
+			"							<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
+			"						</form>\r\n" + 
+			"					</div>\r\n" + 
+			"				</div>\r\n" + 
+			"			</div>\r\n" + 
+			"		</div>" + 
+			  		"	</div>\r\n" + 
+			  		"</div>	";		  
+	  }else {
+		  
+		  texto+="		<div class=\"panel panel-default\">\r\n" + 
+		  				"			 <div class=\"panel-body\">";
+	  	  texto+="			<b> "+ nombre +" </b> \r\n" + 
+	  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"ï¿½Quï¿½ tal el dï¿½a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" ;
+		  texto+="<br>";
+		  texto+="		</div>	\r\n" + 
+		  			"	</div>";
+	  }
+
+	  
+	  
+
   }
   System.out.print(texto);
   model.addAttribute("publicaciones", texto);

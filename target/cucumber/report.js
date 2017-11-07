@@ -39,21 +39,21 @@ formatter.match({
   "location": "borrarCuentaTest.Usuario_conectado_quiere_borrar_su_cuenta()"
 });
 formatter.result({
-  "duration": 2667028800,
+  "duration": 6072305900,
   "status": "passed"
 });
 formatter.match({
   "location": "borrarCuentaTest.Datos_correctos()"
 });
 formatter.result({
-  "duration": 22200,
+  "duration": 18700,
   "status": "passed"
 });
 formatter.match({
   "location": "borrarCuentaTest.Borrar_cuenta_y_cambiar_publicaciones_de_propietario()"
 });
 formatter.result({
-  "duration": 296388700,
+  "duration": 1008149400,
   "status": "passed"
 });
 formatter.uri('cucumberJava\CreacionUsuario.feature');
@@ -97,21 +97,21 @@ formatter.match({
   "location": "crearCuentaTest.Usuario_en_pagina_de_creacion()"
 });
 formatter.result({
-  "duration": 4897900,
+  "duration": 5613800,
   "status": "passed"
 });
 formatter.match({
   "location": "crearCuentaTest.Nombre_email_contrase_a_y_confirmacion_validos()"
 });
 formatter.result({
-  "duration": 902000,
+  "duration": 1117400,
   "status": "passed"
 });
 formatter.match({
   "location": "crearCuentaTest.Mensaje_de_validacion_y_usuario_insertado()"
 });
 formatter.result({
-  "duration": 234795700,
+  "duration": 421111800,
   "status": "passed"
 });
 formatter.scenario({
@@ -147,21 +147,21 @@ formatter.match({
   "location": "crearCuentaTest.Usuario_en_pagina_de_creacion()"
 });
 formatter.result({
-  "duration": 17500,
+  "duration": 22200,
   "status": "passed"
 });
 formatter.match({
   "location": "crearCuentaTest.Email_no_tiene_extension_alu_uclm_es()"
 });
 formatter.result({
-  "duration": 33300,
+  "duration": 26800,
   "status": "passed"
 });
 formatter.match({
   "location": "crearCuentaTest.Mensaje_de_error_a_la_creacion_email_invaildo()"
 });
 formatter.result({
-  "duration": 93900,
+  "duration": 93300,
   "status": "passed"
 });
 formatter.scenario({
@@ -197,21 +197,21 @@ formatter.match({
   "location": "crearCuentaTest.Usuario_en_pagina_de_creacion()"
 });
 formatter.result({
-  "duration": 17300,
+  "duration": 28000,
   "status": "passed"
 });
 formatter.match({
   "location": "crearCuentaTest.Contrase_a_y_su_confirmacion_no_coinciden()"
 });
 formatter.result({
-  "duration": 20400,
+  "duration": 43700,
   "status": "passed"
 });
 formatter.match({
   "location": "crearCuentaTest.Mensaje_de_error_a_la_creacion_password_no_coinciden()"
 });
 formatter.result({
-  "duration": 65400,
+  "duration": 61900,
   "status": "passed"
 });
 formatter.scenario({
@@ -247,21 +247,21 @@ formatter.match({
   "location": "crearCuentaTest.Usuario_en_pagina_de_creacion()"
 });
 formatter.result({
-  "duration": 16600,
+  "duration": 20000,
   "status": "passed"
 });
 formatter.match({
   "location": "crearCuentaTest.Nombre_no_tiene_el_formato_adecuado()"
 });
 formatter.result({
-  "duration": 30200,
+  "duration": 31600,
   "status": "passed"
 });
 formatter.match({
   "location": "crearCuentaTest.Mensaje_de_error_a_la_creacion_nombre_invalido()"
 });
 formatter.result({
-  "duration": 43000,
+  "duration": 102500,
   "status": "passed"
 });
 formatter.scenario({
@@ -297,21 +297,21 @@ formatter.match({
   "location": "crearCuentaTest.Usuario_en_pagina_de_creacion()"
 });
 formatter.result({
-  "duration": 16000,
+  "duration": 20900,
   "status": "passed"
 });
 formatter.match({
   "location": "crearCuentaTest.Password_no_tiene_la_seguridad_adecuada()"
 });
 formatter.result({
-  "duration": 25400,
+  "duration": 31400,
   "status": "passed"
 });
 formatter.match({
   "location": "crearCuentaTest.Mensaje_de_error_a_la_creacion_password_poco_segura()"
 });
 formatter.result({
-  "duration": 112900,
+  "duration": 127200,
   "status": "passed"
 });
 formatter.scenario({
@@ -347,21 +347,21 @@ formatter.match({
   "location": "crearCuentaTest.Usuario_en_pagina_de_creacion()"
 });
 formatter.result({
-  "duration": 20000,
+  "duration": 22200,
   "status": "passed"
 });
 formatter.match({
   "location": "crearCuentaTest.Nombre_que_intenta_registrar_ya_existe()"
 });
 formatter.result({
-  "duration": 293400,
+  "duration": 430100,
   "status": "passed"
 });
 formatter.match({
   "location": "crearCuentaTest.Mensaje_de_error_a_la_creacion_cuenta_ya_existente()"
 });
 formatter.result({
-  "duration": 53487100,
+  "duration": 104870300,
   "status": "passed"
 });
 formatter.uri('cucumberJava\EliminarAmigo.feature');
@@ -405,21 +405,21 @@ formatter.match({
   "location": "borrarAmigoTest.Usuario_conectado_para_borrar_a_otro_usuario()"
 });
 formatter.result({
-  "duration": 260016100,
+  "duration": 727635200,
   "status": "passed"
 });
 formatter.match({
   "location": "borrarAmigoTest.Eliminar_un_usuario_que_es_tu_amigo()"
 });
 formatter.result({
-  "duration": 1185017900,
+  "duration": 2428472800,
   "status": "passed"
 });
 formatter.match({
   "location": "borrarAmigoTest.Borrar_amigo_de_ambos_usuarios()"
 });
 formatter.result({
-  "duration": 733347500,
+  "duration": 2254367800,
   "status": "passed"
 });
 formatter.scenario({
@@ -455,21 +455,21 @@ formatter.match({
   "location": "borrarAmigoTest.Usuario_conectado_para_borrar_a_otro_usuario()"
 });
 formatter.result({
-  "duration": 224196900,
+  "duration": 531449800,
   "status": "passed"
 });
 formatter.match({
   "location": "borrarAmigoTest.Eliminar_un_usuario_que_no_es_tu_amigo()"
 });
 formatter.result({
-  "duration": 243707200,
+  "duration": 469864100,
   "status": "passed"
 });
 formatter.match({
   "location": "borrarAmigoTest.Mensaje_de_error_a_la_revocacion_de_usuario()"
 });
 formatter.result({
-  "duration": 224588600,
+  "duration": 347020700,
   "status": "passed"
 });
 formatter.uri('cucumberJava\Login.feature');
@@ -513,21 +513,21 @@ formatter.match({
   "location": "loginTest.Usuario_en_pagina_de_login()"
 });
 formatter.result({
-  "duration": 6272200,
+  "duration": 6367300,
   "status": "passed"
 });
 formatter.match({
   "location": "loginTest.Credenciales_correctas()"
 });
 formatter.result({
-  "duration": 66200,
+  "duration": 52800,
   "status": "passed"
 });
 formatter.match({
   "location": "loginTest.Mensaje_de_bienvenida_al_login()"
 });
 formatter.result({
-  "duration": 64323800,
+  "duration": 434705500,
   "status": "passed"
 });
 formatter.scenario({
@@ -563,21 +563,21 @@ formatter.match({
   "location": "loginTest.Usuario_en_pagina_de_login()"
 });
 formatter.result({
-  "duration": 19700,
+  "duration": 27000,
   "status": "passed"
 });
 formatter.match({
   "location": "loginTest.Nombre_de_usuario_incorrecto()"
 });
 formatter.result({
-  "duration": 27400,
+  "duration": 47400,
   "status": "passed"
 });
 formatter.match({
   "location": "loginTest.Mensaje_de_error_al_login()"
 });
 formatter.result({
-  "duration": 55979900,
+  "duration": 117574600,
   "status": "passed"
 });
 formatter.scenario({
@@ -613,21 +613,21 @@ formatter.match({
   "location": "loginTest.Usuario_en_pagina_de_login()"
 });
 formatter.result({
-  "duration": 23300,
+  "duration": 19000,
   "status": "passed"
 });
 formatter.match({
   "location": "loginTest.Contrase_a_incorrecta()"
 });
 formatter.result({
-  "duration": 24300,
+  "duration": 25200,
   "status": "passed"
 });
 formatter.match({
   "location": "loginTest.Mensaje_de_error_al_login()"
 });
 formatter.result({
-  "duration": 51483800,
+  "duration": 93242000,
   "status": "passed"
 });
 formatter.uri('cucumberJava\Publicar.feature');
@@ -671,21 +671,21 @@ formatter.match({
   "location": "publicarTest.Usuario_en_pagina_principal()"
 });
 formatter.result({
-  "duration": 3840200,
+  "duration": 5696200,
   "status": "passed"
 });
 formatter.match({
   "location": "publicarTest.Publicacion_correcta()"
 });
 formatter.result({
-  "duration": 79933300,
+  "duration": 192330500,
   "status": "passed"
 });
 formatter.match({
   "location": "publicarTest.Mensaje_de_exito_a_la_publicacion()"
 });
 formatter.result({
-  "duration": 52990000,
+  "duration": 459417600,
   "status": "passed"
 });
 formatter.uri('cucumberJava\SolicitudesAceptar.feature');
@@ -729,21 +729,21 @@ formatter.match({
   "location": "solicitudAceptarTest.Usuario_conectado_para_aceptar()"
 });
 formatter.result({
-  "duration": 255358400,
+  "duration": 437159600,
   "status": "passed"
 });
 formatter.match({
   "location": "solicitudAceptarTest.Acepta_solicitud_de_alguien_que_le_ha_mandado()"
 });
 formatter.result({
-  "duration": 1007410400,
+  "duration": 2440976300,
   "status": "passed"
 });
 formatter.match({
   "location": "solicitudAceptarTest.Aceptar_como_amigo()"
 });
 formatter.result({
-  "duration": 336339900,
+  "duration": 540244400,
   "status": "passed"
 });
 formatter.scenario({
@@ -779,21 +779,21 @@ formatter.match({
   "location": "solicitudAceptarTest.Usuario_conectado_para_aceptar()"
 });
 formatter.result({
-  "duration": 338061300,
+  "duration": 412251800,
   "status": "passed"
 });
 formatter.match({
   "location": "solicitudAceptarTest.Acepta_solicitud_de_alguien_que_no_le_ha_mandado()"
 });
 formatter.result({
-  "duration": 308076500,
+  "duration": 888877200,
   "status": "passed"
 });
 formatter.match({
   "location": "solicitudAceptarTest.Mensaje_de_error_a_la_aceptacion()"
 });
 formatter.result({
-  "duration": 240817700,
+  "duration": 366677100,
   "status": "passed"
 });
 formatter.uri('cucumberJava\SolicitudesEnvio.feature');
@@ -837,21 +837,21 @@ formatter.match({
   "location": "solicitudEnviarTest.Usuario_conectado_para_enviar_solicitud()"
 });
 formatter.result({
-  "duration": 238014900,
+  "duration": 380197900,
   "status": "passed"
 });
 formatter.match({
   "location": "solicitudEnviarTest.Selecciona_otro_usuario_sin_ser_amigos_ni_tener_solicitudes_entre_ellos()"
 });
 formatter.result({
-  "duration": 168583000,
+  "duration": 415128100,
   "status": "passed"
 });
 formatter.match({
   "location": "solicitudEnviarTest.Envio_solicitud_al_segundo()"
 });
 formatter.result({
-  "duration": 555107300,
+  "duration": 919199800,
   "status": "passed"
 });
 formatter.scenario({
@@ -887,21 +887,21 @@ formatter.match({
   "location": "solicitudEnviarTest.Usuario_conectado_para_enviar_solicitud()"
 });
 formatter.result({
-  "duration": 236717600,
+  "duration": 684986700,
   "status": "passed"
 });
 formatter.match({
   "location": "solicitudEnviarTest.Selecciona_a_otro_usuario_siendo_su_amigo()"
 });
 formatter.result({
-  "duration": 1051235100,
+  "duration": 3335774900,
   "status": "passed"
 });
 formatter.match({
   "location": "solicitudEnviarTest.No_envio_de_solicitud()"
 });
 formatter.result({
-  "duration": 253393900,
+  "duration": 331325200,
   "status": "passed"
 });
 formatter.scenario({
@@ -937,21 +937,21 @@ formatter.match({
   "location": "solicitudEnviarTest.Usuario_conectado_para_enviar_solicitud()"
 });
 formatter.result({
-  "duration": 262245700,
+  "duration": 335473100,
   "status": "passed"
 });
 formatter.match({
   "location": "solicitudEnviarTest.Selecciona_a_otro_usuario_teniendo_solicitudes_pendientes_entre_ellos()"
 });
 formatter.result({
-  "duration": 455059000,
+  "duration": 818328600,
   "status": "passed"
 });
 formatter.match({
   "location": "solicitudEnviarTest.Solicitud_ya_enviada()"
 });
 formatter.result({
-  "duration": 177305300,
+  "duration": 264857500,
   "status": "passed"
 });
 formatter.uri('cucumberJava\SolicitudesRechazo.feature');
@@ -995,21 +995,21 @@ formatter.match({
   "location": "solicitudRechazarTest.Usuario_conectado_para_rechazar()"
 });
 formatter.result({
-  "duration": 243806100,
+  "duration": 378047400,
   "status": "passed"
 });
 formatter.match({
   "location": "solicitudRechazarTest.Rechazar_solicitud_de_alguien_que_le_ha_mandado()"
 });
 formatter.result({
-  "duration": 830202800,
+  "duration": 1589769500,
   "status": "passed"
 });
 formatter.match({
   "location": "solicitudRechazarTest.Rechazar_peticion_de_amistad()"
 });
 formatter.result({
-  "duration": 325152600,
+  "duration": 428716600,
   "status": "passed"
 });
 formatter.scenario({
@@ -1045,21 +1045,21 @@ formatter.match({
   "location": "solicitudRechazarTest.Usuario_conectado_para_rechazar()"
 });
 formatter.result({
-  "duration": 229728200,
+  "duration": 337973800,
   "status": "passed"
 });
 formatter.match({
   "location": "solicitudRechazarTest.Rechazar_solicitud_de_alguien_que_no_le_ha_mandado()"
 });
 formatter.result({
-  "duration": 253463500,
+  "duration": 661993800,
   "status": "passed"
 });
 formatter.match({
   "location": "solicitudRechazarTest.Mensaje_de_error_al_rechazo_de_la_peticion()"
 });
 formatter.result({
-  "duration": 193054300,
+  "duration": 575262700,
   "status": "passed"
 });
 formatter.uri('cucumberJava\editarPublicacionBD.feature');
@@ -1103,21 +1103,21 @@ formatter.match({
   "location": "editarPublicacionBDTest.El_usuario_quiere_editar_una_publicacion()"
 });
 formatter.result({
-  "duration": 62849400,
+  "duration": 98389600,
   "status": "passed"
 });
 formatter.match({
   "location": "editarPublicacionBDTest.Edicion_correcta()"
 });
 formatter.result({
-  "duration": 114932600,
+  "duration": 184229300,
   "status": "passed"
 });
 formatter.match({
   "location": "editarPublicacionBDTest.Mensaje_de_exito_en_la_edicion_de_la_publicacion()"
 });
 formatter.result({
-  "duration": 80635600,
+  "duration": 89875900,
   "status": "passed"
 });
 formatter.uri('cucumberJava\eliminarPublicacionBD.feature');
@@ -1161,21 +1161,21 @@ formatter.match({
   "location": "eliminarPublicacionBDTest.Usuario_quiere_eliminar_una_publiacion()"
 });
 formatter.result({
-  "duration": 67091400,
+  "duration": 98891700,
   "status": "passed"
 });
 formatter.match({
   "location": "eliminarPublicacionBDTest.Eliminacion_correcta()"
 });
 formatter.result({
-  "duration": 398092400,
+  "duration": 397504400,
   "status": "passed"
 });
 formatter.match({
   "location": "eliminarPublicacionBDTest.Mensaje_de_exito_en_la_eliminacion_de_publicacion()"
 });
 formatter.result({
-  "duration": 60814900,
+  "duration": 102079200,
   "status": "passed"
 });
 });
