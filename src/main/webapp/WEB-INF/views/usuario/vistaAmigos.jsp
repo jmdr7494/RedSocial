@@ -116,7 +116,7 @@ body > #wrap {
 		</div>
 			
 		<div class="row">
-			<div class="col-md-5 col-md-offset-1">
+			<div class="col-md-8 col-md-offset-2">
 				<div class="panel panel-default">
 					 <div class="panel-body">
 					 
@@ -156,16 +156,17 @@ body > #wrap {
 					</div>
 				</div>
 			</div>
+		</div>
 		
-				
-			<div class="col-md-5 col-md-offset-1">
+		
+		
+
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
 				<div class="panel panel-default">
 					 <div class="panel-body">
 						<div class="col-md-12">
-							<form action="mostrarNotificaciones" method="get">
-								<label for="usr" style="color:black; font-size:15px;">Notificaciones:</label>
-								<button class="btn btn-primary btn-block login" type="submit">&nbsp;&nbsp;   Notificaciones   &nbsp;&nbsp;</button>
-							</form>
+							<form action="mostrarNotificaciones" method="get"><button class="btn btn-primary btn-block login" type="submit">&nbsp;&nbsp;   Notificaciones   &nbsp;&nbsp;</button></form>
 						</div>
 					
 						<div class="col-md-12">
@@ -175,7 +176,7 @@ body > #wrap {
 				</div>
 			</div>
 		</div>
-
+		
 	
 	<div class="col-md-12" style="position: fixed; bottom: 0;">
 		<div class="panel-footer">
