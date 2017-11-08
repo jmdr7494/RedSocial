@@ -144,7 +144,7 @@ body{
 							</form>
 						</li>
 						<li>
-							<form action="changeToUser" method="post">
+							<form action="irPerfilUsuario" method="GET">
 								<button type="submit" class="boton btn-default">
 									<strong>
 										<span class="glyphicon glyphicon-wrench"></span> Editar Perfil 

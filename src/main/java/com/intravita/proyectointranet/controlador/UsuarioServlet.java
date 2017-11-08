@@ -1,6 +1,7 @@
 package com.intravita.proyectointranet.controlador;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -729,13 +730,9 @@ public class UsuarioServlet {
    String pwdNueva1=request.getParameter("txtPwdNueva1");
    String pwdNueva2=request.getParameter("txtPwdNueva2");
    
-   System.out.println ("Hola voy a buscar el usuario");
    Usuario usuario = usuarioDao.selectPwd(pwdTemporal);// buscar encriptada
-   if (usuario==null) {
-	   System.out.println ("hola soy nulo");
-   }
-    
-    
+   
+
    if (usuario==null || !(pwdNueva1.equals(pwdNueva2))) {
 	   model.addAttribute(alert, "Datos incorrectos");
 	   return "usuario/reestablecerPwd";
@@ -897,6 +894,61 @@ public class UsuarioServlet {
   *@method Esta funciï¿½n sirve para controlar los cambios de vista por nombre(string)
   *
   */
+  
+  
+//By JA
+  @RequestMapping(value="/irPerfilUsuario", method = RequestMethod.GET)
+  public ModelAndView irPerfilUsuario(HttpServletRequest request) throws Exception  {
+	 Usuario usuarioLigero = (Usuario) request.getSession().getAttribute(usuario_conect);
+	 Usuario usuario = usuarioDao.selectNombre(usuarioLigero.getNombre());
+	 System.out.println(usuario.getNombre());
+	 System.out.println(usuario.getEmail());
+	  request.setAttribute("usuarioNombre", usuario.getNombre());
+	  request.setAttribute("usuarioEmail", usuario.getEmail());
+   return cambiarVista("usuario/perfilUsuario");
+  }
+  
+  //By JA
+  @RequestMapping(value="/modificarPerfilUsuario", method = RequestMethod.POST)
+  public String modificarPerfilUsuario(HttpServletRequest request, Model model) throws Exception  {
+	  
+	  
+	  String pwdNueva1=request.getParameter("txtPwdNueva1");
+	  String pwdNueva2=request.getParameter("txtPwdNueva2");
+	  
+	  Usuario usuarioLigero = (Usuario) request.getSession().getAttribute(usuario_conect);
+	  Usuario usuario = usuarioDao.selectNombre(usuarioLigero.getNombre());
+	  if (usuario==null || !(pwdNueva1.equals(pwdNueva2))) {
+		  request.setAttribute("usuarioNombre", usuario.getNombre());
+		  request.setAttribute("usuarioEmail", usuario.getEmail());
+		   model.addAttribute(alert, "Datos incorrectos");
+		   return "usuario/perfilUsuario";
+				   
+	   }
+	   
+		  try {
+			   utilidades.seguridadPassword(pwdNueva1);
+		  }
+		   catch (Exception e) {
+			   model.addAttribute(alert, e.getMessage());
+			   request.setAttribute("usuarioNombre", usuario.getNombre());
+			   request.setAttribute("usuarioEmail", usuario.getEmail());
+			   return "usuario/perfilUsuario"; 
+		   }
+	   
+		   usuario.setClave(pwdNueva1); 
+		   usuarioDao.updatePwd(usuario);
+		   
+	   return "usuario/bienvenido";
+	   
+} 
+	  	  
+	  
+	  
+
+  
+  
+  
  public ModelAndView cambiarVista(String nombreVista) {
   ModelAndView vista =new ModelAndView(nombreVista);
   return vista;
