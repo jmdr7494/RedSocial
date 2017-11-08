@@ -41,6 +41,8 @@
 					<div class="modal-body">
 						Para borrar su cuenta debe introducir su contraseña y la respuesta a la pregunta
 						que se le formuló durante su registro. A continuación debe hacer click en el botón Borrar.
+						<br>
+						Deberá confirmar que está seguro que desea borrar su cuenta.
 					</div>
 				</div>
 			</div>
@@ -58,7 +60,7 @@
 		</div>
 	</div>
 
-	<form action="borrarCuenta" method="post">
+	
 		<div class="row">
 		 	<div class="col-md-8 col-md-offset-2">
 		 		<label for="usr">Password:</label>
@@ -69,7 +71,7 @@
 		
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
-				<label for="usr">¿Cual es tu mejor amigo/a de la infancia?</label>
+				<label for="usr">¿Cuál es tu mejor amigo/a de la infancia?</label>
 				<input name="txtRespuesta" type="text" class="form-control" id="usr" placeholder="respuesta">
 				<br>
 			</div>
@@ -77,11 +79,39 @@
 		
 		<div class="row">
 			<div class="col-md-1 col-md-offset-9">
-				<button class="btn btn-info btn-block" type="submit" value="borrar">Borrar</button>
+				<button class="btn btn-info btn-block" type="submit" data-toggle="modal" data-target="#miModales" value="borrar">Borrar</button>
 			</div>	  
 		</div>
 	<br>
-	</form>
+
+	
+	
+	<div class="modal fade" id="miModales" tabindex="-1" role="dialog" aria-labelledby="myModalLabeles" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+						<h4 class="modal-title" id="myModalLabeles">Borrar cuenta</h4>
+					</div>
+					<div class="modal-body">
+						¿Estás seguro de que deseas eliminar tu cuenta?
+						<br><br>
+						<form action="borrarCuenta" method="post">
+							<input name="txtUsuarioPwd" autofocus type="password" class="form-control" id="usr" placeholder="password">
+							<input name="txtRespuesta" type="text" class="form-control" id="usr" placeholder="respuesta"> 
+							<button class="btn btn-success btn-md btn-block" type="submit">Si</button>
+							<br>
+						</form>
+						<form action="irBorradoCuenta" method="get">
+							<button class="btn btn-danger btn-md btn-block" type="submit">No</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	
 	
 	<div class="col-md-12" style="position: fixed; bottom: 0;">
 		<div class="panel-footer">

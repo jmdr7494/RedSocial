@@ -94,9 +94,15 @@ body > #wrap {
 	            <h4 class="modal-title" id="myModalLabel">Ayuda</h4>
 	          </div>
 	          <div class="modal-body">
-	            Introduzca el nombre del amigo que quiera buscar y a continuación haga click en buscar.
-	            Si existe algún usuario con ese nombre, le aparecerá en la lista, de forma que tendrá
-	            que agregarlo como amigo en caso de que no lo tengas ya.
+	            En la columna de la izquierda debe introducir el nombre del amigo que quiera buscar y 
+	            a continuación haga click en buscar. Si existe algún usuario con ese nombre, le 
+	            aparecerá en la lista, de forma que tendrá que agregarlo como amigo en caso de que no 
+	            lo tengas ya.
+	            <br><br>
+	            En la columna de la derecha, nos aparecerán las peticiones de amistad (en caso de que 
+	            tengamos alguna), la cual la podremos aceptar o rechazar. Si no nos deja mandar la 
+	            petición es porque ya sois amigos o porque alguno de los dos ya ha mandado la petición
+	            al otro. 
 	          </div>
 	        </div>
 	      </div>
@@ -116,15 +122,14 @@ body > #wrap {
 		</div>
 			
 		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
+			<div class="col-md-5 col-md-offset-1">
 				<div class="panel panel-default">
 					 <div class="panel-body">
 					 
 					    <form action="buscarAmigos" method="post" id="formlogin">
 					    	<div class="row">
 						 		<div class="col-md-12">
-						 			<br/>
-						 			<label for="usr" style="color:black; font-size:15px;">Buscar:</label>
+						 			<label for="usr" style="color:black; font-size:15px;">Buscar amigos:</label>
 									<input name="txtUsuarioNombre" autofocus type="text" class="form-control" id="usr" placeholder="usuario" onFocus="if(this.value!='')this.value=''">
 								</div>  
 							</div>
@@ -156,17 +161,16 @@ body > #wrap {
 					</div>
 				</div>
 			</div>
-		</div>
 		
-		
-		
-
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
+				
+			<div class="col-md-5">
 				<div class="panel panel-default">
 					 <div class="panel-body">
 						<div class="col-md-12">
-							<form action="mostrarNotificaciones" method="get"><button class="btn btn-primary btn-block login" type="submit">&nbsp;&nbsp;   Notificaciones   &nbsp;&nbsp;</button></form>
+							<form action="mostrarNotificaciones" method="get">
+								<label for="usr" style="color:black; font-size:15px;">Peticiones de amistad:</label>
+								<button class="btn btn-primary btn-block login" type="submit">&nbsp;&nbsp;   Peticiones   &nbsp;&nbsp;</button>
+							</form>
 						</div>
 					
 						<div class="col-md-12">
@@ -176,7 +180,7 @@ body > #wrap {
 				</div>
 			</div>
 		</div>
-		
+
 	
 	<div class="col-md-12" style="position: fixed; bottom: 0;">
 		<div class="panel-footer">
