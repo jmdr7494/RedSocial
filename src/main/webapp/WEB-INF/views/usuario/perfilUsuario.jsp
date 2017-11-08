@@ -105,8 +105,8 @@ spam {
 		
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-				<label for="usr" style="color:white; font-size:15px;">Email</label>
-				<input type="text" class="form-control" id="usr" name="txtEmail" disabled value=<%=request.getAttribute("usuarioEmail")%>>
+				<label for="email" style="color:white; font-size:15px;">Email:</label>
+				<input type="text" class="form-control" id="email" name="txtEmail" disabled value=<%=request.getAttribute("usuarioEmail")%>>
 			</div>
 		</div>
 		
