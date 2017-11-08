@@ -75,25 +75,18 @@ spam {
 						</button>
 						<h4 class="modal-title" id="myModalLabel">Ayuda</h4>
 					</div>
-					<div class="modal-body"><%-- Poner ayuda para modificar el perfil --%>
-						Para poder usar IntraVita tendrá que rellenar el cuestionario con sus datos personales, 
-						respetando las políticas de seguridad y estructuras que son necesarias.<br><br>
-						- Para el nombre de usuario: nombre.apellido<br>
-						- Para el mail: será el corporativo de la empresa, con la extensión @alu.uclm.es<br>
-						- Para la contraseña: longitud mínima de 8 caracteres, utilizando letras y números<br>
-						- Para la confirmación: tiene que ser igual que la contraseña anterior<br>
-						- Para la respuesta: utilice una respuesta de la que se acordará en el futuro<br>
-						- Foto de perfil: introduzca una foto suya preferentemente con fondo blanco
-						
+					<div class="modal-body"><%-- Poner ayuda para modificar el perfil  By JA--%>
+						Para poder modificar la contraseña de su perfil, introduzca una nueva contraseña personal
+						y confirme dicha contraseña
 					</div>
 				</div>
 			</div>
 		</div>
-	<%-- volver al muro --%>
+	<%-- volver al muro By JA--%>
 	<div class="row">
 		<div class="col-md-1 col-md-offset-10">
 			<br>
-			<form action="irLogin" method="GET">
+			<form action="irBienvenido" method="GET">
 				<button class="btn btn-danger btn-block btn-md login" type="submit">Volver</button>
 			</form>	
 					
@@ -101,35 +94,34 @@ spam {
 		</div>
 	</div>
 
-	<%-- action modificar perfil --%>
+	<%-- action modificar perfil By JA--%>
 	<form action="modificarPerfilUsuario" method="POST"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				<div class="row">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<label for="usr" style="color:white; font-size:15px;">Usuario:</label>
+				<input type="text" class="form-control" id="usr" name="txtUsuarioNombre" disabled value=<%=request.getAttribute("usuarioNombre")%>>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<label for="usr" style="color:white; font-size:15px;">Email</label>
+				<input type="text" class="form-control" id="usr" name="txtEmail" disabled value=<%=request.getAttribute("usuarioEmail")%>>
+			</div>
+		</div>
+		
+		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
 				<label for="pwd" style="color:white; font-size:15px">Modificar contraseña:</label>
-		  		<input type="password" class="form-control" id="pwd" name="txtUsuarioClave" placeholder="password">
+		  		<input type="password" class="form-control" id="pwd" name="txtPwdNueva1" placeholder="password">
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
 			  	<label for="pwd1" style="color:white; font-size:15px">Confirmar Contraseña:</label>
-			  	<input type="password" class="form-control" id="pwd1" name="txtUsuarioClave1" placeholder="confirmacion password">	
+			  	<input type="password" class="form-control" id="pwd1" name="txtPwdNueva2" placeholder="confirmacion password">	
 			</div>
 		</div>
-		
-	
-			<script>
-				$(document).on('ready', function() {
-				    $("#input-b5").fileinput({showCaption: false});
-				});
-			</script>
-			
-			<br>
-			<img src="input-b5" width="128px" height="128px" class="img-circle">
-			</div>
-		</div>
-		
-		<br>
-		<br>
 		
 		<div class="row">
 			<div class="col-md-2 col-md-offset-5">
