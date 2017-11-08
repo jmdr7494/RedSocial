@@ -191,8 +191,8 @@ public class utilidades {
 	 * @return excepcion si algo falla, si no, envia la solicitud emisor->receptor
 	 */
 	public static void enviarSolicitud(Usuario emisor, Usuario receptor) throws Exception{
-		if(comprobarSolicitudes(emisor,receptor)) throw new Exception("Ya tienes una solicitud de ese usuario");
-		
+		if(comprobarSolicitudes(emisor,receptor)) throw new Exception("Ya has enviado una solicitud a ese usuario.");
+		if(comprobarSolicitudes(receptor,emisor)) throw new Exception("Ya tienes una solicitud de ese usuario.");
 		if(comprobarAmistad(emisor,receptor)) throw new Exception("Ya sois amigos");
 		if(comprobarAmistad(receptor,emisor)) throw new Exception("Ya sois amigos");
 		
