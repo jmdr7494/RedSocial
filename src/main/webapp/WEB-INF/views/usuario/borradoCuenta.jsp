@@ -16,6 +16,16 @@
 
 <script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="   crossorigin="anonymous"></script>
 
+<style>
+	span {
+	    padding: 20px;
+	    color: #DF0101;
+	    margin-left: 12px;
+		font-weight: bold;
+		font-size: 15px;
+	}
+</style>
+
 </head>
 <body>
 
@@ -113,7 +123,11 @@
 			</div>
 		</div>
 	
-	
+		<div class="row">
+			<div class="col-md-3 col-md-offset-8">
+				<t><span><em>${alerta}</em></span></t>
+			</div>
+		</div>
 		
 	
 	
@@ -121,7 +135,7 @@
 		<div class="panel-footer">
 			© Copyright 2017 IntraVita. Todos los derechos reservados.
 		</div>
-	</div>>
+	</div>
 	
 	<!-- Script para obtener los datos de los input en el modal de confirmación de borrar cuenta -->
 	<script>
