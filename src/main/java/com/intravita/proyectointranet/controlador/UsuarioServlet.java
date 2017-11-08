@@ -58,7 +58,7 @@ public class UsuarioServlet {
  private final String admin_conect = "administradorConectado";
  private final String usuario_conect = "usuarioConectado";
  private final String alert = "alerta";
-
+ private final String usuario_edit="usuarioParaEditar";
  
  private static final Logger logger = LoggerFactory.getLogger(UsuarioServlet.class);
  
@@ -88,6 +88,10 @@ public class UsuarioServlet {
  public ModelAndView irRegistrar(){  
   return cambiarVista("usuario/registrar");
  }
+ @RequestMapping(value="/irAdmin",method = RequestMethod.GET)
+ public ModelAndView irAdmin(){  
+  return cambiarVista("usuario/inicioAdmin");
+ }
  
  @RequestMapping(value="/irVerPublicaciones",method = RequestMethod.GET)
  public ModelAndView irVerPublicaciones(){
@@ -104,6 +108,12 @@ public class UsuarioServlet {
  @RequestMapping(value="/irVistaAmigos",method = RequestMethod.GET)
  public ModelAndView irVistaAmigos(){
   return cambiarVista("usuario/vistaAmigos");
+ }
+ @RequestMapping(value="/irPerfilUsuarioAdmin",method = RequestMethod.POST)
+ public ModelAndView irPerfilUsuarioAdmin(HttpServletRequest request, Model model){
+	 String nombre=request.getParameter("txtNombre");
+	 request.getSession().setAttribute(usuario_edit, new Usuario(nombre));
+	 return cambiarVista("usuario/perfilUsuarioAdmin");
  }
  
  /***
@@ -463,10 +473,95 @@ public class UsuarioServlet {
   cadenaUrl+=welcome; 
   return cadenaUrl;
  }
+ 
+ 
  /***
   * 
-  * @method permite ver las publicac
- iones realizadas por un usuario(de momento, luego cambiar a segï¿½n la visibilidad y amigos)
+  * @method permite ver las publicaciones realizadas por un usuario y borrarlas para que un admin las borre
+  * 
+  */
+ @RequestMapping(value="/listarPublicacionUsuario", method = RequestMethod.POST)
+ public String listarPublicacionUsuario(HttpServletRequest request, Model model) throws Exception  {
+  String cadenaUrl=usuarioServ;
+  Usuario usuario= (Usuario) request.getSession().getAttribute(usuario_edit);
+  ArrayList<Publicacion> publicas=publicacionDao.selectPublicas(usuario);
+  ArrayList<Publicacion> privadas=publicacionDao.selectPrivadas(usuario);
+  Publicacion[] todas=utilidades.mostrarPublicaciones(publicas, privadas);
+  String texto="";
+  String nombre="";
+  for(int i=0; i<todas.length; i++) {
+	  nombre=todas[i].getUsuario().getNombre();
+	  texto = texto+"<div class=\"panel panel-default\">\r\n" + 
+		  		"	<div class=\"panel-body\">\r\n" + 
+		  		"			<b> "+ nombre +" </b> \r\n" + 
+		  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"ï¿½Quï¿½ tal el dï¿½a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
+		  		"			<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
+		  		"			<button class=\"btn btn-primary btn-block btn-md login\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModals\">Editar</button>\r\n" + 
+		  		"<div class=\"modal fade\" id=\"miModals\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalsLabel\" aria-hidden=\"true\">\r\n" + 
+		  		"			<div class=\"modal-dialog\" role=\"document\">\r\n" + 
+		  		"				<div class=\"modal-content\">\r\n" + 
+		  		"					<div class=\"modal-header\">\r\n" + 
+		  		"						<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n" + 
+		  		"							<span aria-hidden=\"true\">&times;</span>\r\n" + 
+		  		"						</button>\r\n" + 
+		  		"						<h4 class=\"modal-title\" id=\"myModalsLabel\">Editar</h4>\r\n" + 
+		  		"					</div>\r\n" + 
+		  		"					<div class=\"modal-body\">\r\n" + 
+		  		"						¿Está seguro que desea editar la publicación?\r\n" + 
+		  		"						<br>\r\n" + 
+		  		"						<form action=\"editarPubli\" method=\"POST\">\r\n" + 
+		  		"							<textarea name=\"txtIntroducirTexto\" placeholder=\"ï¿½Quï¿½ tal el dï¿½a?\" class=\"form-control\" rows=\"5\" id=\"comment\">"+ todas[i].getTexto()+"</textarea>\r\n" + 
+		  		"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
+		  		"							<br>" + 
+		  		"							<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
+		  		"						</form>\r\n" + 
+		  		"						<form action=\"listarPublicacion\" method=\"POST\">\r\n" + 
+		  		"							<br>\r\n" + 
+		  		"							<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
+		  		"						</form>\r\n" + 
+		  		"					</div>\r\n" + 
+		  		"				</div>\r\n" + 
+		  		"			</div>\r\n" + 
+		  		"		</div>" + 
+		  		
+		"<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModalss\">Eliminar</button>\r\n" + 
+		"<div class=\"modal fade\" id=\"miModalss\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalssLabel\" aria-hidden=\"true\">\r\n" + 
+		"			<div class=\"modal-dialog\" role=\"document\">\r\n" + 
+		"				<div class=\"modal-content\">\r\n" + 
+		"					<div class=\"modal-header\">\r\n" + 
+		"						<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n" + 
+		"							<span aria-hidden=\"true\">&times;</span>\r\n" + 
+		"						</button>\r\n" + 
+		"						<h4 class=\"modal-title\" id=\"myModalssLabel\">Editar</h4>\r\n" + 
+		"					</div>\r\n" + 
+		"					<div class=\"modal-body\">\r\n" + 
+		"						¿Está seguro que desea eliminar la publicación?\r\n" + 
+		"						<br>\r\n" + 
+		"						<form action=\"eliminarPubli\" method=\"POST\">\r\n" + 
+		"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
+		"							<br>" + 
+		"							<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
+		"						</form>\r\n" + 
+		"						<form action=\"listarPublicacion\" method=\"POST\">\r\n" + 
+		"							<br>\r\n" + 
+		"							<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
+		"						</form>\r\n" + 
+		"					</div>\r\n" + 
+		"				</div>\r\n" + 
+		"			</div>\r\n" + 
+		"		</div>" + 
+		  		"	</div>\r\n" + 
+		  		"</div>	";		  
+
+  }
+  model.addAttribute("publicaciones", texto);
+  mostrarPerfilAdmin(request, model);
+  cadenaUrl+="perfilUsuarioAdmin";  
+  return cadenaUrl;
+ }
+ /***
+  * 
+  * @method permite ver las publicaciones realizadas por un usuario y sus amigos y editar/borrar las propias
   * 
   */
  @RequestMapping(value="/listarPublicacion", method = RequestMethod.POST)
@@ -568,7 +663,6 @@ public class UsuarioServlet {
 	  
 
   }
-  System.out.print(texto);
   model.addAttribute("publicaciones", texto);
   
   cadenaUrl+=welcome;  
@@ -759,6 +853,45 @@ public class UsuarioServlet {
 	   model.addAttribute("notificaciones", utilidades.mostrarNotificaciones(usuario));
 	   return "usuario/vistaAmigos";
   } 
+  /**
+   * @return muestra los datos de un usuario en la vista de admin y permite editar nombre y pwd
+   */
+  @RequestMapping(value="/mostrarPerfilAdmin", method = RequestMethod.GET)
+  public String mostrarPerfilAdmin(HttpServletRequest request, Model model) throws Exception  {
+	   Usuario usuario;
+	   usuario=(Usuario) request.getSession().getAttribute(usuario_edit);
+	   model.addAttribute("perfil", utilidades.mostrarPerfilAdmin(usuario));
+	   return "usuario/perfilUsuarioAdmin";
+  } 
+  /**
+   * @return editar Pwd de un usuario desde la vista de admin
+   */
+  @RequestMapping(value="/editarPwd", method = RequestMethod.GET)
+  public String editarPwd(HttpServletRequest request, Model model) throws Exception  {
+	   Usuario usuario;
+	   usuario=(Usuario) request.getSession().getAttribute(usuario_edit);
+	   usuario.setClave(request.getParameter("txtPWD"));
+	   usuarioDao.updatePwd(usuario);
+	   model.addAttribute("perfil", utilidades.mostrarPerfilAdmin(usuario));
+	   return "usuario/perfilUsuarioAdmin";
+  } 
+  
+  @RequestMapping(value="/editarNombre", method = RequestMethod.GET)
+  public String editarNombre(HttpServletRequest request, Model model){
+	   Usuario usuario;
+	   usuario=(Usuario) request.getSession().getAttribute(usuario_edit);
+	   String nuevoNombre=request.getParameter("txtNombre");
+	   try {
+		   utilidades.comprobacionNombre(nuevoNombre);
+		   usuarioDao.updateNombre(usuario.getNombre(), nuevoNombre);
+		   usuario.setNombre(nuevoNombre);
+		   request.getSession().setAttribute(usuario_edit, usuario);
+	   } catch (Exception e) {
+		   model.addAttribute("alerta", e.getMessage());
+	   }
+	   model.addAttribute("perfil", utilidades.mostrarPerfilAdmin(usuario));
+	   return "usuario/perfilUsuarioAdmin";
+  } 
  /***
   * 
   *@method Esta funciï¿½n sirve para controlar los cambios de vista por nombre(string)
@@ -768,5 +901,6 @@ public class UsuarioServlet {
   ModelAndView vista =new ModelAndView(nombreVista);
   return vista;
  }
+ 
 }
 
