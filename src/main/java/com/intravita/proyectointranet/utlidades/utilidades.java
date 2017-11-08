@@ -305,10 +305,13 @@ public class utilidades {
 					"			<input name=\"noSirve\" type=\"text\" class=\"form-control\" value=\""+ aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\" disabled>\r\n" + 
 					"			<input name=\"txtNombre\" type=\"hidden\" class=\"form-control\" value=\""+aux.getNombre() +"\" id=\"usr\" placeholder=\"usuario\" >\r\n" + 
 					"		</div>\r\n" + 
-					"		<div class=\"col-md-3\">\r\n" + 
+					"		<div class=\"col-md-2\">\r\n" + 
 					"			<button class=\"btn btn-success btn-block login\" formaction=\"promover\" type=\"submit\"><strong>Promover</strong></button>\r\n" + 
 					"		</div>\r\n" + 
-					"		<div class=\"col-md-3\">\r\n" + 
+					"		<div class=\"col-md-2\">\r\n" + 
+					"			<button class=\"btn btn-success btn-block login\" formaction=\"irPerfilUsuarioAdmin\" type=\"submit\"><strong>Perfil</strong></button>\r\n" + 
+					"		</div>\r\n" + 
+					"		<div class=\"col-md-2\">\r\n" + 
 					"			<button class=\"btn btn-danger btn-block login\" type=\"submit\"><strong>Borrar</strong></button>\r\n" + 
 					"		</div></div>\r\n" + 
 					"</form>	";
@@ -337,5 +340,26 @@ public class utilidades {
 					"</form>	";
 		}
 		return texto;		
+	}
+	/**
+	 * 
+	 * @param usuario del que queremos mostrar el perfil
+	 * @return la vista del perfil que queremos editar desde administrador
+	 */
+	public static String mostrarPerfilAdmin(Usuario usuario) {
+		Usuario user=usuarioDao.selectNombre(usuario.getNombre());
+		String texto="<form action=\"editarNombre\" method=\"GET\">\r\n" + 
+				"		<label for=\"usr\">Nombre</label>"+
+				"		<input name=\"txtNombre\" class=\"form-control\" value=\""+user.getNombre()+"\" id=\"usr\" placeholder=\"usuario\" >\r\n" + 
+				"		<button class=\"btn btn-danger btn-block btn-md login\"  type=\"submit\">Editar</button>\r\n" + 
+				"</form>\r\n" + 
+				"<form action=\"editarPwd\" method=\"GET\">\r\n" + 
+				"		<label for=\"pwd\">Password</label>"+
+				"		<input name=\"txtPWD\" class=\"form-control\" value=\"Nueva password\" id=\"pwd\" placeholder=\"pwd\" >\r\n" + 
+				"		<button class=\"btn btn-danger btn-block btn-md login\"  type=\"submit\">Editar</button>\r\n" + 
+				"</form>\r\n" +
+				"<label for=\"email\">Email</label>"+
+				"<input name=\"txtEMAIL\" class=\"form-control\" value=\""+user.getEmail()+"\" id=\"email\" placeholder=\"email\" disabled>";
+		return texto;
 	}
 }
