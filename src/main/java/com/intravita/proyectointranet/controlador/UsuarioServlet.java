@@ -899,7 +899,10 @@ public class UsuarioServlet {
 //By JA
   @RequestMapping(value="/irPerfilUsuario", method = RequestMethod.GET)
   public ModelAndView irPerfilUsuario(HttpServletRequest request) throws Exception  {
-	  Usuario usuario = (Usuario) request.getSession().getAttribute(usuario_conect);
+	 Usuario usuarioLigero = (Usuario) request.getSession().getAttribute(usuario_conect);
+	 Usuario usuario = usuarioDao.selectNombre(usuarioLigero.getNombre());
+	 System.out.println(usuario.getNombre());
+	 System.out.println(usuario.getEmail());
 	  request.setAttribute("usuarioNombre", usuario.getNombre());
 	  request.setAttribute("usuarioEmail", usuario.getEmail());
    return cambiarVista("usuario/perfilUsuario");
@@ -913,7 +916,8 @@ public class UsuarioServlet {
 	  String pwdNueva1=request.getParameter("txtPwdNueva1");
 	  String pwdNueva2=request.getParameter("txtPwdNueva2");
 	  
-	  Usuario usuario = (Usuario) request.getSession().getAttribute(usuario_conect);
+	  Usuario usuarioLigero = (Usuario) request.getSession().getAttribute(usuario_conect);
+	  Usuario usuario = usuarioDao.selectNombre(usuarioLigero.getNombre());
 	  if (usuario==null || !(pwdNueva1.equals(pwdNueva2))) {
 		  request.setAttribute("usuarioNombre", usuario.getNombre());
 		  request.setAttribute("usuarioEmail", usuario.getEmail());
