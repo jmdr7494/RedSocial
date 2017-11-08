@@ -14,6 +14,7 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+<script src="http://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="   crossorigin="anonymous"></script>
 
 </head>
 <body>
@@ -64,7 +65,7 @@
 		<div class="row">
 		 	<div class="col-md-8 col-md-offset-2">
 		 		<label for="usr">Password:</label>
-				<input name="txtUsuarioPwd" autofocus type="password" class="form-control" id="usr" placeholder="password">
+				<input " name="txtUsuarioPwd" autofocus type="password" class="form-control" id="inputPwd" placeholder="password">
 				<br>
 			</div>  
 		</div>
@@ -72,14 +73,14 @@
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
 				<label for="usr">¿Cuál es tu mejor amigo/a de la infancia?</label>
-				<input name="txtRespuesta" type="text" class="form-control" id="usr" placeholder="respuesta">
+				<input name="txtRespuesta" type="text" class="form-control" id="inputRes" placeholder="respuesta">
 				<br>
 			</div>
 		</div>
 		
 		<div class="row">
 			<div class="col-md-1 col-md-offset-9">
-				<button class="btn btn-info btn-block" type="submit" data-toggle="modal" data-target="#miModales" value="borrar">Borrar</button>
+				<button id="borrarCuenta" class="btn btn-info btn-block" type="submit" data-toggle="modal" data-target="#miModales" value="borrar">Borrar</button>
 			</div>	  
 		</div>
 	<br>
@@ -99,8 +100,8 @@
 						¿Estás seguro de que deseas eliminar tu cuenta?
 						<br><br>
 						<form action="borrarCuenta" method="post">
-							<input name="txtUsuarioPwd" autofocus type="password" class="form-control" id="usr" placeholder="password">
-							<input name="txtRespuesta" type="text" class="form-control" id="usr" placeholder="respuesta"> 
+							<input name="txtUsuarioPwd" autofocus type="hidden" class="form-control" id="modalPwd" placeholder="password">
+							<input name="txtRespuesta" type="hidden" class="form-control" id="modalRes" placeholder="respuesta"> 
 							<button class="btn btn-success btn-md btn-block" type="submit">Si</button>
 							<br>
 						</form>
@@ -113,11 +114,24 @@
 		</div>
 	
 	
+		
+	
+	
 	<div class="col-md-12" style="position: fixed; bottom: 0;">
 		<div class="panel-footer">
 			© Copyright 2017 IntraVita. Todos los derechos reservados.
 		</div>
 	</div>>
 	
+	<!-- Script para obtener los datos de los input en el modal de confirmación de borrar cuenta -->
+	<script>
+	$('#borrarCuenta').click(function(){
+		var pass=$('#inputPwd').val();
+		var res=$('#inputRes').val();
+		$('#modalPwd').val(pass);
+		$('#modalRes').val(res);
+		
+	})
+	</script>
 </body>
 </html>
