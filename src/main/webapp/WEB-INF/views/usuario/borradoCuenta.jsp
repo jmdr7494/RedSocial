@@ -53,7 +53,7 @@
 						Para borrar su cuenta debe introducir su contraseña y la respuesta a la pregunta
 						que se le formuló durante su registro. A continuación debe hacer click en el botón Borrar.
 						<br>
-						Deberá confirmar que está seguro que desea borrar su cuenta.
+						Deberá confirmar que está seguro que desea borrar su cuenta
 					</div>
 				</div>
 			</div>
