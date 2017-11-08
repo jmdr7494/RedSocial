@@ -100,9 +100,9 @@ body > #wrap {
 		
 		<div class="row">
 			<div class="col-md-5 col-md-offset-1">
-				<h3>
-					<jsp:getProperty name="administradorConectado" property="nombre"/>
-				</h3>
+				<h3><em><strong>
+					<span class="glyphicon glyphicon-user"></span>&nbsp;<jsp:getProperty name="administradorConectado" property="nombre"/>
+				</strong></em></h3>
 			</div>
 			
 			<div class="col-md-4">
@@ -112,37 +112,14 @@ body > #wrap {
 				<br>
 				<form action="changeToUser" method="post"><button type="submit" class="btn btn-success"><strong><span class="glyphicon glyphicon-user"></span> Cambiar Rol </strong></button></form>
 			</div>
-			<%--
-			<div class="col-md-1">
-				<br>
-				<form action="logout" method="GET"> <button class="btn btn-danger" type="submit">Salir</button></form>	
-			</div>
-			 --%>
-		</div>
-
-	
-	<form action="promover" method="post">
-	   <div class="row">
-	 		<div class="col-md-8 col-md-offset-2 ">
-	 			<label for="usr">Usuario:</label>
-				<input name="txtNombre" autofocus type="text" class="form-control" id="usr" placeholder="usuario">
-				<br>
-			</div>  
 		</div>
 		<div class="row">
-			<div class="col-md-2 col-md-offset-2">
-				<button class="btn btn-success btn-block login" type="submit"><strong>Promover</strong></button>
-			</div>	  
-
-			<div class="col-md-2 col-md-offset-1">
-				<button class="btn btn-danger btn-block login" name="degradar" type="submit" formaction="degradar"><strong>Degradar</strong></button>
-			</div>	  
-
-			<div class="col-md-2 col-md-offset-1">
-				<button class="btn btn-danger btn-block login" type="submit" formaction="borrar"><strong>Borrar</strong></button>
-			</div>	  
+			<div class="col-md-1 col-md-offset-10">
+				<br>
+				<form action="irCrearCuentaDesdeAdmin" method="get"><button type="submit" class="btn btn-success"><strong><span class="glyphicon glyphicon-user"></span> Crear cuenta </strong></button></form>
+			</div>
 		</div>
-	</form>	
+	
 	<br>
 	<div class="row">
 		<div class="col-md-4 col-md-offset-2">
@@ -155,7 +132,7 @@ body > #wrap {
 	 		<div class="col-md-8 col-md-offset-2 ">
 				<div class="panel panel-default">
 					<div class="panel-body">
-						<button class="btn btn-info btn-block login" type="submit"><strong>Actualizar Lista</strong></button>
+						<button class="btn btn-info btn-block login" type="submit"title="Actualizar Usuarios"><strong><span class="glyphicon glyphicon-list-alt"></span>&nbsp;Actualizar Lista de Usuarios</strong></button>
 						<br/>
 						<div class="row">
 							<div class="col-md-6">

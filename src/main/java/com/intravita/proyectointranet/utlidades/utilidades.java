@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-
 import org.bson.BsonString;
 import org.bson.BsonValue;
+
 
 import com.intravita.proyectointranet.modelo.Administrador;
 import com.intravita.proyectointranet.modelo.Publicacion;
@@ -125,7 +125,7 @@ public class utilidades {
 	
 	public static void publicacionValida(String nombre, String texto) throws Exception {
 		if(nombre.equals("") ||texto.equals(""))
-			throw new Exception ("Por favor rellene texto para guardar la publicación");
+			throw new Exception ("La publicación está vacía, escribe algo");
 		
 	}
 	
@@ -306,13 +306,13 @@ public class utilidades {
 					"			<input name=\"txtNombre\" type=\"hidden\" class=\"form-control\" value=\""+aux.getNombre() +"\" id=\"usr\" placeholder=\"usuario\" >\r\n" + 
 					"		</div>\r\n" + 
 					"		<div class=\"col-md-2\">\r\n" + 
-					"			<button class=\"btn btn-success btn-block login\" formaction=\"promover\" type=\"submit\"><strong>Promover</strong></button>\r\n" + 
+					"			<button class=\"btn btn-success btn-block login\" formaction=\"promover\" type=\"submit\" title=\"Promover Usuario\"><strong><span class=\"glyphicon glyphicon-thumbs-up\"></span></strong></button>\r\n" +
 					"		</div>\r\n" + 
 					"		<div class=\"col-md-2\">\r\n" + 
-					"			<button class=\"btn btn-success btn-block login\" formaction=\"irPerfilUsuarioAdmin\" type=\"submit\"><strong>Perfil</strong></button>\r\n" + 
+					"			<button class=\"btn btn-primary btn-block login\" formaction=\"irPerfilUsuarioAdmin\" type=\"submit\" title=\"Modificar Perfil\"><strong><span class=\"glyphicon glyphicon-user\"></span></strong></button>\r\n" + 
 					"		</div>\r\n" + 
 					"		<div class=\"col-md-2\">\r\n" + 
-					"			<button class=\"btn btn-danger btn-block login\" type=\"submit\"><strong>Borrar</strong></button>\r\n" + 
+					"			<button class=\"btn btn-danger btn-block login\" type=\"submit\" title=\"Eliminar Usuario\"><strong><span class=\"glyphicon glyphicon-trash\"></span></strong></button>\r\n" +  
 					"		</div></div>\r\n" + 
 					"</form>	";
 		}
@@ -332,10 +332,10 @@ public class utilidades {
 					"			<input name=\"txtNombre\" type=\"hidden\" class=\"form-control\" value=\""+aux.getNombre() +"\" id=\"usr\" placeholder=\"usuario\" >\r\n" + 
 					"		</div>\r\n" + 
 					"		<div class=\"col-md-3\">\r\n" + 
-					"			<button class=\"btn btn-success btn-block login\" formaction=\"degradar\" type=\"submit\"><strong>Degradar</strong></button>\r\n" + 
+					"			<button class=\"btn btn-warning btn-block login\" formaction=\"degradar\" type=\"submit\" title=\"Degradar Administrador\"><span class=\"glyphicon glyphicon-thumbs-down\"></span><strong></strong></button>\r\n" + 
 					"		</div>\r\n" + 
 					"		<div class=\"col-md-3\">\r\n" + 
-					"			<button class=\"btn btn-danger btn-block login\" type=\"submit\"><strong>Borrar</strong></button>\r\n" + 
+					"			<button class=\"btn btn-danger btn-block login\" type=\"submit\" title=\"Eliminar Administrador\"><strong><span class=\"glyphicon glyphicon-trash\"></span></strong></button>\r\n" +  
 					"		</div></div>\r\n" + 
 					"</form>	";
 		}
