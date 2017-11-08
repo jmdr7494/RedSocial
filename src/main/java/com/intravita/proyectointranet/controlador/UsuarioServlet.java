@@ -190,7 +190,7 @@ public class UsuarioServlet {
    return cadenaUrl+=welcome;
   }
    
-  model.addAttribute("alerta", "Error en las credenciales" );
+  model.addAttribute("alerta", "Usuario y/o clave incorrectos" );
   return cadenaUrl+="login";
  } 
  /***
@@ -593,8 +593,12 @@ public class UsuarioServlet {
 			  		"			<b> "+ nombre +" </b> \r\n" + 
 			  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"ï¿½Quï¿½ tal el dï¿½a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
 			  		"			<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
-			  		"			<button class=\"btn btn-primary btn-block btn-md login\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModals\">Editar</button>\r\n" + 
-			  		"<div class=\"modal fade\" id=\"miModals\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalsLabel\" aria-hidden=\"true\">\r\n" + 
+			  		"<br>"+
+			  		"<div class=\"row\">\r\n" + 
+			  		"	<div class=\"col-md-1 col-md-offset-9\">\r\n" + 
+			  		"		<button class=\"btn btn-primary\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModals\" title=\"Editar Publicaci�n\"><strong><span class=\"glyphicon glyphicon-edit\"></span>&nbsp;Editar</strong></button>\r\n" + 
+			  		"	</div>	 \r\n" +
+			  		"		<div class=\"modal fade\" id=\"miModals\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalsLabel\" aria-hidden=\"true\">\r\n" + 
 			  		"			<div class=\"modal-dialog\" role=\"document\">\r\n" + 
 			  		"				<div class=\"modal-content\">\r\n" + 
 			  		"					<div class=\"modal-header\">\r\n" + 
@@ -609,19 +613,25 @@ public class UsuarioServlet {
 			  		"						<form action=\"editarPubli\" method=\"POST\">\r\n" + 
 			  		"							<textarea name=\"txtIntroducirTexto\" placeholder=\"ï¿½Quï¿½ tal el dï¿½a?\" class=\"form-control\" rows=\"5\" id=\"comment\">"+ todas[i].getTexto()+"</textarea>\r\n" + 
 			  		"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
-			  		"							<br>" + 
-			  		"							<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
+			  		"							<br>		"	+
+			  		"							<div class=\"row\">	"+
+			  		"								<div class=\"col-md-1 col-md-offset-8\">"+		
+			  		"								<button class=\"btn btn-success\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;Si</strong></button>\r\n" + 
+			  		"							</div>					"+	
 			  		"						</form>\r\n" + 
-			  		"						<form action=\"listarPublicacion\" method=\"POST\">\r\n" + 
-			  		"							<br>\r\n" + 
-			  		"							<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
+			  		"						<div class=\"col-md-1 col-md-offset-1\">"+
+			  		"						<form action=\"listarPublicacion\" method=\"POST\">\r\n" +  
+			  		"							<button class=\"btn btn-danger\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-remove\"></span>&nbsp;No</strong></button>\r\n" + 
 			  		"						</form>\r\n" + 
+			  		"						</div></div>				"+	
 			  		"					</div>\r\n" + 
 			  		"				</div>\r\n" + 
 			  		"			</div>\r\n" + 
-			  		"		</div>" + 
-			  		
-			"<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModalss\">Eliminar</button>\r\n" + 
+			  		"		</div>" +
+			"	<div class=\"col-md-1\">"+
+			"		<button type=\"submit\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#miModalss\" title=\"Eliminar Publicaci�n\"><strong><span class=\"glyphicon glyphicon-trash\"></span>&nbsp;Eliminar</strong></button>\r\n" +
+			"  	</div>"+	 
+			"</div>"+
 			"<div class=\"modal fade\" id=\"miModalss\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalssLabel\" aria-hidden=\"true\">\r\n" + 
 			"			<div class=\"modal-dialog\" role=\"document\">\r\n" + 
 			"				<div class=\"modal-content\">\r\n" + 
@@ -629,7 +639,7 @@ public class UsuarioServlet {
 			"						<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n" + 
 			"							<span aria-hidden=\"true\">&times;</span>\r\n" + 
 			"						</button>\r\n" + 
-			"						<h4 class=\"modal-title\" id=\"myModalssLabel\">Editar</h4>\r\n" + 
+			"						<h4 class=\"modal-title\" id=\"myModalssLabel\">Eliminar</h4>\r\n" + 
 			"					</div>\r\n" + 
 			"					<div class=\"modal-body\">\r\n" + 
 			"						¿Está seguro que desea eliminar la publicación?\r\n" + 
@@ -637,12 +647,16 @@ public class UsuarioServlet {
 			"						<form action=\"eliminarPubli\" method=\"POST\">\r\n" + 
 			"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
 			"							<br>" + 
-			"							<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
+			"							<div class=\"row\">	"+
+	  		"								<div class=\"col-md-1 col-md-offset-8\">"+		
+	  		"								<button class=\"btn btn-success\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;Si</strong></button>\r\n" + 
+	  		"							</div>		"+ 
 			"						</form>\r\n" + 
+	  		"						<div class=\"col-md-1 col-md-offset-1\">"+	  		
 			"						<form action=\"listarPublicacion\" method=\"POST\">\r\n" + 
-			"							<br>\r\n" + 
-			"							<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
-			"						</form>\r\n" + 
+	  		"							<button class=\"btn btn-danger\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-remove\"></span>&nbsp;No</strong></button>\r\n" + 
+	  		"						</form>\r\n" + 
+	  		"						</div></div>				"+	
 			"					</div>\r\n" + 
 			"				</div>\r\n" + 
 			"			</div>\r\n" + 
