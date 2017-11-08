@@ -61,7 +61,7 @@ body{
         width:100%;
         height:100%;
         text-align: left;
-       }
+      }
 
 </style>
 	
@@ -115,25 +115,21 @@ body{
 		</div>
 	
 	
-	<div class="row">
-		<div class="col-md-1 col-md-offset-1">
-			<h3>
-				<jsp:getProperty name="usuarioConectado" property="nombre"/>
-			</h3>
+		<div class="col-md-2 col-md-offset-1">
+ 			<h3><em><strong>
+ 				<span class="glyphicon glyphicon-user"></span>&nbsp;<jsp:getProperty name="usuarioConectado" property="nombre"/>
+ 			</strong></em></h3>
 		</div>
 		<div class="col-md-1">
 
 		</div>
 
-		<div class="col-md-1 col-md-offset-8">
-			<%-- <form action="logout" method="GET">
-				<button class="btn btn-danger btn-block btn-md login" type="submit">Salir</button>
-			</form>--%>	
-		</div>
-		
+		<div class="col-md-1 col-md-offset-5">
+  		</div>
+  				
 		<br/>
 			
-			<div class="btn-group col-md-1 col-md-offset-8">
+			<div class="btn-group col-md-1 col-md-offset-7">
 				 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 				    <span class="glyphicon glyphicon-cog"></span>&nbsp;<strong>&nbsp;Ajustes&nbsp;</strong><span class="caret"></span>
 				  </button>
@@ -179,16 +175,18 @@ body{
 		<br/>
 		
 		<div class="row">
-			<div class="col-md-1 col-md-offset-9">
-				<button class="btn btn-primary btn-block login" formaction="crearPublicacionPrivada" type="submit">Borrador</button>
-				<button class="btn btn-primary btn-block login" type="submit">Enviar</button>
-			</div>	  
+			<div class="col-md-1 col-md-offset-8">
+ 				<button class="btn btn-primary btn-block login" formaction="crearPublicacionPrivada" type="submit" title="Publicación Privada"><strong><span class="glyphicon glyphicon-tag"></span>&nbsp;Borrador</strong></button>
+ 			</div>	
+ 			<div class="col-md-1">
+ 				<button class="btn btn-primary btn-block login" type="submit" title="Publicación Pública"><strong><span class="glyphicon glyphicon-share-alt"></span>&nbsp;Publicar</strong></button>
+ 			</div>	  
 		</div>
 	</form>
 	
 	<br/>
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-3 col-md-offset-8">
 			<spam><em>${alerta}</em></spam>
 		</div>
 	</div>
@@ -198,7 +196,7 @@ body{
 			<div class="panel panel-default">
 				 <div class="panel-body">
 					<form action="listarPublicacion" method="post">
-						<button class="btn btn-info btn-block login" type="submit">Mostrar Publicaciones</button>
+						<button class="btn btn-info btn-block login" type="submit" title="Actualizar Muro"><strong><span class="glyphicon glyphicon-list"></span>&nbsp;Mostrar Publicaciones</strong></button>
 					</form>
 				</div>
 				${publicaciones}
