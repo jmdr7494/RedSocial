@@ -1,7 +1,6 @@
 package com.intravita.proyectointranet.controlador;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,6 +109,11 @@ public class UsuarioServlet {
  public ModelAndView irVistaAmigos(){
   return cambiarVista("usuario/vistaAmigos");
  }
+ @RequestMapping(value="/irCrearCuentaDesdeAdmin",method = RequestMethod.GET)
+ public ModelAndView irCrearCuentaDesdeAdmin(){
+  return cambiarVista("usuario/registrarDesdeAdmin");
+ }
+ 
  @RequestMapping(value="/irPerfilUsuarioAdmin",method = RequestMethod.POST)
  public ModelAndView irPerfilUsuarioAdmin(HttpServletRequest request, Model model){
 	 String nombre=request.getParameter("txtNombre");
@@ -246,6 +250,19 @@ public class UsuarioServlet {
   */
  @RequestMapping(value="/registrar", method = RequestMethod.POST)
  public String registrar(HttpServletRequest request, Model model) throws Exception  {
+  String registrar="", volver="";
+  try{
+	  if(!request.getSession().getAttribute(admin_conect).equals(null)) {
+		  registrar="registrarDesdeAdmin";
+		  volver="inicioAdmin";
+	  }else {
+		  registrar="registrar";
+		  volver="login";
+	  }
+  }catch(Exception e) {
+	  registrar="registrar";
+	  volver="login";
+  }
   String cadenaUrl=usuarioServ;
   String nombre=request.getParameter("txtUsuarioNombre");
   String email=request.getParameter("txtEmail");
@@ -257,7 +274,7 @@ public class UsuarioServlet {
    utilidades.credencialesValidas(nombre, email, pwd1, pwd2);
   }catch(Exception e) {
    model.addAttribute("alerta", e.getMessage());
-   return cadenaUrl+="registrar";
+   return cadenaUrl+=registrar;
   }
   
   Usuario usuario = new Usuario();
@@ -270,9 +287,9 @@ public class UsuarioServlet {
 	  usuarioDao.insert(usuario);
   }catch(Exception e) {
 	   model.addAttribute(alert, "Nombre de usuario no disponible");
-	   return cadenaUrl+="registrar";
+	   return cadenaUrl+=registrar;
   }
-  return cadenaUrl+="login";
+  return cadenaUrl+=volver;
  }
  /***
   * 

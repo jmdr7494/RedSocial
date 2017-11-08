@@ -113,7 +113,12 @@ body > #wrap {
 				<form action="changeToUser" method="post"><button type="submit" class="btn btn-success"><strong><span class="glyphicon glyphicon-user"></span> Cambiar Rol </strong></button></form>
 			</div>
 		</div>
-
+		<div class="row">
+			<div class="col-md-1 col-md-offset-10">
+				<br>
+				<form action="irCrearCuentaDesdeAdmin" method="get"><button type="submit" class="btn btn-success"><strong><span class="glyphicon glyphicon-user"></span> Crear cuenta </strong></button></form>
+			</div>
+		</div>
 	
 	<br>
 	<div class="row">
