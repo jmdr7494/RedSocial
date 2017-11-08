@@ -20,25 +20,29 @@
   outline: none;
   color: #fff;
   background-color: #166EE7;
-  border: none;
+  border: 2px;
+  border-color: #FFFFFF;
   border-radius: 10px;
   box-shadow: 0 3px #999;
 }
 
-.btn:hover {background-color: #21DD27}
+.btn:hover {
+	background-color: #337AB7;
+	color: #FFFFFF;
+}
 
 .b:active {
-  background-color: #21DD27;
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
+	 background-color: #337AB7;
+	 box-shadow: 0 5px #666;
+	 transform: translateY(4px);
 }
 
 span {
     padding: 20px;
     color: #DF0101;
     margin-left: 12px;
- font-weight: bold;
- font-size: 15px;
+ 	font-weight: bold;
+ 	font-size: 15px;
 }
 
 
@@ -46,11 +50,13 @@ span {
    margin:0;
    padding:0
 }
+
 html,
 body,
 #wrap {
    height: 100%;
 }
+
 body > #wrap {
    height: auto;
    min-height: 100%;
@@ -64,11 +70,14 @@ body > #wrap {
    clear: both;
 }
 
+body{
+	background-color: #2CC8E7;
+}
 </style>
 
 
 </head>
-<body style="background-color: #2CC8E7;">
+<body>
 
 <div class="container">
 
