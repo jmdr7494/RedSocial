@@ -387,7 +387,6 @@ public class UsuarioServlet {
   System.out.println("llega a la victoria");
   return cadenaUrl+="login";
 
-  return cadenaUrl+=volver;
 
  }
  /***
