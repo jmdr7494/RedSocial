@@ -19,7 +19,7 @@ public class solicitudRechazarTest {
 	@Given("^Usuario conectado para rechazar$")
 	public void Usuario_conectado_para_rechazar() {
 		solicitante=new Usuario("solicitante.solicitante", "1234qwer", "solicitante@alu.uclm.es", "solicitante");
-		usuarioDao.delete(solicitante);
+		if(usuarioDao.selectNombre(solicitante)) usuarioDao.delete(solicitante);
 		try {		
 			usuarioDao.insert(solicitante);
 		} catch (Exception e) {
@@ -30,7 +30,7 @@ public class solicitudRechazarTest {
 	@When("^Rechazar solicitud de alguien que le ha mandado$")
 	public void Rechazar_solicitud_de_alguien_que_le_ha_mandado() {
 		rechaza=new Usuario("rechaza.rechaza", "1234qwer", "rechaza@alu.uclm.es", "rechaza");
-		usuarioDao.delete(rechaza);
+		if(usuarioDao.selectNombre(rechaza)) usuarioDao.delete(rechaza);
 		try {
 			usuarioDao.insert(rechaza);
 		} catch (Exception e) {
@@ -58,7 +58,7 @@ public class solicitudRechazarTest {
 	@When("^Rechazar solicitud de alguien que no le ha mandado$")
 	public void Rechazar_solicitud_de_alguien_que_no_le_ha_mandado() {
 		rechaza2=new Usuario("rechaza2.rechaza2", "1234qwer", "rechaza2@alu.uclm.es", "rechaza2");
-		usuarioDao.delete(rechaza2);
+		if(usuarioDao.selectNombre(rechaza2)) usuarioDao.delete(rechaza2);
 		try {
 			usuarioDao.insert(rechaza2);
 		} catch (Exception e) {

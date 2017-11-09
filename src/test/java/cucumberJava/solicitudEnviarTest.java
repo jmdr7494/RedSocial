@@ -20,7 +20,7 @@ public class solicitudEnviarTest {
 	@Given("^Usuario conectado para enviar solicitud$")
 	public void Usuario_conectado_para_enviar_solicitud() {
 		solicitante=new Usuario("solicitante.solicitante", "1234qwer", "solicitante@alu.uclm.es", "solicitante");
-		usuarioDao.delete(solicitante);
+		if(usuarioDao.selectNombre(solicitante))usuarioDao.delete(solicitante);
 		try {
 			usuarioDao.insert(solicitante);
 		} catch (Exception e) {
@@ -33,7 +33,7 @@ public class solicitudEnviarTest {
 		solicitante=new Usuario("solicitante.solicitante");
 		solicitado=new Usuario("solicitado.solicitado", "1234qwer", "solicitado@alu.uclm.es", "solicitado");
 		try {
-			usuarioDao.delete(solicitado);
+			if(usuarioDao.selectNombre(solicitado))usuarioDao.delete(solicitado);
 			usuarioDao.insert(solicitado);
 		} catch (Exception e) {
 			assertFalse(true);
@@ -57,7 +57,7 @@ public class solicitudEnviarTest {
 		solicitante=new Usuario("solicitante.solicitante");
 		solicitado2=new Usuario("solicitado2.solicitado2", "1234qwer", "solicitado2@alu.uclm.es", "solicitado2");
 		try {
-			usuarioDao.delete(solicitado2);
+			if(usuarioDao.selectNombre(solicitado2))usuarioDao.delete(solicitado2);
 			usuarioDao.insert(solicitado2);
 			utilidades.enviarSolicitud(solicitante, solicitado2);
 			utilidades.aceptarSolicitud(solicitante, solicitado2);
@@ -82,7 +82,7 @@ public class solicitudEnviarTest {
 		solicitante=new Usuario("solicitante.solicitante");
 		solicitado3=new Usuario("solicitado3.solicitado3", "1234qwer", "solicitado3@alu.uclm.es", "solicitado3");
 		try {
-			usuarioDao.delete(solicitado3);
+			if(usuarioDao.selectNombre(solicitado3))usuarioDao.delete(solicitado3);
 			usuarioDao.insert(solicitado3);
 			utilidades.enviarSolicitud(solicitante, solicitado3);
 		} catch (Exception e) {
@@ -95,7 +95,7 @@ public class solicitudEnviarTest {
 		try {
 			utilidades.enviarSolicitud(solicitante, solicitado3);
 		} catch (Exception e) {
-			assertTrue(e.getMessage().equals("Ya tienes una solicitud de ese usuario"));
+			assertTrue(e.getMessage().equals("Ya has enviado una solicitud a ese usuario."));
 		}
 		usuarioDao.delete(solicitado3);
 	}
