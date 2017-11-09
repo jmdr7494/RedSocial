@@ -19,7 +19,7 @@ public class solicitudRechazarTest {
 	@Given("^Usuario conectado para rechazar$")
 	public void Usuario_conectado_para_rechazar() {
 		solicitante=new Usuario("solicitante.solicitante", "1234qwer", "solicitante@alu.uclm.es", "solicitante");
-		if(usuarioDao.selectNombre(solicitante)) usuarioDao.delete(solicitante);
+		if(usuarioDao.selectNombre(solicitante))usuarioDao.delete(solicitante);
 		try {		
 			usuarioDao.insert(solicitante);
 		} catch (Exception e) {
