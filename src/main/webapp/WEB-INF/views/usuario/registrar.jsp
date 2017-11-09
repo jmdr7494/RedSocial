@@ -105,7 +105,7 @@ spam {
 	</div>
 
 
-	<form action="registrar" method="POST"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<form action="registrar" method="POST" enctype="multipart/form-data"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
 				<label for="usr" style="color:white; font-size:15px;">Usuario:</label>
@@ -136,12 +136,13 @@ spam {
 				<input name="txtRespuesta" type="text" class="form-control" id="usr" placeholder="respuesta" onFocus="if(this.value!='')this.value=''">
 			</div>
 		</div>
-		
+		<script type="text/javascript" src="./cargarImagenes.js"></script>
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
 			<label for="imagen" style="color:white; font-size:15px">Avatar:</label>
 			<label class="control-label" style="color:white; font-size:15px">Select File</label>
-			<input id="input-b5" name="input-b5[]" type="file" multiple>
+			<input id="input-b5" name="fichero" type="file" onchange="cargarArchivo(this)">
+			<input type="hidden" name="nombreImagen" value=""/>  
 			
 			<script>
 				$(document).on('ready', function() {
@@ -151,6 +152,7 @@ spam {
 			
 			<br>
 			<img src="input-b5" width="128px" height="128px" class="img-circle">
+			<iframe name="cosa" style="display: none;"></iframe>
 			</div>
 		</div>
 		
