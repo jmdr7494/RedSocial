@@ -62,6 +62,10 @@ body{
         height:100%;
         text-align: left;
       }
+      
+.fotoPerfil{
+	width:100px;
+}
 
 </style>
 	
@@ -80,7 +84,7 @@ body{
 			</div>
 			
 			<div class="col-md-1 col-md-offset-3">
-					<button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#miModal" style="border-width: 10px;"><strong>?</strong></button>
+					<button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#miModal" style="border-width: 10px;"><strong>&nbsp;?&nbsp;</strong></button>
 			</div>
 			
 			<div class="col-md-1 fixed-top" style="position: relative; top: 8px">
@@ -98,16 +102,16 @@ body{
 						<h4 class="modal-title" id="myModalLabel">Ayuda</h4>
 					</div>
 					<div class="modal-body">
-						Para realizar una publicación tendrá que escribir en el cuadro de texto "Realizar publicación" su 
-						correspondiente publicación y a continuación hacer click sobre el botón Enviar para que dicha 
-						publicación sea pública o en Borrador para que sea privada.
+						Para realizar una publicaci&oacute;n tendr&aacute; que escribir en el cuadro de texto "Realizar publicaci&oacute;n" su 
+						correspondiente publicaci&oacute;n y a continuaci&oacute;n hacer click sobre el bot&oacute;n Enviar para que dicha 
+						publicaci&oacute;n sea p&uacute;blica o en Borrador para que sea privada.
 						<br><br>
-						Para que se muestren todas las publicaciones tenemos que hacer click en el botón de Mostrar Publicaciones, 
-						el cual nos mostrará todas las publicaciones que tengamos en nuestro tablón. Tenemos los botones de Editar y 
-						Eliminar que harán las funciones correspondientes de editar la publicación y de eliminarla.
+						Para que se muestren todas las publicaciones tenemos que hacer click en el bot&oacute;n de Mostrar Publicaciones, 
+						el cual nos mostrar&aacute; todas las publicaciones que tengamos en nuestro tabl&oacute;n. Tenemos los botones de Editar y 
+						Eliminar que har&oacute;n las funciones correspondientes de editar la publicaci&oacute;n y de eliminarla.
 						<br><br>
-						Para cambiar al rol de administrador, dentro del botón de ajustes tiene la opción de Cambiar Rol, la cual
-						le cambiará el rol a administrador. Dentro de este mismo botón (Ajustes) tiene la opción de borrar su propia
+						Para cambiar al rol de administrador, dentro del bot&oacute;n de ajustes tiene la opci&oacute;n de Cambiar Rol, la cual
+						le cambiar&oacute; el rol a administrador. Dentro de este mismo bot&oacute;n (Ajustes) tiene la opci&oacute;n de borrar su propia
 						cuenta.
 					</div>
 				</div>
@@ -118,19 +122,14 @@ body{
 	<div class="row">
 		<div class="col-md-1 col-md-offset-1">
 			<h3>
-			<jsp:getProperty name="usuarioConectado" property="nombre"/>
-				
+				<jsp:getProperty name="usuarioConectado" property="nombre"/>				
 			</h3>
-
-		<!--  <div class="col-md-2 col-md-offset-1">
- 			<h3><em><strong>
- 				<span class="glyphicon glyphicon-user"></span>&nbsp;<jsp:getProperty name="usuarioConectado" property="nombre"/>
- 			</strong></em></h3>-->
 
 		</div>
 		<div class="col-md-1">
+				<br/>
 				<img src=<jsp:getProperty name="usuarioConectado" property="imagen"/>>
-				<img src="data:image/gif;base64,${imagen}">
+				<img src="data:image/gif;base64,${imagen}" class="fotoPerfil">
 				<img src=>
 		</div>
 
@@ -139,9 +138,9 @@ body{
   				
 		<br/>
 			
-			<div class="btn-group col-md-1 col-md-offset-7">
+			<div class="btn-group col-md-1 col-md-offset-9">
 				 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-				    <span class="glyphicon glyphicon-cog"></span>&nbsp;<strong>&nbsp;Ajustes&nbsp;</strong><span class="caret"></span>
+				    <center><span class="glyphicon glyphicon-cog"></span>&nbsp;<strong>&nbsp;Ajustes&nbsp;</strong><span class="caret"></span></center>
 				  </button>
 					<ul class="dropdown-menu" style="background:#337ab7;">
 						<li>
@@ -177,8 +176,8 @@ body{
 	 <form action="crearPublicacion" method="post" id="formlogin">
     	<div class="row">
 	 		<div class="col-md-8 col-md-offset-2">
-			  <label for="comment">Realizar publicación</label>
-			  <textarea name="txtIntroducirTexto" autofocus placeholder="¿Qué tal el día?" class="form-control" rows="5" id="comment"></textarea>
+			  <label for="comment">Realizar publicaci&oacute;n</label>
+			  <textarea name="txtIntroducirTexto" autofocus placeholder="�Qu&eacute; tal el d&iacute;a?" class="form-control" rows="5" id="comment"></textarea>
 			</div>  
 		</div>
 		
@@ -216,7 +215,7 @@ body{
 	
 	<div class="col-md-12" style="position: fixed; bottom: 0;">
 		<div class="panel-footer">
-			© Copyright 2017 IntraVita. Todos los derechos reservados.
+			&copy; Copyright 2017 IntraVita. Todos los derechos reservados.
 		</div>
 	</div>
 
