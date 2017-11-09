@@ -2,11 +2,18 @@ package com.intravita.proyectointranet.controlador;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.xml.bind.DatatypeConverter;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.intravita.proyectointranet.email.MailSender;
@@ -18,6 +25,7 @@ import com.intravita.proyectointranet.persistencia.PublicacionDAOImpl;
 import com.intravita.proyectointranet.persistencia.UsuarioDAOImpl;
 import com.intravita.proyectointranet.utlidades.utilidades;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -61,6 +69,23 @@ public class UsuarioServlet {
 
  
  private static final Logger logger = LoggerFactory.getLogger(UsuarioServlet.class);
+ 
+ /*@Bean
+ public CommonsMultipartResolver multipartResolver() {
+
+     CommonsMultipartResolver cmr = new CommonsMultipartResolver();
+     cmr.setMaxUploadSize(maxUploadSizeInMb * 2);
+     cmr.setMaxUploadSizePerFile(maxUploadSizeInMb); //bytes
+     return cmr;
+
+ }*/
+ 
+ /*@Bean(name = "multipartResolver")
+ public CommonsMultipartResolver multipartResolver() {
+     CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+     multipartResolver.setMaxUploadSize(100000);
+     return new CommonsMultipartResolver();
+ }*/
  
  @RequestMapping(method = RequestMethod.GET)
  public String home(Locale locale, Model model) {
@@ -174,8 +199,13 @@ public class UsuarioServlet {
   Usuario usuario = new Usuario();
   usuario.setNombre(nombre);
   usuario.setClave(clave);
+  
   if(usuarioDao.login(usuario) && request.getSession().getAttribute(usuario_conect)==null) {
-   request.getSession().setAttribute(usuario_conect, usuario);
+	 usuario= usuarioDao.selectNombreImagen(nombre);
+	 request.getSession().setAttribute(usuario_conect, usuario);
+	 String base64Encoded = DatatypeConverter.printBase64Binary(usuario.getImagen());
+	 model.addAttribute("imagen",base64Encoded);
+   
    return cadenaUrl+=welcome;
   }
    
@@ -233,14 +263,22 @@ public class UsuarioServlet {
   *@method ejecucion cuando pulsamos el boton de registro
   *
   */
- @RequestMapping(value="/registrar", method = RequestMethod.POST)
- public String registrar(HttpServletRequest request, Model model) throws Exception  {
+/* @RequestMapping(value="/registrar", method = RequestMethod.POST)
+ public String registrar(HttpServletRequest request, Model model@RequestParam("file") MultipartFile file) throws Exception  {
   String cadenaUrl=usuarioServ;
   String nombre=request.getParameter("txtUsuarioNombre");
   String email=request.getParameter("txtEmail");
   String pwd1=request.getParameter("txtUsuarioClave");
   String pwd2=request.getParameter("txtUsuarioClave1");
   String respuesta=request.getParameter("txtRespuesta");
+  
+  
+  String nombreImagen=request.getParameter("nombreImagen");
+  byte[] imagen=request.getParameter("fichero").getBytes();
+ ///byte[] imagen=file.getBytes();
+  //File imagen=model.addAttribute("file", imagen).;
+  System.out.println("Nombre de la imagen:"+nombreImagen);
+  System.out.println("Esta es la imagen: "+imagen);
   
   try {
    utilidades.credencialesValidas(nombre, email, pwd1, pwd2);
@@ -254,13 +292,65 @@ public class UsuarioServlet {
   usuario.setEmail(email);
   usuario.setClave(pwd1);
   usuario.setRespuesta(respuesta);
+  usuario.setNombreImagen("nombreImagen");
+  //usuario.setImagen(imagen);
   
   try {
-	  usuarioDao.insert(usuario);
+	  usuarioDao.insertConImagen(usuario);
   }catch(Exception e) {
 	   model.addAttribute(alert, "Nombre de usuario no disponible");
 	   return cadenaUrl+="registrar";
   }
+  return cadenaUrl+="login";
+ }*/
+ 
+ 
+ 
+  @RequestMapping(value="/registrar", method = RequestMethod.POST)
+ public String registrar(HttpServletRequest request, Model model) throws Exception  {
+	  
+  MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+  //MultipartFile multipartFile = multipartRequest.getFile("file");
+  CommonsMultipartFile multipartFile = (CommonsMultipartFile)multipartRequest.getFile("fichero");
+  String cadenaUrl=usuarioServ;
+  String nombre=request.getParameter("txtUsuarioNombre");
+  String email=request.getParameter("txtEmail");
+  String pwd1=request.getParameter("txtUsuarioClave");
+  String pwd2=request.getParameter("txtUsuarioClave1");
+  String respuesta=request.getParameter("txtRespuesta");
+  
+  String nombreImagen=request.getParameter("file");
+  System.out.println("Nombre de la imagen:"+nombreImagen);
+ // byte[] imagen=new byte[multipartFile.getBytes().length];
+  //imagen=multipartFile.getBytes();
+ byte[] imagen=multipartFile.getBytes();
+  //File imagen=model.addAttribute("file", imagen).;
+  
+  System.out.println("Esta es la imagen: "+imagen.toString());
+  
+  try {
+   utilidades.credencialesValidas(nombre, email, pwd1, pwd2);
+  }catch(Exception e) {
+   model.addAttribute("alerta", e.getMessage());
+   return cadenaUrl+="registrar";
+  }
+  
+  Usuario usuario = new Usuario();
+  usuario.setNombre(nombre);
+  usuario.setEmail(email);
+  usuario.setClave(pwd1);
+  usuario.setRespuesta(respuesta);
+  usuario.setNombreImagen("nombreImagen");
+  usuario.setImagen(imagen);
+  System.out.println("llega abajode");
+  try {
+	  usuarioDao.insertConImagen(usuario);
+  }catch(Exception e) {
+	   //model.addAttribute(alert, "Nombre de usuario no disponible");
+	  model.addAttribute(alert, e);
+	   return cadenaUrl+="registrar";
+  }
+  System.out.println("llega a la victoria");
   return cadenaUrl+="login";
  }
  /***

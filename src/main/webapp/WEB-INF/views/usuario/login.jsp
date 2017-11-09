@@ -69,7 +69,7 @@ body > #wrap {
 
 </head>
 <body style="background-color: #2CC8E7;">
-
+<img alt="logo" src="avatar.jpg">
 <div class="container">
 
    <center>

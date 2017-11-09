@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.xml.bind.DatatypeConverter;
+
 import org.apache.commons.codec.digest.DigestUtils;
 import org.bson.BsonArray;
+import org.bson.BsonBinary;
 import org.bson.BsonDocument;
 import org.bson.BsonString;
 import org.bson.BsonValue;
@@ -13,7 +16,7 @@ import org.springframework.stereotype.Component;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
-
+import com.mongodb.gridfs.GridFS;
 import com.intravita.proyectointranet.modelo.Usuario;
 import com.intravita.proyectointranet.persistencia.MongoBroker;
 import com.intravita.proyectointranet.persistencia.UsuarioDAO;
@@ -34,6 +37,12 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	private final String resp = "respuesta";
 	private final String amigos= "amigos";
 	private final String solicitudes= "solicitudes";
+	
+	//Para imagenes
+	private final String nameImage="nombreImagen";
+	private final String image="imagen";
+	
+	
 	PublicacionDAOImpl publicacionDao= new PublicacionDAOImpl();
 	AdministradorDAOImpl administradorDao= new AdministradorDAOImpl();
 	
@@ -46,6 +55,13 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		MongoCollection<BsonDocument> usuarios = broker.getCollection("Usuarios");
 		return usuarios;
 	}
+	
+	/*public MongoCollection<BsonDocument> obtenerUsuariosImagen() {
+		MongoBroker broker = MongoBroker.get();
+		GridFS fs = new GridFS();
+		MongoCollection<BsonDocument> usuarios = broker.getCollection("Usuarios");
+		return usuarios;*/
+	/*}
 	/**
 	 * @method login
 	 * @param usuario
@@ -81,6 +97,30 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		}
 		return true;
 	}
+	
+	
+	//Para imagen
+	public void insertConImagen (Usuario usuario) throws Exception{
+		if(!selectNombre(usuario)) {
+			BsonDocument bso = new BsonDocument();
+			bso.append(name, new BsonString(usuario.getNombre()));
+			bso.append(contrasena, new BsonString(DigestUtils.md5Hex(usuario.getClave())));
+			bso.append(e_mail, new BsonString(usuario.getEmail()));
+			bso.append(resp, new BsonString(usuario.getRespuesta()));
+			bso.append(solicitudes, new BsonArray());
+			bso.append(amigos, new BsonArray());
+			bso.append(nameImage, new BsonString("avatar"));
+			System.out.println("es por el binario?");
+			//String base64Encoded = DatatypeConverter.printBase64Binary(usuario.getImagen());
+			//bso.append(image, new BsonString(base64Encoded));
+			
+			bso.append(image, new BsonBinary(usuario.getImagen()));
+			System.out.println("no es por el binario?");
+			MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
+			usuarios.insertOne(bso);
+		}//else
+			//throw new Exception("Cuenta existente");
+	}
 	/**
 	 * @method insercion de usuarios con y sin encriptar clave
 	 * @param usuario
@@ -113,6 +153,72 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			usuarios.insertOne(bso);
 		}
 	}
+	
+	//para imagen
+	
+	/***
+	 * @method select con nombre que devuelve todos los datos del usuario
+	 * @param nombre
+	 * @return usuario completo
+	 */
+	
+/*public boolean selectNombreImagen(Usuario usuario) {
+		
+		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
+		BsonDocument criterio = new BsonDocument();
+		criterio.append(name, new BsonString(usuario.getNombre()));
+		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
+		BsonDocument usuarioBson = resultado.first();
+		if (usuarioBson==null) {
+			return false;
+		}
+		return true;
+	}*/
+	
+	public Usuario selectNombreImagen(String nombreParam) {
+		
+		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
+		BsonDocument criterio = new BsonDocument();
+		criterio.append(name, new BsonString(nombreParam));
+		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
+		BsonDocument usuario = resultado.first();
+		Usuario result;
+		if (usuario==null) {
+			return null;
+		}
+		else {
+			BsonValue nombre=usuario.get(name);
+			BsonString name=nombre.asString();
+			String nombreFinal=name.getValue();
+			
+			BsonValue pwd=usuario.get(contrasena);
+			BsonString password=pwd.asString();
+			String pwdFinal=password.getValue();
+			
+			BsonValue email=usuario.get(e_mail);
+			BsonString correo=email.asString();
+			String emailFinal=correo.getValue();
+			
+			BsonValue respuesta=usuario.get(resp);
+			BsonString answer=respuesta.asString();
+			String respuestaFinal=answer.getValue();
+			
+			
+			//CAMBIO
+			BsonValue nombreImagen=usuario.get(nameImage);
+			BsonString nameImage=nombreImagen.asString();
+			String nombreImagenFinal=nameImage.getValue();
+			
+			BsonValue imagen=usuario.get(image);
+			BsonBinary image=imagen.asBinary();
+			byte[]imagenFinal=image.getData();
+						
+			result = new Usuario(nombreFinal, pwdFinal, emailFinal, respuestaFinal,nombreImagenFinal,imagenFinal);
+		}
+		return result;
+	}
+	
+	
 	/***
 	 * @method select con nombre que devuelve todos los datos del usuario
 	 * @param nombre

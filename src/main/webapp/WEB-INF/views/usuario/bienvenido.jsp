@@ -118,11 +118,14 @@ body{
 	<div class="row">
 		<div class="col-md-1 col-md-offset-1">
 			<h3>
-				<jsp:getProperty name="usuarioConectado" property="nombre"/>
+			<jsp:getProperty name="usuarioConectado" property="nombre"/>
+				
 			</h3>
 		</div>
 		<div class="col-md-1">
-
+				<img src=<jsp:getProperty name="usuarioConectado" property="imagen"/>>
+				<img src="data:image/gif;base64,${imagen}">
+				<img src=>
 		</div>
 
 		<div class="col-md-1 col-md-offset-8">

@@ -13,7 +13,21 @@ public class Usuario {
 	private String clave;
 	private String email;
 	private String respuesta;
+	
+	//Para la imagen
+	private String nombreImagen;
+	private byte[]imagen;
 
+	/*Para la imagen*/
+	public Usuario(String nombre, String clave, String email, String respuesta,String nombreImagen,byte[]imagen) {
+		this.nombre=nombre;
+		this.clave=clave;
+		this.email=email;
+		this.respuesta=respuesta;
+		this.nombreImagen=nombreImagen;
+		this.imagen=imagen;
+	}
+	
 	
 	public Usuario(String nombre, String clave, String email, String respuesta) {
 		this.nombre=nombre;
@@ -64,5 +78,30 @@ public class Usuario {
 	
 	public void setRespuesta(String respuesta) {
 		this.respuesta = respuesta;
+	}
+	
+	
+	
+	/*Para la imagen*/
+	public String getNombreImagen() {
+		// TODO Auto-generated method stub
+		return this.nombreImagen;
+		
+	}
+	
+	public byte[] getImagen() {
+		// TODO Auto-generated method stub
+		return this.imagen;
+	}
+	
+	
+	public void setNombreImagen(String nombreImagen) {
+		// TODO Auto-generated method stub
+		this.nombreImagen=nombreImagen;
+		
+	}
+	public void setImagen(byte[] imagen) {
+		// TODO Auto-generated method stub
+		this.imagen=imagen;
 	}
 }
