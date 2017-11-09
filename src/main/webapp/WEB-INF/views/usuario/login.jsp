@@ -77,7 +77,11 @@ body{
 
 
 </head>
+
+
+
 <body>
+
 
 <div class="container">
 
@@ -99,9 +103,9 @@ body{
   </div>
   <div class="row">
    <div class="col-md-8 col-md-offset-2">
-    <label for="pwd" style="color:white; font-size:15px;">Contraseña:</label>
+    <label for="pwd" style="color:white; font-size:15px;">ContraseÃ±a:</label>
     <input type="password" name="txtUsuarioClave" class="form-control" id="pwd" placeholder="password">
-    <a href="irRecuperarCredenciales" style="color: white"><em>¿Olvidó su contraseña?</em></a>
+    <a href="irRecuperarCredenciales" style="color: white"><em>Â¿OlvidÃ³ su contraseÃ±a?</em></a>
    </div>
  </div>   
  </div>
@@ -109,7 +113,7 @@ body{
  <div class="row">
   <div class="col-md-7 col-md-offset-5">
    <br/>
-   <button class="btn login" type="submit">Iniciar Sesión</button> 
+   <button class="btn login" type="submit">Iniciar SesiÃ³n</button> 
    <span><em>${alerta}</em></span>
    <br/>
   </div>   
@@ -119,7 +123,7 @@ body{
  <br>
  <div class="row">
   <div class="col-md-1 col-md-offset-5">
-   <form action="irRegistrar" method="get"><button class="btn login" type="submit">&nbsp;&nbsp;   Regístrate   &nbsp;&nbsp;</button></form>
+   <form action="irRegistrar" method="get"><button class="btn login" type="submit">&nbsp;&nbsp;   RegÃ­strate   &nbsp;&nbsp;</button></form>
   </div>
  </div>
  <br>
@@ -128,7 +132,7 @@ body{
 
  <div class="col-md-12" style="position: fixed; bottom: 0;">
   <div class="panel-footer">
-   © Copyright 2017 IntraVita. Todos los derechos reservados.
+   Â© Copyright 2017 IntraVita. Todos los derechos reservados.
   </div>
  </div>
 
