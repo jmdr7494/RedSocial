@@ -103,9 +103,9 @@ body{
   </div>
   <div class="row">
    <div class="col-md-8 col-md-offset-2">
-    <label for="pwd" style="color:white; font-size:15px;">ContraseÃ±a:</label>
+    <label for="pwd" style="color:white; font-size:15px;">Contraseña:</label>
     <input type="password" name="txtUsuarioClave" class="form-control" id="pwd" placeholder="password">
-    <a href="irRecuperarCredenciales" style="color: white"><em>Â¿OlvidÃ³ su contraseÃ±a?</em></a>
+    <a href="irRecuperarCredenciales" style="color: white"><em>¿Olvidó su contrseña?</em></a>
    </div>
  </div>   
  </div>
@@ -113,7 +113,7 @@ body{
  <div class="row">
   <div class="col-md-7 col-md-offset-5">
    <br/>
-   <button class="btn login" type="submit">Iniciar SesiÃ³n</button> 
+   <button class="btn login" type="submit">Iniciar Sesión</button> 
    <span><em>${alerta}</em></span>
    <br/>
   </div>   
