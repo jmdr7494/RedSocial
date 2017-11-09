@@ -5,9 +5,9 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-
 import org.bson.BsonString;
 import org.bson.BsonValue;
+
 
 import com.intravita.proyectointranet.modelo.Administrador;
 import com.intravita.proyectointranet.modelo.Publicacion;
@@ -125,7 +125,7 @@ public class utilidades {
 	
 	public static void publicacionValida(String nombre, String texto) throws Exception {
 		if(nombre.equals("") ||texto.equals(""))
-			throw new Exception ("Por favor rellene texto para guardar la publicación");
+			throw new Exception ("La publicación está vacía, escribe algo");
 		
 	}
 	
@@ -191,8 +191,8 @@ public class utilidades {
 	 * @return excepcion si algo falla, si no, envia la solicitud emisor->receptor
 	 */
 	public static void enviarSolicitud(Usuario emisor, Usuario receptor) throws Exception{
-		if(comprobarSolicitudes(emisor,receptor)) throw new Exception("Ya tienes una solicitud de ese usuario");
-		
+		if(comprobarSolicitudes(emisor,receptor)) throw new Exception("Ya has enviado una solicitud a ese usuario.");
+		if(comprobarSolicitudes(receptor,emisor)) throw new Exception("Ya tienes una solicitud de ese usuario.");
 		if(comprobarAmistad(emisor,receptor)) throw new Exception("Ya sois amigos");
 		if(comprobarAmistad(receptor,emisor)) throw new Exception("Ya sois amigos");
 		
@@ -244,15 +244,29 @@ public class utilidades {
 			if(!aux.getNombre().equals(busca.getNombre())) {
 				if(!comprobarAmistad(busca, aux) && !comprobarAmistad(busca,aux)) {
 					retorno+="		<form action=\"enviarSolicitud\" method=\"POST\">	\r\n" + 
-							"			<input name=\"noSirve\" class=\"form-control\" value=\""+aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\" disabled>"+ 
-							"			<input name=\"txtNombreEnviar\" type=\"hidden\" class=\"form-control\" value=\""+aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\">"+ 
-							"			<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">Agregar</button>\r\n" + 
+							"			<div class=\"row\">\r\n" + 
+							"        		<div class=\"col-md-6\">\r\n" +
+							"					<input name=\"noSirve\" class=\"form-control\" value=\""+aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\" disabled>"+ 
+							"					<input name=\"txtNombreEnviar\" type=\"hidden\" class=\"form-control\" value=\""+aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\">"+
+							"				</div>\r\n" + 
+							"				<div class=\"col-md-3\">\r\n" + 
+							"					<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Agregar</button>\r\n" +
+							"					<br>\r\n" + 
+							"				</div>\r\n" +
+							"			</div>\r\n" +
 							"		</form>";
 				}else {
 					retorno+="		<form action=\"eliminarAmigo\" method=\"POST\">	\r\n" + 
-							"			<input name=\"noSirve\" class=\"form-control\" value=\""+aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\" disabled>"+ 
-							"			<input name=\"txtNombreEliminar\" type=\"hidden\" class=\"form-control\" value=\""+aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\">"+ 
-							"			<button class=\"btn btn-danger btn-block btn-md login\"  type=\"submit\">Eliminar</button>\r\n" + 
+							"			<div class=\"row\">\r\n" + 
+							"        		<div class=\"col-md-6\">\r\n" +
+							"					<input name=\"noSirve\" class=\"form-control\" value=\""+aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\" disabled>"+ 
+							"					<input name=\"txtNombreEliminar\" type=\"hidden\" class=\"form-control\" value=\""+aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\">"+
+							"				</div>\r\n" + 
+							"				<div class=\"col-md-3\">\r\n" +
+							"					<button class=\"btn btn-danger btn-block btn-md login\"  type=\"submit\">Eliminar</button>\r\n" +
+							"					<br>\r\n" + 
+							"				</div>\r\n" +
+							"			</div>\r\n" +
 							"		</form>";
 				}
 			}
@@ -279,10 +293,11 @@ public class utilidades {
 			          "          <input name=\"txtNombre\" type=\"hidden\" class=\"form-control\" value=\""+aux.getValue()+"\" id=\"usr\" placeholder=\"usuario\" >\r\n" +
 			          "        </div>\r\n" + 
 			          "        <div class=\"col-md-3\">\r\n" + 
-			          "          <button class=\"btn btn-danger btn-block btn-md login\"  type=\"submit\">Aceptar</button>\r\n" +
+			          "          <button class=\"btn btn-success btn-block btn-md login\"  type=\"submit\">Aceptar</button>\r\n" +
 			          "        </div>\r\n" + 
 			          "        <div class=\"col-md-3\">\r\n" +
 			          "          <button class=\"btn btn-danger btn-block btn-md login\"  formaction=\"rechazarSolicitud\" type=\"submit\">Rechazar</button>\r\n" +
+			          "			<br>\r\n" +
 			          "      </div></div>\r\n" +  
 			          "    </form>";
 		}
@@ -305,11 +320,14 @@ public class utilidades {
 					"			<input name=\"noSirve\" type=\"text\" class=\"form-control\" value=\""+ aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\" disabled>\r\n" + 
 					"			<input name=\"txtNombre\" type=\"hidden\" class=\"form-control\" value=\""+aux.getNombre() +"\" id=\"usr\" placeholder=\"usuario\" >\r\n" + 
 					"		</div>\r\n" + 
-					"		<div class=\"col-md-3\">\r\n" + 
-					"			<button class=\"btn btn-success btn-block login\" formaction=\"promover\" type=\"submit\"><strong>Promover</strong></button>\r\n" + 
+					"		<div class=\"col-md-2\">\r\n" + 
+					"			<button class=\"btn btn-success btn-block login\" formaction=\"promover\" type=\"submit\" title=\"Promover Usuario\"><strong><span class=\"glyphicon glyphicon-thumbs-up\"></span></strong></button>\r\n" +
 					"		</div>\r\n" + 
-					"		<div class=\"col-md-3\">\r\n" + 
-					"			<button class=\"btn btn-danger btn-block login\" type=\"submit\"><strong>Borrar</strong></button>\r\n" + 
+					"		<div class=\"col-md-2\">\r\n" + 
+					"			<button class=\"btn btn-primary btn-block login\" formaction=\"irPerfilUsuarioAdmin\" type=\"submit\" title=\"Modificar Perfil\"><strong><span class=\"glyphicon glyphicon-user\"></span></strong></button>\r\n" + 
+					"		</div>\r\n" + 
+					"		<div class=\"col-md-2\">\r\n" + 
+					"			<button class=\"btn btn-danger btn-block login\" type=\"submit\" title=\"Eliminar Usuario\"><strong><span class=\"glyphicon glyphicon-trash\"></span></strong></button>\r\n" +  
 					"		</div></div>\r\n" + 
 					"</form>	";
 		}
@@ -329,13 +347,34 @@ public class utilidades {
 					"			<input name=\"txtNombre\" type=\"hidden\" class=\"form-control\" value=\""+aux.getNombre() +"\" id=\"usr\" placeholder=\"usuario\" >\r\n" + 
 					"		</div>\r\n" + 
 					"		<div class=\"col-md-3\">\r\n" + 
-					"			<button class=\"btn btn-success btn-block login\" formaction=\"degradar\" type=\"submit\"><strong>Degradar</strong></button>\r\n" + 
+					"			<button class=\"btn btn-warning btn-block login\" formaction=\"degradar\" type=\"submit\" title=\"Degradar Administrador\"><span class=\"glyphicon glyphicon-thumbs-down\"></span><strong></strong></button>\r\n" + 
 					"		</div>\r\n" + 
 					"		<div class=\"col-md-3\">\r\n" + 
-					"			<button class=\"btn btn-danger btn-block login\" type=\"submit\"><strong>Borrar</strong></button>\r\n" + 
+					"			<button class=\"btn btn-danger btn-block login\" type=\"submit\" title=\"Eliminar Administrador\"><strong><span class=\"glyphicon glyphicon-trash\"></span></strong></button>\r\n" +  
 					"		</div></div>\r\n" + 
 					"</form>	";
 		}
 		return texto;		
+	}
+	/**
+	 * 
+	 * @param usuario del que queremos mostrar el perfil
+	 * @return la vista del perfil que queremos editar desde administrador
+	 */
+	public static String mostrarPerfilAdmin(Usuario usuario) {
+		Usuario user=usuarioDao.selectNombre(usuario.getNombre());
+		String texto="<form action=\"editarNombre\" method=\"GET\">\r\n" + 
+				"		<label for=\"usr\">Nombre</label>"+
+				"		<input name=\"txtNombre\" class=\"form-control\" value=\""+user.getNombre()+"\" id=\"usr\" placeholder=\"usuario\" >\r\n" + 
+				"		<button class=\"btn btn-danger btn-block btn-md login\"  type=\"submit\">Editar</button>\r\n" + 
+				"</form>\r\n" + 
+				"<form action=\"editarPwd\" method=\"GET\">\r\n" + 
+				"		<label for=\"pwd\">Password</label>"+
+				"		<input name=\"txtPWD\" class=\"form-control\" value=\"Nueva password\" id=\"pwd\" placeholder=\"pwd\" >\r\n" + 
+				"		<button class=\"btn btn-danger btn-block btn-md login\"  type=\"submit\">Editar</button>\r\n" + 
+				"</form>\r\n" +
+				"<label for=\"email\">Email</label>"+
+				"<input name=\"txtEMAIL\" class=\"form-control\" value=\""+user.getEmail()+"\" id=\"email\" placeholder=\"email\" disabled>";
+		return texto;
 	}
 }

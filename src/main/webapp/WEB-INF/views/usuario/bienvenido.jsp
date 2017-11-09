@@ -61,7 +61,7 @@ body{
         width:100%;
         height:100%;
         text-align: left;
-       }
+      }
 
 </style>
 	
@@ -98,16 +98,16 @@ body{
 						<h4 class="modal-title" id="myModalLabel">Ayuda</h4>
 					</div>
 					<div class="modal-body">
-						Para realizar una publicaciÛn tendr· que escribir en el cuadro de texto "Realizar publicaciÛn" su 
-						correspondiente publicaciÛn y a continuaciÛn hacer click sobre el botÛn Enviar para que dicha 
-						publicaciÛn sea p˙blica o en Borrador para que sea privada.
+						Para realizar una publicaci√≥n tendr√° que escribir en el cuadro de texto "Realizar publicaci√≥n" su 
+						correspondiente publicaci√≥n y a continuaci√≥n hacer click sobre el bot√≥n Enviar para que dicha 
+						publicaci√≥n sea p√∫blica o en Borrador para que sea privada.
 						<br><br>
-						Para que se muestren todas las publicaciones tenemos que hacer click en el botÛn de Mostrar Publicaciones, 
-						el cual nos mostrar· todas las publicaciones que tengamos en nuestro tablÛn. Tenemos los botones de Editar y 
-						Eliminar que har·n las funciones correspondientes de editar la publicaciÛn y de eliminarla.
+						Para que se muestren todas las publicaciones tenemos que hacer click en el bot√≥n de Mostrar Publicaciones, 
+						el cual nos mostrar√° todas las publicaciones que tengamos en nuestro tabl√≥n. Tenemos los botones de Editar y 
+						Eliminar que har√°n las funciones correspondientes de editar la publicaci√≥n y de eliminarla.
 						<br><br>
-						Para cambiar al rol de administrador, dentro del botÛn de ajustes tiene la opciÛn de Cambiar Rol, la cual
-						le cambiar· el rol a administrador. Dentro de este mismo botÛn (Ajustes) tiene la opciÛn de borrar su propia
+						Para cambiar al rol de administrador, dentro del bot√≥n de ajustes tiene la opci√≥n de Cambiar Rol, la cual
+						le cambiar√° el rol a administrador. Dentro de este mismo bot√≥n (Ajustes) tiene la opci√≥n de borrar su propia
 						cuenta.
 					</div>
 				</div>
@@ -121,6 +121,12 @@ body{
 			<jsp:getProperty name="usuarioConectado" property="nombre"/>
 				
 			</h3>
+
+		<!--  <div class="col-md-2 col-md-offset-1">
+ 			<h3><em><strong>
+ 				<span class="glyphicon glyphicon-user"></span>&nbsp;<jsp:getProperty name="usuarioConectado" property="nombre"/>
+ 			</strong></em></h3>-->
+
 		</div>
 		<div class="col-md-1">
 				<img src=<jsp:getProperty name="usuarioConectado" property="imagen"/>>
@@ -128,15 +134,12 @@ body{
 				<img src=>
 		</div>
 
-		<div class="col-md-1 col-md-offset-8">
-			<%-- <form action="logout" method="GET">
-				<button class="btn btn-danger btn-block btn-md login" type="submit">Salir</button>
-			</form>--%>	
-		</div>
-		
+		<div class="col-md-1 col-md-offset-5">
+  		</div>
+  				
 		<br/>
 			
-			<div class="btn-group col-md-1 col-md-offset-8">
+			<div class="btn-group col-md-1 col-md-offset-7">
 				 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 				    <span class="glyphicon glyphicon-cog"></span>&nbsp;<strong>&nbsp;Ajustes&nbsp;</strong><span class="caret"></span>
 				  </button>
@@ -147,7 +150,7 @@ body{
 							</form>
 						</li>
 						<li>
-							<form action="changeToUser" method="post">
+							<form action="irPerfilUsuario" method="GET">
 								<button type="submit" class="boton btn-default">
 									<strong>
 										<span class="glyphicon glyphicon-wrench"></span> Editar Perfil 
@@ -174,24 +177,26 @@ body{
 	 <form action="crearPublicacion" method="post" id="formlogin">
     	<div class="row">
 	 		<div class="col-md-8 col-md-offset-2">
-			  <label for="comment">Realizar publicaciÛn</label>
-			  <textarea name="txtIntroducirTexto" autofocus placeholder="øQuÈ tal el dÌa?" class="form-control" rows="5" id="comment"></textarea>
+			  <label for="comment">Realizar publicaci√≥n</label>
+			  <textarea name="txtIntroducirTexto" autofocus placeholder="¬øQu√© tal el d√≠a?" class="form-control" rows="5" id="comment"></textarea>
 			</div>  
 		</div>
 		
 		<br/>
 		
 		<div class="row">
-			<div class="col-md-1 col-md-offset-9">
-				<button class="btn btn-primary btn-block login" formaction="crearPublicacionPrivada" type="submit">Borrador</button>
-				<button class="btn btn-primary btn-block login" type="submit">Enviar</button>
-			</div>	  
+			<div class="col-md-1 col-md-offset-8">
+ 				<button class="btn btn-primary btn-block login" formaction="crearPublicacionPrivada" type="submit" title="Publicaci√≥n Privada"><strong><span class="glyphicon glyphicon-tag"></span>&nbsp;Borrador</strong></button>
+ 			</div>	
+ 			<div class="col-md-1">
+ 				<button class="btn btn-primary btn-block login" type="submit" title="Publicaci√≥n P√∫blica"><strong><span class="glyphicon glyphicon-share-alt"></span>&nbsp;Publicar</strong></button>
+ 			</div>	  
 		</div>
 	</form>
 	
 	<br/>
 	<div class="row">
-		<div class="col-md-12">
+		<div class="col-md-3 col-md-offset-8">
 			<spam><em>${alerta}</em></spam>
 		</div>
 	</div>
@@ -201,7 +206,7 @@ body{
 			<div class="panel panel-default">
 				 <div class="panel-body">
 					<form action="listarPublicacion" method="post">
-						<button class="btn btn-info btn-block login" type="submit">Mostrar Publicaciones</button>
+						<button class="btn btn-info btn-block login" type="submit" title="Actualizar Muro"><strong><span class="glyphicon glyphicon-list"></span>&nbsp;Mostrar Publicaciones</strong></button>
 					</form>
 				</div>
 				${publicaciones}
@@ -211,7 +216,7 @@ body{
 	
 	<div class="col-md-12" style="position: fixed; bottom: 0;">
 		<div class="panel-footer">
-			© Copyright 2017 IntraVita. Todos los derechos reservados.
+			¬© Copyright 2017 IntraVita. Todos los derechos reservados.
 		</div>
 	</div>
 

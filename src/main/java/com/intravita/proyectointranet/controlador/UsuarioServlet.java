@@ -66,7 +66,7 @@ public class UsuarioServlet {
  private final String admin_conect = "administradorConectado";
  private final String usuario_conect = "usuarioConectado";
  private final String alert = "alerta";
-
+ private final String usuario_edit="usuarioParaEditar";
  
  private static final Logger logger = LoggerFactory.getLogger(UsuarioServlet.class);
  
@@ -113,6 +113,10 @@ public class UsuarioServlet {
  public ModelAndView irRegistrar(){  
   return cambiarVista("usuario/registrar");
  }
+ @RequestMapping(value="/irAdmin",method = RequestMethod.GET)
+ public ModelAndView irAdmin(){  
+  return cambiarVista("usuario/inicioAdmin");
+ }
  
  @RequestMapping(value="/irVerPublicaciones",method = RequestMethod.GET)
  public ModelAndView irVerPublicaciones(){
@@ -129,6 +133,17 @@ public class UsuarioServlet {
  @RequestMapping(value="/irVistaAmigos",method = RequestMethod.GET)
  public ModelAndView irVistaAmigos(){
   return cambiarVista("usuario/vistaAmigos");
+ }
+ @RequestMapping(value="/irCrearCuentaDesdeAdmin",method = RequestMethod.GET)
+ public ModelAndView irCrearCuentaDesdeAdmin(){
+  return cambiarVista("usuario/registrarDesdeAdmin");
+ }
+ 
+ @RequestMapping(value="/irPerfilUsuarioAdmin",method = RequestMethod.POST)
+ public ModelAndView irPerfilUsuarioAdmin(HttpServletRequest request, Model model){
+	 String nombre=request.getParameter("txtNombre");
+	 request.getSession().setAttribute(usuario_edit, new Usuario(nombre));
+	 return cambiarVista("usuario/perfilUsuarioAdmin");
  }
  
  /***
@@ -209,7 +224,7 @@ public class UsuarioServlet {
    return cadenaUrl+=welcome;
   }
    
-  model.addAttribute("alerta", "Error en las credenciales" );
+  model.addAttribute("alerta", "Usuario y/o clave incorrectos" );
   return cadenaUrl+="login";
  } 
  /***
@@ -263,8 +278,26 @@ public class UsuarioServlet {
   *@method ejecucion cuando pulsamos el boton de registro
   *
   */
+
 /* @RequestMapping(value="/registrar", method = RequestMethod.POST)
  public String registrar(HttpServletRequest request, Model model@RequestParam("file") MultipartFile file) throws Exception  {
+=======
+ @RequestMapping(value="/registrar", method = RequestMethod.POST)
+ public String registrar(HttpServletRequest request, Model model) throws Exception  {
+  String registrar="", volver="";
+  try{
+	  if(!request.getSession().getAttribute(admin_conect).equals(null)) {
+		  registrar="registrarDesdeAdmin";
+		  volver="inicioAdmin";
+	  }else {
+		  registrar="registrar";
+		  volver="login";
+	  }
+  }catch(Exception e) {
+	  registrar="registrar";
+	  volver="login";
+  }
+
   String cadenaUrl=usuarioServ;
   String nombre=request.getParameter("txtUsuarioNombre");
   String email=request.getParameter("txtEmail");
@@ -284,7 +317,7 @@ public class UsuarioServlet {
    utilidades.credencialesValidas(nombre, email, pwd1, pwd2);
   }catch(Exception e) {
    model.addAttribute("alerta", e.getMessage());
-   return cadenaUrl+="registrar";
+   return cadenaUrl+=registrar;
   }
   
   Usuario usuario = new Usuario();
@@ -299,8 +332,9 @@ public class UsuarioServlet {
 	  usuarioDao.insertConImagen(usuario);
   }catch(Exception e) {
 	   model.addAttribute(alert, "Nombre de usuario no disponible");
-	   return cadenaUrl+="registrar";
+	   return cadenaUrl+=registrar;
   }
+
   return cadenaUrl+="login";
  }*/
  
@@ -352,6 +386,9 @@ public class UsuarioServlet {
   }
   System.out.println("llega a la victoria");
   return cadenaUrl+="login";
+
+  return cadenaUrl+=volver;
+
  }
  /***
   * 
@@ -485,7 +522,7 @@ public class UsuarioServlet {
  }
  /***
   * 
-  * @method permite crear una publicaciï¿½n por parte de un usuario
+  * @method permite crear una publicaciÃ¯Â¿Â½n por parte de un usuario
   * 
   */
  @RequestMapping(value="/crearPublicacion", method = RequestMethod.POST)
@@ -553,10 +590,95 @@ public class UsuarioServlet {
   cadenaUrl+=welcome; 
   return cadenaUrl;
  }
+ 
+ 
  /***
   * 
-  * @method permite ver las publicac
- iones realizadas por un usuario(de momento, luego cambiar a segï¿½n la visibilidad y amigos)
+  * @method permite ver las publicaciones realizadas por un usuario y borrarlas para que un admin las borre
+  * 
+  */
+ @RequestMapping(value="/listarPublicacionUsuario", method = RequestMethod.POST)
+ public String listarPublicacionUsuario(HttpServletRequest request, Model model) throws Exception  {
+  String cadenaUrl=usuarioServ;
+  Usuario usuario= (Usuario) request.getSession().getAttribute(usuario_edit);
+  ArrayList<Publicacion> publicas=publicacionDao.selectPublicas(usuario);
+  ArrayList<Publicacion> privadas=publicacionDao.selectPrivadas(usuario);
+  Publicacion[] todas=utilidades.mostrarPublicaciones(publicas, privadas);
+  String texto="";
+  String nombre="";
+  for(int i=0; i<todas.length; i++) {
+	  nombre=todas[i].getUsuario().getNombre();
+	  texto = texto+"<div class=\"panel panel-default\">\r\n" + 
+		  		"	<div class=\"panel-body\">\r\n" + 
+		  		"			<b> "+ nombre +" </b> \r\n" + 
+		  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"Ã¯Â¿Â½QuÃ¯Â¿Â½ tal el dÃ¯Â¿Â½a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
+		  		"			<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
+		  		"			<button class=\"btn btn-primary btn-block btn-md login\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModals\">Editar</button>\r\n" + 
+		  		"<div class=\"modal fade\" id=\"miModals\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalsLabel\" aria-hidden=\"true\">\r\n" + 
+		  		"			<div class=\"modal-dialog\" role=\"document\">\r\n" + 
+		  		"				<div class=\"modal-content\">\r\n" + 
+		  		"					<div class=\"modal-header\">\r\n" + 
+		  		"						<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n" + 
+		  		"							<span aria-hidden=\"true\">&times;</span>\r\n" + 
+		  		"						</button>\r\n" + 
+		  		"						<h4 class=\"modal-title\" id=\"myModalsLabel\">Editar</h4>\r\n" + 
+		  		"					</div>\r\n" + 
+		  		"					<div class=\"modal-body\">\r\n" + 
+		  		"						Â¿EstÃ¡ seguro que desea editar la publicaciÃ³n?\r\n" + 
+		  		"						<br>\r\n" + 
+		  		"						<form action=\"editarPubli\" method=\"POST\">\r\n" + 
+		  		"							<textarea name=\"txtIntroducirTexto\" placeholder=\"Ã¯Â¿Â½QuÃ¯Â¿Â½ tal el dÃ¯Â¿Â½a?\" class=\"form-control\" rows=\"5\" id=\"comment\">"+ todas[i].getTexto()+"</textarea>\r\n" + 
+		  		"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
+		  		"							<br>" + 
+		  		"							<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
+		  		"						</form>\r\n" + 
+		  		"						<form action=\"listarPublicacion\" method=\"POST\">\r\n" + 
+		  		"							<br>\r\n" + 
+		  		"							<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
+		  		"						</form>\r\n" + 
+		  		"					</div>\r\n" + 
+		  		"				</div>\r\n" + 
+		  		"			</div>\r\n" + 
+		  		"		</div>" + 
+		  		
+		"<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModalss\">Eliminar</button>\r\n" + 
+		"<div class=\"modal fade\" id=\"miModalss\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalssLabel\" aria-hidden=\"true\">\r\n" + 
+		"			<div class=\"modal-dialog\" role=\"document\">\r\n" + 
+		"				<div class=\"modal-content\">\r\n" + 
+		"					<div class=\"modal-header\">\r\n" + 
+		"						<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n" + 
+		"							<span aria-hidden=\"true\">&times;</span>\r\n" + 
+		"						</button>\r\n" + 
+		"						<h4 class=\"modal-title\" id=\"myModalssLabel\">Editar</h4>\r\n" + 
+		"					</div>\r\n" + 
+		"					<div class=\"modal-body\">\r\n" + 
+		"						Â¿EstÃ¡ seguro que desea eliminar la publicaciÃ³n?\r\n" + 
+		"						<br>\r\n" + 
+		"						<form action=\"eliminarPubli\" method=\"POST\">\r\n" + 
+		"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
+		"							<br>" + 
+		"							<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
+		"						</form>\r\n" + 
+		"						<form action=\"listarPublicacion\" method=\"POST\">\r\n" + 
+		"							<br>\r\n" + 
+		"							<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
+		"						</form>\r\n" + 
+		"					</div>\r\n" + 
+		"				</div>\r\n" + 
+		"			</div>\r\n" + 
+		"		</div>" + 
+		  		"	</div>\r\n" + 
+		  		"</div>	";		  
+
+  }
+  model.addAttribute("publicaciones", texto);
+  mostrarPerfilAdmin(request, model);
+  cadenaUrl+="perfilUsuarioAdmin";  
+  return cadenaUrl;
+ }
+ /***
+  * 
+  * @method permite ver las publicaciones realizadas por un usuario y sus amigos y editar/borrar las propias
   * 
   */
  @RequestMapping(value="/listarPublicacion", method = RequestMethod.POST)
@@ -585,10 +707,14 @@ public class UsuarioServlet {
 		  texto = texto+"<div class=\"panel panel-default\">\r\n" + 
 			  		"	<div class=\"panel-body\">\r\n" + 
 			  		"			<b> "+ nombre +" </b> \r\n" + 
-			  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"ï¿½Quï¿½ tal el dï¿½a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
+			  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"Ã¯Â¿Â½QuÃ¯Â¿Â½ tal el dÃ¯Â¿Â½a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
 			  		"			<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
-			  		"			<button class=\"btn btn-primary btn-block btn-md login\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModals\">Editar</button>\r\n" + 
-			  		"<div class=\"modal fade\" id=\"miModals\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalsLabel\" aria-hidden=\"true\">\r\n" + 
+			  		"<br>"+
+			  		"<div class=\"row\">\r\n" + 
+			  		"	<div class=\"col-md-1 col-md-offset-9\">\r\n" + 
+			  		"		<button class=\"btn btn-primary\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModals\" title=\"Editar Publicación\"><strong><span class=\"glyphicon glyphicon-edit\"></span>&nbsp;Editar</strong></button>\r\n" + 
+			  		"	</div>	 \r\n" +
+			  		"		<div class=\"modal fade\" id=\"miModals\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalsLabel\" aria-hidden=\"true\">\r\n" + 
 			  		"			<div class=\"modal-dialog\" role=\"document\">\r\n" + 
 			  		"				<div class=\"modal-content\">\r\n" + 
 			  		"					<div class=\"modal-header\">\r\n" + 
@@ -598,24 +724,30 @@ public class UsuarioServlet {
 			  		"						<h4 class=\"modal-title\" id=\"myModalsLabel\">Editar</h4>\r\n" + 
 			  		"					</div>\r\n" + 
 			  		"					<div class=\"modal-body\">\r\n" + 
-			  		"						¿Está seguro que desea editar la publicación?\r\n" + 
+			  		"						Â¿EstÃ¡ seguro que desea editar la publicaciÃ³n?\r\n" + 
 			  		"						<br>\r\n" + 
 			  		"						<form action=\"editarPubli\" method=\"POST\">\r\n" + 
-			  		"							<textarea name=\"txtIntroducirTexto\" placeholder=\"ï¿½Quï¿½ tal el dï¿½a?\" class=\"form-control\" rows=\"5\" id=\"comment\">"+ todas[i].getTexto()+"</textarea>\r\n" + 
+			  		"							<textarea name=\"txtIntroducirTexto\" placeholder=\"Ã¯Â¿Â½QuÃ¯Â¿Â½ tal el dÃ¯Â¿Â½a?\" class=\"form-control\" rows=\"5\" id=\"comment\">"+ todas[i].getTexto()+"</textarea>\r\n" + 
 			  		"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
-			  		"							<br>" + 
-			  		"							<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
+			  		"							<br>		"	+
+			  		"							<div class=\"row\">	"+
+			  		"								<div class=\"col-md-1 col-md-offset-8\">"+		
+			  		"								<button class=\"btn btn-success\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;Si</strong></button>\r\n" + 
+			  		"							</div>					"+	
 			  		"						</form>\r\n" + 
-			  		"						<form action=\"listarPublicacion\" method=\"POST\">\r\n" + 
-			  		"							<br>\r\n" + 
-			  		"							<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
+			  		"						<div class=\"col-md-1 col-md-offset-1\">"+
+			  		"						<form action=\"listarPublicacion\" method=\"POST\">\r\n" +  
+			  		"							<button class=\"btn btn-danger\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-remove\"></span>&nbsp;No</strong></button>\r\n" + 
 			  		"						</form>\r\n" + 
+			  		"						</div></div>				"+	
 			  		"					</div>\r\n" + 
 			  		"				</div>\r\n" + 
 			  		"			</div>\r\n" + 
-			  		"		</div>" + 
-			  		
-			"<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModalss\">Eliminar</button>\r\n" + 
+			  		"		</div>" +
+			"	<div class=\"col-md-1\">"+
+			"		<button type=\"submit\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#miModalss\" title=\"Eliminar Publicación\"><strong><span class=\"glyphicon glyphicon-trash\"></span>&nbsp;Eliminar</strong></button>\r\n" +
+			"  	</div>"+	 
+			"</div>"+
 			"<div class=\"modal fade\" id=\"miModalss\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalssLabel\" aria-hidden=\"true\">\r\n" + 
 			"			<div class=\"modal-dialog\" role=\"document\">\r\n" + 
 			"				<div class=\"modal-content\">\r\n" + 
@@ -623,20 +755,24 @@ public class UsuarioServlet {
 			"						<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n" + 
 			"							<span aria-hidden=\"true\">&times;</span>\r\n" + 
 			"						</button>\r\n" + 
-			"						<h4 class=\"modal-title\" id=\"myModalssLabel\">Editar</h4>\r\n" + 
+			"						<h4 class=\"modal-title\" id=\"myModalssLabel\">Eliminar</h4>\r\n" + 
 			"					</div>\r\n" + 
 			"					<div class=\"modal-body\">\r\n" + 
-			"						¿Está seguro que desea eliminar la publicación?\r\n" + 
+			"						Â¿EstÃ¡ seguro que desea eliminar la publicaciÃ³n?\r\n" + 
 			"						<br>\r\n" + 
 			"						<form action=\"eliminarPubli\" method=\"POST\">\r\n" + 
 			"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
 			"							<br>" + 
-			"							<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
+			"							<div class=\"row\">	"+
+	  		"								<div class=\"col-md-1 col-md-offset-8\">"+		
+	  		"								<button class=\"btn btn-success\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;Si</strong></button>\r\n" + 
+	  		"							</div>		"+ 
 			"						</form>\r\n" + 
+	  		"						<div class=\"col-md-1 col-md-offset-1\">"+	  		
 			"						<form action=\"listarPublicacion\" method=\"POST\">\r\n" + 
-			"							<br>\r\n" + 
-			"							<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
-			"						</form>\r\n" + 
+	  		"							<button class=\"btn btn-danger\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-remove\"></span>&nbsp;No</strong></button>\r\n" + 
+	  		"						</form>\r\n" + 
+	  		"						</div></div>				"+	
 			"					</div>\r\n" + 
 			"				</div>\r\n" + 
 			"			</div>\r\n" + 
@@ -648,7 +784,7 @@ public class UsuarioServlet {
 		  texto+="		<div class=\"panel panel-default\">\r\n" + 
 		  				"			 <div class=\"panel-body\">";
 	  	  texto+="			<b> "+ nombre +" </b> \r\n" + 
-	  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"ï¿½Quï¿½ tal el dï¿½a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" ;
+	  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"Ã¯Â¿Â½QuÃ¯Â¿Â½ tal el dÃ¯Â¿Â½a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" ;
 		  texto+="<br>";
 		  texto+="		</div>	\r\n" + 
 		  			"	</div>";
@@ -658,7 +794,6 @@ public class UsuarioServlet {
 	  
 
   }
-  System.out.print(texto);
   model.addAttribute("publicaciones", texto);
   
   cadenaUrl+=welcome;  
@@ -725,13 +860,9 @@ public class UsuarioServlet {
    String pwdNueva1=request.getParameter("txtPwdNueva1");
    String pwdNueva2=request.getParameter("txtPwdNueva2");
    
-   System.out.println ("Hola voy a buscar el usuario");
    Usuario usuario = usuarioDao.selectPwd(pwdTemporal);// buscar encriptada
-   if (usuario==null) {
-	   System.out.println ("hola soy nulo");
-   }
-    
-    
+   
+
    if (usuario==null || !(pwdNueva1.equals(pwdNueva2))) {
 	   model.addAttribute(alert, "Datos incorrectos");
 	   return "usuario/reestablecerPwd";
@@ -849,14 +980,109 @@ public class UsuarioServlet {
 	   model.addAttribute("notificaciones", utilidades.mostrarNotificaciones(usuario));
 	   return "usuario/vistaAmigos";
   } 
+  /**
+   * @return muestra los datos de un usuario en la vista de admin y permite editar nombre y pwd
+   */
+  @RequestMapping(value="/mostrarPerfilAdmin", method = RequestMethod.GET)
+  public String mostrarPerfilAdmin(HttpServletRequest request, Model model) throws Exception  {
+	   Usuario usuario;
+	   usuario=(Usuario) request.getSession().getAttribute(usuario_edit);
+	   model.addAttribute("perfil", utilidades.mostrarPerfilAdmin(usuario));
+	   return "usuario/perfilUsuarioAdmin";
+  } 
+  /**
+   * @return editar Pwd de un usuario desde la vista de admin
+   */
+  @RequestMapping(value="/editarPwd", method = RequestMethod.GET)
+  public String editarPwd(HttpServletRequest request, Model model) throws Exception  {
+	   Usuario usuario;
+	   usuario=(Usuario) request.getSession().getAttribute(usuario_edit);
+	   usuario.setClave(request.getParameter("txtPWD"));
+	   usuarioDao.updatePwd(usuario);
+	   model.addAttribute("perfil", utilidades.mostrarPerfilAdmin(usuario));
+	   return "usuario/perfilUsuarioAdmin";
+  } 
+  
+  @RequestMapping(value="/editarNombre", method = RequestMethod.GET)
+  public String editarNombre(HttpServletRequest request, Model model){
+	   Usuario usuario;
+	   usuario=(Usuario) request.getSession().getAttribute(usuario_edit);
+	   String nuevoNombre=request.getParameter("txtNombre");
+	   try {
+		   utilidades.comprobacionNombre(nuevoNombre);
+		   usuarioDao.updateNombre(usuario.getNombre(), nuevoNombre);
+		   usuario.setNombre(nuevoNombre);
+		   request.getSession().setAttribute(usuario_edit, usuario);
+	   } catch (Exception e) {
+		   model.addAttribute("alerta", e.getMessage());
+	   }
+	   model.addAttribute("perfil", utilidades.mostrarPerfilAdmin(usuario));
+	   return "usuario/perfilUsuarioAdmin";
+  } 
  /***
   * 
-  *@method Esta funciï¿½n sirve para controlar los cambios de vista por nombre(string)
+  *@method Esta funciÃ¯Â¿Â½n sirve para controlar los cambios de vista por nombre(string)
   *
   */
+  
+  
+//By JA
+  @RequestMapping(value="/irPerfilUsuario", method = RequestMethod.GET)
+  public ModelAndView irPerfilUsuario(HttpServletRequest request) throws Exception  {
+	 Usuario usuarioLigero = (Usuario) request.getSession().getAttribute(usuario_conect);
+	 Usuario usuario = usuarioDao.selectNombre(usuarioLigero.getNombre());
+	 System.out.println(usuario.getNombre());
+	 System.out.println(usuario.getEmail());
+	  request.setAttribute("usuarioNombre", usuario.getNombre());
+	  request.setAttribute("usuarioEmail", usuario.getEmail());
+   return cambiarVista("usuario/perfilUsuario");
+  }
+  
+  //By JA
+  @RequestMapping(value="/modificarPerfilUsuario", method = RequestMethod.POST)
+  public String modificarPerfilUsuario(HttpServletRequest request, Model model) throws Exception  {
+	  
+	  
+	  String pwdNueva1=request.getParameter("txtPwdNueva1");
+	  String pwdNueva2=request.getParameter("txtPwdNueva2");
+	  
+	  Usuario usuarioLigero = (Usuario) request.getSession().getAttribute(usuario_conect);
+	  Usuario usuario = usuarioDao.selectNombre(usuarioLigero.getNombre());
+	  if (usuario==null || !(pwdNueva1.equals(pwdNueva2))) {
+		  request.setAttribute("usuarioNombre", usuario.getNombre());
+		  request.setAttribute("usuarioEmail", usuario.getEmail());
+		   model.addAttribute(alert, "Datos incorrectos");
+		   return "usuario/perfilUsuario";
+				   
+	   }
+	   
+		  try {
+			   utilidades.seguridadPassword(pwdNueva1);
+		  }
+		   catch (Exception e) {
+			   model.addAttribute(alert, e.getMessage());
+			   request.setAttribute("usuarioNombre", usuario.getNombre());
+			   request.setAttribute("usuarioEmail", usuario.getEmail());
+			   return "usuario/perfilUsuario"; 
+		   }
+	   
+		   usuario.setClave(pwdNueva1); 
+		   usuarioDao.updatePwd(usuario);
+		   
+	   return "usuario/bienvenido";
+	   
+} 
+	  	  
+	  
+	  
+
+  
+  
+  
  public ModelAndView cambiarVista(String nombreVista) {
   ModelAndView vista =new ModelAndView(nombreVista);
   return vista;
  }
+ 
 }
 

@@ -20,25 +20,29 @@
   outline: none;
   color: #fff;
   background-color: #166EE7;
-  border: none;
+  border: 2px;
+  border-color: #FFFFFF;
   border-radius: 10px;
   box-shadow: 0 3px #999;
 }
 
-.btn:hover {background-color: #21DD27}
+.btn:hover {
+	background-color: #337AB7;
+	color: #FFFFFF;
+}
 
 .b:active {
-  background-color: #21DD27;
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
+	 background-color: #337AB7;
+	 box-shadow: 0 5px #666;
+	 transform: translateY(4px);
 }
 
 span {
     padding: 20px;
     color: #DF0101;
     margin-left: 12px;
- font-weight: bold;
- font-size: 15px;
+ 	font-weight: bold;
+ 	font-size: 15px;
 }
 
 
@@ -46,11 +50,13 @@ span {
    margin:0;
    padding:0
 }
+
 html,
 body,
 #wrap {
    height: 100%;
 }
+
 body > #wrap {
    height: auto;
    min-height: 100%;
@@ -64,12 +70,19 @@ body > #wrap {
    clear: both;
 }
 
+body{
+	background-color: #2CC8E7;
+}
 </style>
 
 
 </head>
-<body style="background-color: #2CC8E7;">
-<img alt="logo" src="avatar.jpg">
+
+
+
+<body>
+
+
 <div class="container">
 
    <center>
@@ -90,9 +103,9 @@ body > #wrap {
   </div>
   <div class="row">
    <div class="col-md-8 col-md-offset-2">
-    <label for="pwd" style="color:white; font-size:15px;">Contraseña:</label>
+    <label for="pwd" style="color:white; font-size:15px;">ContraseÃ±a:</label>
     <input type="password" name="txtUsuarioClave" class="form-control" id="pwd" placeholder="password">
-    <a href="irRecuperarCredenciales" style="color: white"><em>¿Olvidó su contraseña?</em></a>
+    <a href="irRecuperarCredenciales" style="color: white"><em>Â¿OlvidÃ³ su contraseÃ±a?</em></a>
    </div>
  </div>   
  </div>
@@ -100,7 +113,7 @@ body > #wrap {
  <div class="row">
   <div class="col-md-7 col-md-offset-5">
    <br/>
-   <button class="btn login" type="submit">Iniciar Sesión</button> 
+   <button class="btn login" type="submit">Iniciar SesiÃ³n</button> 
    <span><em>${alerta}</em></span>
    <br/>
   </div>   
@@ -110,7 +123,7 @@ body > #wrap {
  <br>
  <div class="row">
   <div class="col-md-1 col-md-offset-5">
-   <form action="irRegistrar" method="get"><button class="btn login" type="submit">&nbsp;&nbsp;   Regístrate   &nbsp;&nbsp;</button></form>
+   <form action="irRegistrar" method="get"><button class="btn login" type="submit">&nbsp;&nbsp;   RegÃ­strate   &nbsp;&nbsp;</button></form>
   </div>
  </div>
  <br>
@@ -119,7 +132,7 @@ body > #wrap {
 
  <div class="col-md-12" style="position: fixed; bottom: 0;">
   <div class="panel-footer">
-   © Copyright 2017 IntraVita. Todos los derechos reservados.
+   Â© Copyright 2017 IntraVita. Todos los derechos reservados.
   </div>
  </div>
 

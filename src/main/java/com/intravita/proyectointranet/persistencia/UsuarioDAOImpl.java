@@ -257,7 +257,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		return result;
 	}
 	/***
-	 * @method select que devuelve todos los usuarios
+	 * @method select que devuelve todos los usuarios que no son admins
 	 * @return la lista de usuarios
 	 */
 	public List<Usuario> list() {
@@ -274,17 +274,86 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		}
 		return retorno;
 	}
-
+	/***
+	 * @method select que devuelve los nombres de todos los usuarios
+	 * @return la lista de usuarios
+	 */
+	public List<Usuario> selectAll() {
+		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
+		FindIterable<BsonDocument> resultado=usuarios.find();
+		String nombre;
+		BsonDocument usuario;
+		Iterator<BsonDocument> lista=resultado.iterator();
+		List<Usuario> retorno=new ArrayList<Usuario>();
+		while(lista.hasNext()) {
+			usuario=lista.next();
+			nombre=usuario.getString(name).getValue();
+			retorno.add(new Usuario(nombre));
+		}
+		return retorno;
+	}
+	/**
+	 * @method borra todas las relaciones de amistad, solicitudes enviadas, publicaciones y al propio usuario
+	 * 
+	 */
 	public void delete (Usuario usuario){
+		List<Usuario> todos=selectAll();
+		Iterator <Usuario> it2=todos.iterator();
+		Usuario aux;
+		while(it2.hasNext()) {
+			aux=it2.next();
+			borrarAmistad(usuario,aux);
+			rechazarSolicitud(usuario, aux);	
+		}
 		BsonDocument bso = new BsonDocument();
 		bso.append(name, new BsonString(usuario.getNombre()));
-
-		
 		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
 		usuarios.deleteOne(bso);
 		publicacionDao.borradoUsuario(usuario);
 	}
-	
+	public void updateNombre(String antiguo, String nuevo) {
+		List <Usuario> todos=selectAll();
+		BsonString nombreAnt=new BsonString(antiguo);
+		BsonString nombreNue=new BsonString(nuevo);
+		Iterator <Usuario> it=todos.iterator();
+		Usuario aux;
+		List <BsonValue> Listasolicitudes;
+		List <BsonValue> Listaamigos;
+		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
+		BsonDocument criterio = new BsonDocument();
+		FindIterable<BsonDocument> resultado;
+		BsonDocument usuario;
+		BsonDocument actualizacion;
+		while(it.hasNext()) {
+			aux=it.next();
+			criterio.append(name, new BsonString(aux.getNombre()));
+			resultado=usuarios.find(criterio);
+			usuario = resultado.first();
+			
+			Listasolicitudes=obtenerSolicitudes(aux);
+			if(Listasolicitudes.contains(nombreAnt)) {
+				Listasolicitudes.remove(nombreAnt);
+				Listasolicitudes.add(nombreNue);
+				actualizacion= new BsonDocument("$set", new BsonDocument(solicitudes, new BsonArray(Listasolicitudes)));
+				usuarios.findOneAndUpdate(usuario, actualizacion);
+			}else {
+				Listaamigos=obtenerAmigos(aux);
+				if(Listaamigos.contains(nombreAnt)) {
+					Listaamigos.remove(nombreAnt);
+					Listaamigos.add(nombreNue);
+					actualizacion= new BsonDocument("$set", new BsonDocument(amigos, new BsonArray(Listaamigos)));
+					usuarios.findOneAndUpdate(usuario, actualizacion);
+				}
+			}
+		}
+		usuarios = obtenerUsuarios();
+		criterio = new BsonDocument();
+		criterio.append(name, nombreAnt);
+		resultado=usuarios.find(criterio);
+		usuario = resultado.first();
+		actualizacion= new BsonDocument("$set", new BsonDocument(name, nombreNue));
+		usuarios.findOneAndUpdate(usuario, actualizacion);
+	}
 	public void update(String nombre, String pwdAntigua, String pwdNueva){
 
 		
@@ -460,9 +529,9 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		listaBorrador.remove(new BsonString(borrado.getNombre()));
 
 		List<BsonValue> listaBorrado=obtenerAmigos(borrado);
-		System.out.println(listaBorrado.toString());
+
 		listaBorrado.remove(new BsonString(borrador.getNombre()));
-		System.out.println(listaBorrado.toString());
+
 		
 		MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
 		
