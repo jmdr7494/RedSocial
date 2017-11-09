@@ -17,7 +17,7 @@
 
 
 <style>
-p {
+spam {
     padding: 20px;
     color: #DF0101;
     margin-left: 12px;
@@ -25,6 +25,26 @@ p {
 	font-size: 15px;
 }
 
+.boton{
+        font-size:16px;
+        font-weight:bold;
+        color:white;
+        border:0px;
+        background:#337ab7;
+        width:100%;
+        height:100%;
+        text-align: left;
+      }
+      
+.boton:hover {
+	background-color: #D2D2D2;
+	color: #000000;
+}
+
+.boton:active{
+	background-color: #ABABAB;
+	color: #000000;
+}
 
 
 * {
@@ -50,10 +70,14 @@ body > #wrap {
    clear: both;
 }
 
+
+body{
+   background-color: #FAFAFA;
+}
 </style>
 
 </head>
-<body style="background-color: #FAFAFA;">
+<body>
  	<jsp:useBean id="administradorConectado" scope="session" class="com.intravita.proyectointranet.modelo.Administrador"></jsp:useBean>
 	
 		
@@ -63,7 +87,7 @@ body > #wrap {
 			</div>
 			
 			<div class="col-md-1 col-md-offset-3">
-					<button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#miModal" style="border-width: 10px;"><strong>?</strong></button>
+					<button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#miModal" style="border-width: 10px;"><strong>&nbsp;?&nbsp;</strong></button>
 			</div>
 			
 			<div class="col-md-1 fixed-top" style="position: relative; top: 8px">
@@ -82,16 +106,16 @@ body > #wrap {
 						<h4 class="modal-title" id="myModalLabel">Ayuda</h4>
 					</div>
 					<div class="modal-body">
-						Introducir el nombre del usuario sobre el que queramos realizar una acción en el cuadro de texto
-						correspondiente para ello. Si quiere darle privilegios de administrador, tendrá que hacer click 
-						sobre el botón de Promover. Si lo que desea es quitarlo de la colección de administradores, tendrá
-						que hacer click sobre el botón Degradar. Y si lo que quiere es eliminar a un usuario o administrador
-						del sistema, tendrá que hacer click sobre el botón Borrar.<br><br>
-						Para consultar los usuarios y administradores del sistema tendrá que hacer click sobre el botón 
-						Actualizar Lista, de modo que aparecerán por separado la lista de usuarios y la de administradores.
+						Introducir el nombre del usuario sobre el que queramos realizar una acci&oacute;n en el cuadro de texto
+						correspondiente para ello. Si quiere darle privilegios de administrador, tendr&aacute; que hacer click 
+						sobre el bot&oacute;n de Promover. Si lo que desea es quitarlo de la colecci&oacute;n de administradores, tendr&aacute;
+						que hacer click sobre el bot&oacute;n Degradar. Y si lo que quiere es eliminar a un usuario o administrador
+						del sistema, tendr&aacute; que hacer click sobre el bot&oacute;n Borrar.<br><br>
+						Para consultar los usuarios y administradores del sistema tendr&aacute; que hacer click sobre el bot&oacute;n 
+						Actualizar Lista, de modo que aparecer&aacute;n por separado la lista de usuarios y la de administradores.
 						<br><br>
-						Para cambiar al rol de usuario, dentro del botón de ajustes tiene la opción de Cambiar Rol, la cual
-						le cambiará el rol a usuario.
+						Para cambiar al rol de usuario, dentro del bot&oacute;n de ajustes tiene la opci&oacute;n de Cambiar Rol, la cual
+						le cambiar&aacute; el rol a usuario.
 					</div>
 				</div>
 			</div>
@@ -105,25 +129,43 @@ body > #wrap {
 				</strong></em></h3>
 			</div>
 			
-			<div class="col-md-4">
+			<br/>
 
-			</div>
-			<div class="col-md-1">
-				<br>
-				<form action="changeToUser" method="post"><button type="submit" class="btn btn-success"><strong><span class="glyphicon glyphicon-user"></span> Cambiar Rol </strong></button></form>
-			</div>
+			<div class="btn-group col-md-1 col-md-offset-4">
+				 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+				    <span class="glyphicon glyphicon-cog"></span>&nbsp;<strong>&nbsp;Ajustes&nbsp;</strong><span class="caret"></span>
+				  </button>
+					<ul class="dropdown-menu" style="background:#337ab7;">
+						<li>
+							<form action="changeToUser" method="post">
+								<button type="submit" class="boton btn-success">
+									<strong><span class="glyphicon glyphicon-arrow-down"></span>&nbsp;Cambiar Rol </strong>
+								</button>
+							</form>
+						</li>
+						<li>
+							<form action="irCrearCuentaDesdeAdmin" method="get">
+								<button type="submit" class="boton btn-success">
+									<strong><span class="glyphicon glyphicon-plus"></span>&nbsp;Crear Cuenta </strong>
+								</button>
+							</form>
+						</li>
+						<li>
+
+						</li>
+						<li>
+
+						</li>
+						
+				</ul>
+			</div>	
 		</div>
-		<div class="row">
-			<div class="col-md-1 col-md-offset-10">
-				<br>
-				<form action="irCrearCuentaDesdeAdmin" method="get"><button type="submit" class="btn btn-success"><strong><span class="glyphicon glyphicon-user"></span> Crear cuenta </strong></button></form>
-			</div>
-		</div>
+
 	
 	<br>
 	<div class="row">
-		<div class="col-md-4 col-md-offset-2">
-			<p><em>${alerta}</em></p>
+		<div class="col-md-4 col-md-offset-9">
+			<spam><em>${alerta}</em></spam>
 		</div>
 	</div>
 	<br>
@@ -166,7 +208,7 @@ body > #wrap {
 	
 	<div class="col-md-12" style="position: fixed; bottom: 0;">
 		<div class="panel-footer">
-			© Copyright 2017 IntraVita. Todos los derechos reservados.
+			&copy; Copyright 2017 IntraVita. Todos los derechos reservados.
 		</div>
 	</div>
 	
