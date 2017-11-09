@@ -13,6 +13,7 @@ import com.intravita.proyectointranet.modelo.Administrador;
 import com.intravita.proyectointranet.modelo.Publicacion;
 import com.intravita.proyectointranet.modelo.Usuario;
 import com.intravita.proyectointranet.persistencia.AdministradorDAOImpl;
+import com.intravita.proyectointranet.persistencia.PublicacionDAOImpl;
 import com.intravita.proyectointranet.persistencia.UsuarioDAOImpl;
 
 /**
@@ -25,6 +26,7 @@ import com.intravita.proyectointranet.persistencia.UsuarioDAOImpl;
 public class utilidades {
 	static UsuarioDAOImpl usuarioDao= new UsuarioDAOImpl();
 	static AdministradorDAOImpl administradorDao=new AdministradorDAOImpl();
+	static PublicacionDAOImpl publicacionDao=new PublicacionDAOImpl();
 	/**
 	 * Extension de email permitida
 	 */
@@ -376,5 +378,48 @@ public class utilidades {
 				"<label for=\"email\">Email</label>"+
 				"<input name=\"txtEMAIL\" class=\"form-control\" value=\""+user.getEmail()+"\" id=\"email\" placeholder=\"email\" disabled>";
 		return texto;
+	}
+	/**
+	 * 
+	 * @param usuario: usuario que quiere compartir
+	 * @param publicacion: publicacion a compartir
+	 */
+	public static void compartirPublicacion(Usuario usuario, Publicacion publicacion) throws Exception{
+		List<BsonValue> compartidores=publicacionDao.obtenerCompartidos(publicacion);
+		if(compartidores.contains(new BsonString(usuario.getNombre()))) throw new Exception("Ya estas compartiendo esta publicacion");
+		publicacionDao.compartir(usuario, publicacion);
+	}
+	/**
+	 * 
+	 * @param usuario: usuario que quiere dejar de compartir
+	 * @param compartida: publicacion a compartir
+	 */
+	public static void dejarCompartirPublicacion(Usuario usuario, Publicacion compartida) throws Exception{
+		List<BsonValue> compartidores=publicacionDao.obtenerCompartidos(compartida);
+		if(!compartidores.contains(new BsonString(usuario.getNombre()))) throw new Exception("No estas compartiendo esta publicacion");
+		publicacionDao.dejarCompartir(usuario, compartida);
+		
+	}
+	/**
+	 * 
+	 * @param nombre del usuario del que queremos obtener las publicaciones que ha compartido
+	 * @return publicaciones compartidas por el usuario
+	 */
+	public static ArrayList<Publicacion> obtenerCompartidos(String nombre) {
+		List <Publicacion> todas=publicacionDao.selectAll();
+		Iterator <Publicacion> it=todas.iterator();
+		BsonString comparar=new BsonString(nombre);
+		Publicacion aux;
+		List <BsonValue> compartidopor;
+		
+		ArrayList <Publicacion> retorno=new ArrayList<Publicacion>();
+		while(it.hasNext()) {
+			aux=it.next();
+			compartidopor=aux.getCompartidopor();
+			if(compartidopor.contains(comparar)) {
+				retorno.add(aux);
+			}
+		}
+		return retorno;
 	}
 }

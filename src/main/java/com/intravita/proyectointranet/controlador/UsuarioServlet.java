@@ -579,11 +579,11 @@ public class UsuarioServlet {
  }
  /***
   * 
-  * @method permite ver las publicaciones realizadas por un usuario y sus amigos y editar/borrar las propias
+  * @method permite ver las publicaciones realizadas por un usuario, sus amigos y lo que comparten y editar/borrar las propias
   * 
   */
  @RequestMapping(value="/listarPublicacion", method = RequestMethod.POST)
- public String listarPublicacion(HttpServletRequest request, Model model) throws Exception  {
+ public String listarPublicacion(HttpServletRequest request, Model model){
   String cadenaUrl=usuarioServ;
   Usuario usuario;
   usuario=(Usuario) request.getSession().getAttribute(usuario_conect);
@@ -592,13 +592,19 @@ public class UsuarioServlet {
   ArrayList<Publicacion> privadas=publicacionDao.selectPrivadas(usuario);
   List<BsonValue> amigos=usuarioDao.obtenerAmigos(usuario);
   ArrayList<Publicacion> publicasAmigos=new ArrayList<Publicacion>();
+  ArrayList<Publicacion> compartidasAmigos=new ArrayList<Publicacion>();
   ArrayList<Publicacion> aux;
   Iterator<BsonValue> it=amigos.iterator();
+  BsonValue element;
   while(it.hasNext()) {
-	  aux=publicacionDao.selectPublicas(new Usuario(it.next().asString().getValue()));
+	  element=it.next();
+	  aux=publicacionDao.selectPublicas(new Usuario(element.asString().getValue()));
 	  publicasAmigos.addAll(aux);
+	  aux=utilidades.obtenerCompartidos(element.asString().getValue());
+	  compartidasAmigos.addAll(aux);
   }
   publicas.addAll(publicasAmigos);
+  publicas.addAll(compartidasAmigos);
   Publicacion[] todas=utilidades.mostrarPublicaciones(publicas, privadas);
   String texto="";
   String nombre="";
@@ -681,14 +687,17 @@ public class UsuarioServlet {
 			  		"	</div>\r\n" + 
 			  		"</div>	";		  
 	  }else {
-		  
-		  texto+="		<div class=\"panel panel-default\">\r\n" + 
-		  				"			 <div class=\"panel-body\">";
-	  	  texto+="			<b> "+ nombre +" </b> \r\n" + 
-	  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"ï¿½Quï¿½ tal el dï¿½a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" ;
-		  texto+="<br>";
-		  texto+="		</div>	\r\n" + 
-		  			"	</div>";
+		  texto+="<div class=\"panel panel-default\">\r\n" + 
+		  		"	<div class=\"panel-body\">\r\n" + 
+		  		"		<b> "+nombre+"</b>\r\n" + 
+		  		"		<textarea name=\"txtIntroducirTexto\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
+		  		"		<br>\r\n" + 
+		  		"		<form action=\"compartir\" method=\"post\">\r\n" + 
+		  		"			<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"ID\">\r\n" + 
+		  		"			<button type=\"submit\" class=\"boton btn-default\"><span class=\"glyphicon glyphicon-send\"></span>&nbsp;</button>\r\n" + 
+		  		"		</form>\r\n" + 
+		  		"	</div>\r\n" + 
+		  		"</div>";
 	  }
 
 	  
@@ -920,6 +929,31 @@ public class UsuarioServlet {
 	   model.addAttribute("perfil", utilidades.mostrarPerfilAdmin(usuario));
 	   return "usuario/perfilUsuarioAdmin";
   } 
+  
+	@RequestMapping(value = "/compartir", method = RequestMethod.POST)
+	public String compartir(HttpServletRequest request, Model model) {
+		String cadenaUrl = usuarioServ;
+		
+		
+		Usuario usuario = (Usuario) request.getSession().getAttribute(usuario_conect);
+		String id = request.getParameter("txtIdPublicacion");
+		Publicacion publicacion=new Publicacion(new Usuario("autor"), "texto");
+		publicacion.setId(id);
+		publicacion=publicacionDao.selectOne(publicacion);
+		try{
+			utilidades.compartirPublicacion(usuario, publicacion);
+		}catch(Exception e) {
+			try {
+				utilidades.dejarCompartirPublicacion(usuario, publicacion);
+			} catch (Exception e1) {
+				model.addAttribute("alerta", e1.getMessage());
+			}
+		}
+		listarPublicacion(request, model);
+		cadenaUrl += welcome;
+		return cadenaUrl;
+	}
+
  /***
   * 
   *@method Esta funciï¿½n sirve para controlar los cambios de vista por nombre(string)
