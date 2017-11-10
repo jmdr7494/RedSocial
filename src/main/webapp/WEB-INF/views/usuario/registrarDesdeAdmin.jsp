@@ -152,7 +152,7 @@
 	</div>
 
 
-	<form action="registrar" method="POST"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	<form action="registrarDesdeAdmin" method="POST"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
 				<label for="usr" style="color:white; font-size:15px;">Usuario:</label>
