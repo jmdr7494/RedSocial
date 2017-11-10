@@ -363,18 +363,94 @@ public class utilidades {
 	 */
 	public static String mostrarPerfilAdmin(Usuario usuario) {
 		Usuario user=usuarioDao.selectNombre(usuario.getNombre());
-		String texto="<form action=\"editarNombre\" method=\"GET\">\r\n" + 
-				"		<label for=\"usr\">Nombre</label>"+
-				"		<input name=\"txtNombre\" class=\"form-control\" value=\""+user.getNombre()+"\" id=\"usr\" placeholder=\"usuario\" >\r\n" + 
-				"		<button class=\"btn btn-danger btn-block btn-md login\"  type=\"submit\">Editar</button>\r\n" + 
-				"</form>\r\n" + 
-				"<form action=\"editarPwd\" method=\"GET\">\r\n" + 
-				"		<label for=\"pwd\">Password</label>"+
-				"		<input name=\"txtPWD\" class=\"form-control\" value=\"Nueva password\" id=\"pwd\" placeholder=\"pwd\" >\r\n" + 
-				"		<button class=\"btn btn-danger btn-block btn-md login\"  type=\"submit\">Editar</button>\r\n" + 
-				"</form>\r\n" +
-				"<label for=\"email\">Email</label>"+
-				"<input name=\"txtEMAIL\" class=\"form-control\" value=\""+user.getEmail()+"\" id=\"email\" placeholder=\"email\" disabled>";
+		String texto= 
+				"		<div class=\"row\">\r\n" + 
+				"			<div class=\"col-md-8 col-md-offset-2\">"+
+				"				<label for=\"usr\">Nombre</label>"+
+				"				<input name=\"txtNombre\" class=\"form-control\" value=\""+user.getNombre()+"\" id=\"usr\" placeholder=\"usuario\" disabled>\r\n" +
+				"				<br>\r\n" +
+				"				<div class=\"col-md-3 col-md-offset-9\">"+
+				"					<button class=\"btn btn-primary btn-block btn-md login\" data-toggle=\"modal\" data-target=\"#miModals\" type=\"submit\">Editar</button>\r\n" + 
+				"					<br>\r\n" +
+				"				</div>\r\n" + 
+				"			</div>\r\n" + 
+				"		</div>\r\n" + 
+				
+				"		<div class=\"row\">\r\n" + 
+				"			<div class=\"col-md-8 col-md-offset-2\">"+
+				"				<label for=\"pwd\">Password</label>"+
+				"				<input name=\"txtPWD\" class=\"form-control\" id=\"pwd\" placeholder=\"Nueva password\" disabled>\r\n" +
+				"				<br>\r\n" +
+				"				<div class=\"col-md-3 col-md-offset-9\">"+
+				"					<button class=\"btn btn-primary btn-block btn-md login\" data-toggle=\"modal\" data-target=\"#miModales\" type=\"submit\">Editar</button>\r\n" + 
+				"					<br>\r\n" +
+				"				</div>\r\n" +
+				"			</div>\r\n" + 
+				"		</div>\r\n" + 
+				
+				"<div class=\"row\">\r\n" + 
+				"	<div class=\"col-md-8 col-md-offset-2\">"+
+				"		<label for=\"email\">Email</label>"+
+				"		<input name=\"txtEMAIL\" class=\"form-control\" value=\""+user.getEmail()+"\" id=\"email\" placeholder=\"email\" title=\"Campo bloqueado\" disabled>"+
+				"		<br>\r\n"+
+				"	</div>\r\n" + 
+				"</div>\r\n" +
+				
+				
+				"<div class=\"modal fade\" id=\"miModals\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalsLabel\" aria-hidden=\"true\">\r\n" + 
+				"			<div class=\"modal-dialog\" role=\"document\">\r\n" + 
+				"				<div class=\"modal-content\">\r\n" + 
+				"					<div class=\"modal-header\">\r\n" + 
+				"						<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n" + 
+				"							<span aria-hidden=\"true\">&times;</span>\r\n" + 
+				"						</button>\r\n" + 
+				"						<h4 class=\"modal-title\" id=\"myModalsLabel\">Editar Nombre</h4>\r\n" + 
+				"					</div>\r\n" + 
+				"					<div class=\"modal-body\">\r\n" + 
+				"						¿Está seguro que desea editar el nombre del usuario?\r\n" + 
+				"						<br>\r\n" + 
+				"						<form action=\"editarNombre\" method=\"GET\">\r\n" +
+				"							<input name=\"txtNombre\" autofocus class=\"form-control\" value=\""+user.getNombre()+"\" id=\"usr\" placeholder=\"usuario\">\r\n" +
+				"							<br>\r\n" +
+				"							<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
+				"						</form>\r\n" + 
+				"						<form action=\"mostrarPerfilAdmin\" method=\"GET\">\r\n" + 
+				"							<br>\r\n" + 
+				"							<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
+				"						</form>\r\n" + 
+				"					</div>\r\n" + 
+				"				</div>\r\n" + 
+				"			</div>\r\n" + 
+				"		</div>" +
+				
+				
+				
+				"<div class=\"modal fade\" id=\"miModales\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalesLabel\" aria-hidden=\"true\">\r\n" + 
+				"			<div class=\"modal-dialog\" role=\"document\">\r\n" + 
+				"				<div class=\"modal-content\">\r\n" + 
+				"					<div class=\"modal-header\">\r\n" + 
+				"						<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n" + 
+				"							<span aria-hidden=\"true\">&times;</span>\r\n" + 
+				"						</button>\r\n" + 
+				"						<h4 class=\"modal-title\" id=\"myModalesLabel\">Editar Password</h4>\r\n" + 
+				"					</div>\r\n" + 
+				"					<div class=\"modal-body\">\r\n" + 
+				"						¿Está seguro que desea editar la password del usuario?\r\n" + 
+				"						<br>\r\n" + 
+				"						<form action=\"editarPwd\" method=\"GET\">\r\n" +
+				"							<input name=\"txtPWD\" autofocus type=\"password\" class=\"form-control\" id=\"pwd\" placeholder=\"Nueva password\">\r\n" +
+				"							<br>\r\n" +
+				"							<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
+				"						</form>\r\n" + 
+				"						<form action=\"mostrarPerfilAdmin\" method=\"GET\">\r\n" + 
+				"							<br>\r\n" + 
+				"							<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
+				"						</form>\r\n" + 
+				"					</div>\r\n" + 
+				"				</div>\r\n" + 
+				"			</div>\r\n" + 
+				"		</div>" ; 
+		
 		return texto;
 	}
 }

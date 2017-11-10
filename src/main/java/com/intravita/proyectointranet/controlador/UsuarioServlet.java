@@ -421,9 +421,44 @@ public class UsuarioServlet {
   cadenaUrl+=welcome;  
   return cadenaUrl;
  }
+ 
+ 
+ 
+ 
+ /**
+  * 
+  *@method borrar una publicacion dado un ID desde el administrador
+  */
+ @RequestMapping(value="/eliminarPubliAdmin", method = RequestMethod.POST)
+ public String eliminarPubliAdmin(HttpServletRequest request, Model model) throws Exception  {
+  String cadenaUrl=usuarioServ;
+  String id=request.getParameter("txtIdPublicacion");
+  publicacionDao.remove(id);
+  listarPublicacionUsuario(request, model);
+  cadenaUrl+="perfilUsuarioAdmin";  
+  return cadenaUrl;
+ }
+ 
+ /**
+  * 
+  *@method editar una publicacion dado un ID desde el administrador
+  */
+ @RequestMapping(value="/editarPubliAdmin", method = RequestMethod.POST)
+ public String editarPubliAdmin(HttpServletRequest request, Model model) throws Exception  {
+  String cadenaUrl=usuarioServ;
+  String texto=request.getParameter("txtIntroducirTexto");
+  String id=request.getParameter("txtIdPublicacion");
+  publicacionDao.update(id, texto);
+  listarPublicacionUsuario(request, model);
+  cadenaUrl+="perfilUsuarioAdmin";  
+  return cadenaUrl;
+ }
+ 
+ 
+ 
  /***
   * 
-  * @method permite crear una publicaciï¿½n por parte de un usuario
+  * @method permite crear una publicaci�n por parte de un usuario
   * 
   */
  @RequestMapping(value="/crearPublicacion", method = RequestMethod.POST)
@@ -510,73 +545,49 @@ public class UsuarioServlet {
   for(int i=0; i<todas.length; i++) {
 	  nombre=todas[i].getUsuario().getNombre();
 	  texto = texto+"<div class=\"panel panel-default\">\r\n" + 
-		  		"	<div class=\"panel-body\">\r\n" + 
+		  		"		<div class=\"panel-body\">\r\n" + 
 		  		"			<b> "+ nombre +" </b> \r\n" + 
-		  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"ï¿½Quï¿½ tal el dï¿½a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
+		  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"�Qu� tal el d�a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
 		  		"			<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
-		  		"			<button class=\"btn btn-primary btn-block btn-md login\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModals\">Editar</button>\r\n" + 
-		  		"<div class=\"modal fade\" id=\"miModals\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalsLabel\" aria-hidden=\"true\">\r\n" + 
-		  		"			<div class=\"modal-dialog\" role=\"document\">\r\n" + 
-		  		"				<div class=\"modal-content\">\r\n" + 
-		  		"					<div class=\"modal-header\">\r\n" + 
-		  		"						<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n" + 
-		  		"							<span aria-hidden=\"true\">&times;</span>\r\n" + 
-		  		"						</button>\r\n" + 
-		  		"						<h4 class=\"modal-title\" id=\"myModalsLabel\">Editar</h4>\r\n" + 
-		  		"					</div>\r\n" + 
-		  		"					<div class=\"modal-body\">\r\n" + 
-		  		"						¿Está seguro que desea editar la publicación?\r\n" + 
-		  		"						<br>\r\n" + 
-		  		"						<form action=\"editarPubli\" method=\"POST\">\r\n" + 
-		  		"							<textarea name=\"txtIntroducirTexto\" placeholder=\"ï¿½Quï¿½ tal el dï¿½a?\" class=\"form-control\" rows=\"5\" id=\"comment\">"+ todas[i].getTexto()+"</textarea>\r\n" + 
-		  		"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
-		  		"							<br>" + 
-		  		"							<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
-		  		"						</form>\r\n" + 
-		  		"						<form action=\"listarPublicacion\" method=\"POST\">\r\n" + 
-		  		"							<br>\r\n" + 
-		  		"							<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
-		  		"						</form>\r\n" + 
-		  		"					</div>\r\n" + 
-		  		"				</div>\r\n" + 
-		  		"			</div>\r\n" + 
-		  		"		</div>" + 
 		  		
-		"<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModalss\">Eliminar</button>\r\n" + 
-		"<div class=\"modal fade\" id=\"miModalss\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalssLabel\" aria-hidden=\"true\">\r\n" + 
-		"			<div class=\"modal-dialog\" role=\"document\">\r\n" + 
-		"				<div class=\"modal-content\">\r\n" + 
-		"					<div class=\"modal-header\">\r\n" + 
-		"						<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n" + 
-		"							<span aria-hidden=\"true\">&times;</span>\r\n" + 
-		"						</button>\r\n" + 
-		"						<h4 class=\"modal-title\" id=\"myModalssLabel\">Editar</h4>\r\n" + 
-		"					</div>\r\n" + 
-		"					<div class=\"modal-body\">\r\n" + 
-		"						¿Está seguro que desea eliminar la publicación?\r\n" + 
-		"						<br>\r\n" + 
-		"						<form action=\"eliminarPubli\" method=\"POST\">\r\n" + 
-		"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
-		"							<br>" + 
-		"							<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
-		"						</form>\r\n" + 
-		"						<form action=\"listarPublicacion\" method=\"POST\">\r\n" + 
-		"							<br>\r\n" + 
-		"							<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
-		"						</form>\r\n" + 
-		"					</div>\r\n" + 
-		"				</div>\r\n" + 
-		"			</div>\r\n" + 
-		"		</div>" + 
-		  		"	</div>\r\n" + 
-		  		"</div>	";		  
-
-  }
-  model.addAttribute("publicaciones", texto);
-  mostrarPerfilAdmin(request, model);
-  cadenaUrl+="perfilUsuarioAdmin";  
-  return cadenaUrl;
- }
+				"			<div class=\"col-md-3 col-md-offset-9\">"+
+				"				<br>\r\n" +
+				"				<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModalss\">Eliminar</button>\r\n" +
+				"			</div>\r\n" +
+				"			<div class=\"modal fade\" id=\"miModalss\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalssLabel\" aria-hidden=\"true\">\r\n" + 
+				"				<div class=\"modal-dialog\" role=\"document\">\r\n" + 
+				"					<div class=\"modal-content\">\r\n" + 
+				"						<div class=\"modal-header\">\r\n" + 
+				"							<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n" + 
+				"								<span aria-hidden=\"true\">&times;</span>\r\n" + 
+				"							</button>\r\n" + 
+				"							<h4 class=\"modal-title\" id=\"myModalssLabel\">Eliminar</h4>\r\n" + 
+				"						</div>\r\n" + 
+				"						<div class=\"modal-body\">\r\n" + 
+				"							�Est� seguro que desea eliminar la publicaci�n?\r\n" + 
+				"							<br>\r\n" + 
+				"							<form action=\"eliminarPubliAdmin\" method=\"POST\">\r\n" + 
+				"								<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
+				"								<br>" + 
+				"								<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
+				"							</form>\r\n" + 
+				"							<form action=\"listarPublicacionUsuario\" method=\"POST\">\r\n" + 
+				"								<br>\r\n" + 
+				"								<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
+				"							</form>\r\n" + 
+				"						</div>\r\n" + 
+				"					</div>\r\n" + 
+				"				</div>\r\n" + 
+				"			</div>" + 
+				"		</div>\r\n" + 
+				"	</div>	";		  
+		
+		  }
+		  model.addAttribute("publicaciones", texto);
+		  mostrarPerfilAdmin(request, model);
+		  cadenaUrl+="perfilUsuarioAdmin";  
+		  return cadenaUrl;
+		 }
  /***
   * 
   * @method permite ver las publicaciones realizadas por un usuario y sus amigos y editar/borrar las propias
