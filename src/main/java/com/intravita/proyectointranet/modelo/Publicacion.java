@@ -4,6 +4,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import org.bson.BsonValue;
 
 /**
  * Publicacion- Modelo de las publicaciones que pueden realizar los usuarios
@@ -23,6 +25,7 @@ public class Publicacion implements Comparable<Publicacion>{
 	final DateFormat formato=new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
 	private ArrayList<String> megustaUsuarios;
 	private int megustaCont;
+	private List<BsonValue> compartidopor;
 	
 	public Publicacion(Usuario usuario, String texto) {
 		this.usuario=usuario;
@@ -119,5 +122,11 @@ public class Publicacion implements Comparable<Publicacion>{
 	}*/
 	public String toString() {
 		return "<b>"+usuario.getNombre()+" </b>: <br>"+ this.texto+ " id:"+this.id; 
+	}
+	public List<BsonValue> getCompartidopor() {
+		return compartidopor;
+	}
+	public void setCompartidopor(List<BsonValue> compartidopor) {
+		this.compartidopor = compartidopor;
 	}
 }
