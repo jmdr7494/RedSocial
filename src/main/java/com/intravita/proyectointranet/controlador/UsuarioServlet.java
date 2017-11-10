@@ -500,6 +500,38 @@ public class UsuarioServlet {
 		cadenaUrl += welcome;
 		return cadenaUrl;
 	}
+	
+	
+	/**
+	  * 
+	  *@method borrar una publicacion dado un ID desde el administrador
+	  */
+	 @RequestMapping(value="/eliminarPubliAdmin", method = RequestMethod.POST)
+	 public String eliminarPubliAdmin(HttpServletRequest request, Model model) throws Exception  {
+	  String cadenaUrl=usuarioServ;
+	  String id=request.getParameter("txtIdPublicacion");
+	  publicacionDao.remove(id);
+	  listarPublicacionUsuario(request, model);
+	  cadenaUrl+="perfilUsuarioAdmin";  
+	  return cadenaUrl;
+	 }
+	 
+	 /**
+	  * 
+	  *@method editar una publicacion dado un ID desde el administrador
+	  */
+	 @RequestMapping(value="/editarPubliAdmin", method = RequestMethod.POST)
+	 public String editarPubliAdmin(HttpServletRequest request, Model model) throws Exception  {
+	  String cadenaUrl=usuarioServ;
+	  String texto=request.getParameter("txtIntroducirTexto");
+	  String id=request.getParameter("txtIdPublicacion");
+	  publicacionDao.update(id, texto);
+	  listarPublicacionUsuario(request, model);
+	  cadenaUrl+="perfilUsuarioAdmin";  
+	  return cadenaUrl;
+	 }
+	
+	
  /***
   * 
   * @method permite crear una publicacion por parte de un usuario
@@ -573,6 +605,7 @@ public class UsuarioServlet {
  
  
  /***
+ /***
   * 
   * @method permite ver las publicaciones realizadas por un usuario y borrarlas para que un admin las borre
   * 
@@ -589,73 +622,49 @@ public class UsuarioServlet {
   for(int i=0; i<todas.length; i++) {
 	  nombre=todas[i].getUsuario().getNombre();
 	  texto = texto+"<div class=\"panel panel-default\">\r\n" + 
-		  		"	<div class=\"panel-body\">\r\n" + 
+		  		"		<div class=\"panel-body\">\r\n" + 
 		  		"			<b> "+ nombre +" </b> \r\n" + 
-		  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"Ã¯Â¿Â½QuÃ¯Â¿Â½ tal el dÃ¯Â¿Â½a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
+		  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"�Qu� tal el d�a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
 		  		"			<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
-		  		"			<button class=\"btn btn-primary btn-block btn-md login\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModals\">Editar</button>\r\n" + 
-		  		"<div class=\"modal fade\" id=\"miModals\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalsLabel\" aria-hidden=\"true\">\r\n" + 
-		  		"			<div class=\"modal-dialog\" role=\"document\">\r\n" + 
-		  		"				<div class=\"modal-content\">\r\n" + 
-		  		"					<div class=\"modal-header\">\r\n" + 
-		  		"						<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n" + 
-		  		"							<span aria-hidden=\"true\">&times;</span>\r\n" + 
-		  		"						</button>\r\n" + 
-		  		"						<h4 class=\"modal-title\" id=\"myModalsLabel\">Editar</h4>\r\n" + 
-		  		"					</div>\r\n" + 
-		  		"					<div class=\"modal-body\">\r\n" + 
-		  		"						Â¿EstÃ¡ seguro que desea editar la publicaciÃ³n?\r\n" + 
-		  		"						<br>\r\n" + 
-		  		"						<form action=\"editarPubli\" method=\"POST\">\r\n" + 
-		  		"							<textarea name=\"txtIntroducirTexto\" placeholder=\"Ã¯Â¿Â½QuÃ¯Â¿Â½ tal el dÃ¯Â¿Â½a?\" class=\"form-control\" rows=\"5\" id=\"comment\">"+ todas[i].getTexto()+"</textarea>\r\n" + 
-		  		"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
-		  		"							<br>" + 
-		  		"							<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
-		  		"						</form>\r\n" + 
-		  		"						<form action=\"listarPublicacion\" method=\"POST\">\r\n" + 
-		  		"							<br>\r\n" + 
-		  		"							<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
-		  		"						</form>\r\n" + 
-		  		"					</div>\r\n" + 
-		  		"				</div>\r\n" + 
-		  		"			</div>\r\n" + 
-		  		"		</div>" + 
 		  		
-		"<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModalss\">Eliminar</button>\r\n" + 
-		"<div class=\"modal fade\" id=\"miModalss\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalssLabel\" aria-hidden=\"true\">\r\n" + 
-		"			<div class=\"modal-dialog\" role=\"document\">\r\n" + 
-		"				<div class=\"modal-content\">\r\n" + 
-		"					<div class=\"modal-header\">\r\n" + 
-		"						<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n" + 
-		"							<span aria-hidden=\"true\">&times;</span>\r\n" + 
-		"						</button>\r\n" + 
-		"						<h4 class=\"modal-title\" id=\"myModalssLabel\">Editar</h4>\r\n" + 
-		"					</div>\r\n" + 
-		"					<div class=\"modal-body\">\r\n" + 
-		"						Â¿EstÃ¡ seguro que desea eliminar la publicaciÃ³n?\r\n" + 
-		"						<br>\r\n" + 
-		"						<form action=\"eliminarPubli\" method=\"POST\">\r\n" + 
-		"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
-		"							<br>" + 
-		"							<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
-		"						</form>\r\n" + 
-		"						<form action=\"listarPublicacion\" method=\"POST\">\r\n" + 
-		"							<br>\r\n" + 
-		"							<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
-		"						</form>\r\n" + 
-		"					</div>\r\n" + 
-		"				</div>\r\n" + 
-		"			</div>\r\n" + 
-		"		</div>" + 
-		  		"	</div>\r\n" + 
-		  		"</div>	";		  
-
-  }
-  model.addAttribute("publicaciones", texto);
-  mostrarPerfilAdmin(request, model);
-  cadenaUrl+="perfilUsuarioAdmin";  
-  return cadenaUrl;
- }
+				"			<div class=\"col-md-3 col-md-offset-9\">"+
+				"				<br>\r\n" +
+				"				<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModalss\">Eliminar</button>\r\n" +
+				"			</div>\r\n" +
+				"			<div class=\"modal fade\" id=\"miModalss\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalssLabel\" aria-hidden=\"true\">\r\n" + 
+				"				<div class=\"modal-dialog\" role=\"document\">\r\n" + 
+				"					<div class=\"modal-content\">\r\n" + 
+				"						<div class=\"modal-header\">\r\n" + 
+				"							<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n" + 
+				"								<span aria-hidden=\"true\">&times;</span>\r\n" + 
+				"							</button>\r\n" + 
+				"							<h4 class=\"modal-title\" id=\"myModalssLabel\">Eliminar</h4>\r\n" + 
+				"						</div>\r\n" + 
+				"						<div class=\"modal-body\">\r\n" + 
+				"							�Est� seguro que desea eliminar la publicaci�n?\r\n" + 
+				"							<br>\r\n" + 
+				"							<form action=\"eliminarPubliAdmin\" method=\"POST\">\r\n" + 
+				"								<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
+				"								<br>" + 
+				"								<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
+				"							</form>\r\n" + 
+				"							<form action=\"listarPublicacionUsuario\" method=\"POST\">\r\n" + 
+				"								<br>\r\n" + 
+				"								<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
+				"							</form>\r\n" + 
+				"						</div>\r\n" + 
+				"					</div>\r\n" + 
+				"				</div>\r\n" + 
+				"			</div>" + 
+				"		</div>\r\n" + 
+				"	</div>	";		  
+		
+		  }
+		  model.addAttribute("publicaciones", texto);
+		  mostrarPerfilAdmin(request, model);
+		  cadenaUrl+="perfilUsuarioAdmin";  
+		  return cadenaUrl;
+		 }
  
  /***
   * 
@@ -700,7 +709,7 @@ public class UsuarioServlet {
 			  		"<br>"+
 			  		"<div class=\"row\">\r\n" + 
 			  		"	<div class=\"col-md-1 col-md-offset-9\">\r\n" + 
-			  		"		<button class=\"btn btn-primary\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModals\" title=\"Editar Publicación\"><strong><span class=\"glyphicon glyphicon-edit\"></span>&nbsp;Editar</strong></button>\r\n" + 
+			  		"		<button class=\"btn btn-primary\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModals\" title=\"Editar Publicaci�n\"><strong><span class=\"glyphicon glyphicon-edit\"></span>&nbsp;Editar</strong></button>\r\n" + 
 			  		"	</div>	 \r\n" +
 			  		"		<div class=\"modal fade\" id=\"miModals\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalsLabel\" aria-hidden=\"true\">\r\n" + 
 			  		"			<div class=\"modal-dialog\" role=\"document\">\r\n" + 
@@ -712,85 +721,87 @@ public class UsuarioServlet {
 			  		"						<h4 class=\"modal-title\" id=\"myModalsLabel\">Editar</h4>\r\n" + 
 			  		"					</div>\r\n" + 
 			  		"					<div class=\"modal-body\">\r\n" + 
-			  		"						Â¿EstÃ¡ seguro que desea editar la publicaciÃ³n?\r\n" + 
+			  		"						�Est� seguro que desea editar la publicaci�n?\r\n" + 
 			  		"						<br>\r\n" + 
 			  		"						<form action=\"editarPubli\" method=\"POST\">\r\n" + 
-			  		"							<textarea name=\"txtIntroducirTexto\" placeholder=\"Ã¯Â¿Â½QuÃ¯Â¿Â½ tal el dÃ¯Â¿Â½a?\" class=\"form-control\" rows=\"5\" id=\"comment\">"+ todas[i].getTexto()+"</textarea>\r\n" + 
+			  		"							<textarea name=\"txtIntroducirTexto\" placeholder=\"�Qu� tal el d�a?\" class=\"form-control\" rows=\"5\" id=\"comment\">"+ todas[i].getTexto()+"</textarea>\r\n" + 
 			  		"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
 			  		"							<br>		"	+
 			  		"							<div class=\"row\">	"+
 			  		"								<div class=\"col-md-1 col-md-offset-8\">"+		
 			  		"								<button class=\"btn btn-success\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;Si</strong></button>\r\n" + 
-			  		"							</div>					"+	
+			  		"							</div>"+	
 			  		"						</form>\r\n" + 
 			  		"						<div class=\"col-md-1 col-md-offset-1\">"+
 			  		"						<form action=\"listarPublicacion\" method=\"POST\">\r\n" +  
 			  		"							<button class=\"btn btn-danger\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-remove\"></span>&nbsp;No</strong></button>\r\n" + 
 			  		"						</form>\r\n" + 
-			  		"						</div></div>				"+	
+			  		"						</div></div>"+	
 			  		"					</div>\r\n" + 
 			  		"				</div>\r\n" + 
 			  		"			</div>\r\n" + 
 			  		"		</div>" +
-			"	<div class=\"col-md-1\">"+
-			"		<button type=\"submit\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#miModalss\" title=\"Eliminar Publicación\"><strong><span class=\"glyphicon glyphicon-trash\"></span>&nbsp;Eliminar</strong></button>\r\n" +
-			"  	</div>"+	 
-			"</div>"+
-			"<div class=\"modal fade\" id=\"miModalss\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalssLabel\" aria-hidden=\"true\">\r\n" + 
-			"			<div class=\"modal-dialog\" role=\"document\">\r\n" + 
-			"				<div class=\"modal-content\">\r\n" + 
-			"					<div class=\"modal-header\">\r\n" + 
-			"						<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n" + 
-			"							<span aria-hidden=\"true\">&times;</span>\r\n" + 
-			"						</button>\r\n" + 
-			"						<h4 class=\"modal-title\" id=\"myModalssLabel\">Eliminar</h4>\r\n" + 
-			"					</div>\r\n" + 
-			"					<div class=\"modal-body\">\r\n" + 
-			"						Â¿EstÃ¡ seguro que desea eliminar la publicaciÃ³n?\r\n" + 
-			"						<br>\r\n" + 
-			"						<form action=\"eliminarPubli\" method=\"POST\">\r\n" + 
-			"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
-			"							<br>" + 
-			"							<div class=\"row\">	"+
-	  		"								<div class=\"col-md-1 col-md-offset-8\">"+		
-	  		"								<button class=\"btn btn-success\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;Si</strong></button>\r\n" + 
-	  		"							</div>		"+ 
-			"						</form>\r\n" + 
-	  		"						<div class=\"col-md-1 col-md-offset-1\">"+	  		
-			"						<form action=\"listarPublicacion\" method=\"POST\">\r\n" + 
-	  		"							<button class=\"btn btn-danger\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-remove\"></span>&nbsp;No</strong></button>\r\n" + 
-	  		"						</form>\r\n" + 
-	  		"						</div></div>				"+	
-			"					</div>\r\n" + 
-			"				</div>\r\n" + 
-			"			</div>\r\n" + 
-			"		</div>" + 
-			  		"	</div>\r\n" + 
-			  		"</div>	";		  
-	  }else {
+			  		
+			  		
+					"	<div class=\"col-md-1\">"+
+					"		<button type=\"submit\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#miModalss\" title=\"Eliminar Publicaci�n\"><strong><span class=\"glyphicon glyphicon-trash\"></span>&nbsp;Eliminar</strong></button>\r\n" +
+					"  	</div>"+	 
+					"</div>"+
+					"<div class=\"modal fade\" id=\"miModalss\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalssLabel\" aria-hidden=\"true\">\r\n" + 
+					"			<div class=\"modal-dialog\" role=\"document\">\r\n" + 
+					"				<div class=\"modal-content\">\r\n" + 
+					"					<div class=\"modal-header\">\r\n" + 
+					"						<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n" + 
+					"							<span aria-hidden=\"true\">&times;</span>\r\n" + 
+					"						</button>\r\n" + 
+					"						<h4 class=\"modal-title\" id=\"myModalssLabel\">Eliminar</h4>\r\n" + 
+					"					</div>\r\n" + 
+					"					<div class=\"modal-body\">\r\n" + 
+					"						�Est� seguro que desea eliminar la publicaci�n?\r\n" + 
+					"						<br>\r\n" + 
+					"						<form action=\"eliminarPubli\" method=\"POST\">\r\n" + 
+					"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
+					"							<br>" + 
+					"							<div class=\"row\">	"+
+			  		"								<div class=\"col-md-1 col-md-offset-8\">"+		
+			  		"								<button class=\"btn btn-success\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;Si</strong></button>\r\n" + 
+			  		"							</div>		"+ 
+					"						</form>\r\n" + 
+			  		"						<div class=\"col-md-1 col-md-offset-1\">"+	  		
+					"						<form action=\"listarPublicacion\" method=\"POST\">\r\n" + 
+			  		"							<button class=\"btn btn-danger\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-remove\"></span>&nbsp;No</strong></button>\r\n" + 
+			  		"						</form>\r\n" + 
+			  		"						</div></div>"+	
+					"					</div>\r\n" + 
+					"				</div>\r\n" + 
+					"			</div>\r\n" + 
+					"		</div>" + 
+					  		"	</div>\r\n" + 
+					  		"</div>	";		  
+			  }else {
+				  
+				  texto+="<div class=\"panel panel-default\">\r\n" + 
+					  		"	<div class=\"panel-body\">\r\n" + 
+					  		"		<b> "+nombre+"</b>\r\n" + 
+					  		"		<textarea name=\"txtIntroducirTexto\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
+					  		"		<br>\r\n" + 
+					  		"		<form action=\"compartir\" method=\"post\">\r\n" + 
+					  		"			<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"ID\">\r\n" + 
+					  		"			<button type=\"submit\" class=\"boton btn-default\"><span class=\"glyphicon glyphicon-send\"></span>&nbsp;</button>\r\n" + 
+					  		"		</form>\r\n" + 
+					  		"	</div>\r\n" + 
+					  		"</div>";
+			  }
+		
+			  
+			  
+		
+		  }
+		  model.addAttribute("publicaciones", texto);
 		  
-		  texto+="<div class=\"panel panel-default\">\r\n" + 
-			  		"	<div class=\"panel-body\">\r\n" + 
-			  		"		<b> "+nombre+"</b>\r\n" + 
-			  		"		<textarea name=\"txtIntroducirTexto\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
-			  		"		<br>\r\n" + 
-			  		"		<form action=\"compartir\" method=\"post\">\r\n" + 
-			  		"			<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"ID\">\r\n" + 
-			  		"			<button type=\"submit\" class=\"boton btn-default\"><span class=\"glyphicon glyphicon-send\"></span>&nbsp;</button>\r\n" + 
-			  		"		</form>\r\n" + 
-			  		"	</div>\r\n" + 
-			  		"</div>";
-	  }
-
-	  
-	  
-
-  }
-  model.addAttribute("publicaciones", texto);
-  
-  cadenaUrl+=welcome;  
-  return cadenaUrl;
- }
+		  cadenaUrl+=welcome;  
+		  return cadenaUrl;
+		 }
  
  /***
   * 
