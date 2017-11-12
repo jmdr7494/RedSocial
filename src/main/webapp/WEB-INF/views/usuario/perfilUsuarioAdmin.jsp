@@ -66,6 +66,7 @@ body{
 </style>
 	
 	
+	
 </head>
 <body>
  	<jsp:useBean id="administradorConectado" scope="session" class="com.intravita.proyectointranet.modelo.Administrador"></jsp:useBean>
