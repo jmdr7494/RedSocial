@@ -27,13 +27,14 @@
 }
 
 .btn:hover {
-	background-color: #337AB7;
-	color: #FFFFFF;
+ background: rgba(41, 128, 185, 0);
+ color: #0058A3;
+ box-shadow: inset 0 0 0 3px #0058A3;
 }
 
-.b:active {
-	 background-color: #337AB7;
-	 box-shadow: 0 5px #666;
+.btn:active {
+	 background-color: #FFFFFF;
+	 color: #0058A3;
 	 transform: translateY(4px);
 }
 
@@ -103,27 +104,33 @@ body{
   </div>
   <div class="row">
    <div class="col-md-8 col-md-offset-2">
-    <label for="pwd" style="color:white; font-size:15px;">Contraseña:</label>
+    <label for="pwd" style="color:white; font-size:15px;">Contrase&ntilde;a:</label>
     <input type="password" name="txtUsuarioClave" class="form-control" id="pwd" placeholder="password">
-    <a href="irRecuperarCredenciales" style="color: white"><em>¿Olvidó su contrseña?</em></a>
+    <a href="irRecuperarCredenciales" style="color: white"><em>¿Olvidó su contrase&ntilde;a?</em></a>
    </div>
  </div>   
  </div>
  
  <div class="row">
-  <div class="col-md-7 col-md-offset-5">
-   <br/>
-   <button class="btn login" type="submit">Iniciar Sesión</button> 
-   <span><em>${alerta}</em></span>
-   <br/>
-  </div>   
+ 	<div class="col-md-7 col-md-offset-5">
+		<br/>
+			<button class="btn login" type="submit">
+				Iniciar Sesi&oacute;n
+			</button> 
+   			<span><em>${alerta}</em></span>
+   		<br/>
+  	</div>   
  </div>
  </form> 
  
  <br>
  <div class="row">
   <div class="col-md-1 col-md-offset-5">
-   <form action="irRegistrar" method="get"><button class="btn login" type="submit">&nbsp;&nbsp;   RegÃ­strate   &nbsp;&nbsp;</button></form>
+	<form action="irRegistrar" method="get">
+   		<button class="btn login" type="submit">
+   			&nbsp;&nbsp;   Reg&iacute;strate   &nbsp;&nbsp;
+   		</button>
+	</form>
   </div>
  </div>
  <br>
@@ -132,7 +139,7 @@ body{
 
  <div class="col-md-12" style="position: fixed; bottom: 0;">
   <div class="panel-footer">
-   Â© Copyright 2017 IntraVita. Todos los derechos reservados.
+   &copy; Copyright 2017 IntraVita. Todos los derechos reservados.
   </div>
  </div>
 

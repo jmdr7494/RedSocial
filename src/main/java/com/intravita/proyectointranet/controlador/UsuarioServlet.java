@@ -275,71 +275,51 @@ public class UsuarioServlet {
  
  /***
   * 
-  *@method ejecucion cuando pulsamos el boton de registro
+  *@method crear cuenta de un usuario desde la ventana de administrador
   *
   */
 
-/* @RequestMapping(value="/registrar", method = RequestMethod.POST)
- public String registrar(HttpServletRequest request, Model model@RequestParam("file") MultipartFile file) throws Exception  {
-=======
- @RequestMapping(value="/registrar", method = RequestMethod.POST)
- public String registrar(HttpServletRequest request, Model model) throws Exception  {
-  String registrar="", volver="";
-  try{
-	  if(!request.getSession().getAttribute(admin_conect).equals(null)) {
-		  registrar="registrarDesdeAdmin";
-		  volver="inicioAdmin";
-	  }else {
-		  registrar="registrar";
-		  volver="login";
-	  }
-  }catch(Exception e) {
-	  registrar="registrar";
-	  volver="login";
-  }
 
-  String cadenaUrl=usuarioServ;
-  String nombre=request.getParameter("txtUsuarioNombre");
-  String email=request.getParameter("txtEmail");
-  String pwd1=request.getParameter("txtUsuarioClave");
-  String pwd2=request.getParameter("txtUsuarioClave1");
-  String respuesta=request.getParameter("txtRespuesta");
-  
-  
-  String nombreImagen=request.getParameter("nombreImagen");
-  byte[] imagen=request.getParameter("fichero").getBytes();
- ///byte[] imagen=file.getBytes();
-  //File imagen=model.addAttribute("file", imagen).;
-  System.out.println("Nombre de la imagen:"+nombreImagen);
-  System.out.println("Esta es la imagen: "+imagen);
-  
-  try {
-   utilidades.credencialesValidas(nombre, email, pwd1, pwd2);
-  }catch(Exception e) {
-   model.addAttribute("alerta", e.getMessage());
-   return cadenaUrl+=registrar;
-  }
-  
-  Usuario usuario = new Usuario();
-  usuario.setNombre(nombre);
-  usuario.setEmail(email);
-  usuario.setClave(pwd1);
-  usuario.setRespuesta(respuesta);
-  usuario.setNombreImagen("nombreImagen");
-  //usuario.setImagen(imagen);
-  
-  try {
-	  usuarioDao.insertConImagen(usuario);
-  }catch(Exception e) {
-	   model.addAttribute(alert, "Nombre de usuario no disponible");
-	   return cadenaUrl+=registrar;
-  }
+	@RequestMapping(value = "/registrarDesdeAdmin", method = RequestMethod.POST)
+	public String registrarDesdeAdmin(HttpServletRequest request, Model model) throws Exception {
+		String registrar = "registrarDesdeAdmin", volver = "inicioAdmin";
+		String cadenaUrl = usuarioServ;
+		String nombre = request.getParameter("txtUsuarioNombre");
+		String email = request.getParameter("txtEmail");
+		String pwd1 = request.getParameter("txtUsuarioClave");
+		String pwd2 = request.getParameter("txtUsuarioClave1");
+		String respuesta = request.getParameter("txtRespuesta");
 
-  return cadenaUrl+="login";
- }*/
+		try {
+			utilidades.credencialesValidas(nombre, email, pwd1, pwd2);
+		} catch (Exception e) {
+			model.addAttribute("alerta", e.getMessage());
+			return cadenaUrl += registrar;
+		}
+
+		Usuario usuario = new Usuario();
+		usuario.setNombre(nombre);
+		usuario.setEmail(email);
+		usuario.setClave(pwd1);
+		usuario.setRespuesta(respuesta);
+		usuario.setNombreImagen("nombreImagen");
+
+		try {
+			usuarioDao.insertConImagen(usuario);
+		} catch (Exception e) {
+			model.addAttribute(alert, "Nombre de usuario no disponible");
+			return cadenaUrl += registrar;
+		}
+
+		return cadenaUrl += volver;
+	}
  
  
- 
+ /***
+  * 
+  *@method crear cuenta de un usuario
+  *
+  */
   @RequestMapping(value="/registrar", method = RequestMethod.POST)
  public String registrar(HttpServletRequest request, Model model) throws Exception  {
 	  
@@ -477,7 +457,7 @@ public class UsuarioServlet {
   return cadenaUrl;
  }
  
- //@RequestMapping(value="/eliminar", method = RequestMethod.GET)
+
  /***
   * 
   * @method actualiza la ventana de administrador para ver sus usuarios/administradores
@@ -491,37 +471,38 @@ public class UsuarioServlet {
   cadenaUrl+=ini_admin;  
   return cadenaUrl;
  }
- /**
-  * 
-  *@method borrar una publicacion dado un ID
-  */
- @RequestMapping(value="/eliminarPubli", method = RequestMethod.POST)
- public String eliminarPubli(HttpServletRequest request, Model model) throws Exception  {
-  String cadenaUrl=usuarioServ;
-  String id=request.getParameter("txtIdPublicacion");
-  publicacionDao.remove(id);
-  listarPublicacion(request, model);
-  cadenaUrl+=welcome;  
-  return cadenaUrl;
- }
- 
- /**
-  * 
-  *@method editar una publicacion dado un ID
-  */
- @RequestMapping(value="/editarPubli", method = RequestMethod.POST)
- public String editarPubli(HttpServletRequest request, Model model) throws Exception  {
-  String cadenaUrl=usuarioServ;
-  String texto=request.getParameter("txtIntroducirTexto");
-  String id=request.getParameter("txtIdPublicacion");
-  publicacionDao.update(id, texto);
-  listarPublicacion(request, model);
-  cadenaUrl+=welcome;  
-  return cadenaUrl;
- }
+
+	/**
+	 * 
+	 * @method borrar una publicacion dado un ID
+	 */
+	@RequestMapping(value = "/eliminarPubli", method = RequestMethod.POST)
+	public String eliminarPubli(HttpServletRequest request, Model model) throws Exception {
+		String cadenaUrl = usuarioServ;
+		String id = request.getParameter("txtIdPublicacion");
+		publicacionDao.remove(id);
+		listarPublicacion(request, model);
+		cadenaUrl += welcome;
+		return cadenaUrl;
+	}
+
+	/**
+	 * 
+	 * @method editar una publicacion dado un ID
+	 */
+	@RequestMapping(value = "/editarPubli", method = RequestMethod.POST)
+	public String editarPubli(HttpServletRequest request, Model model) throws Exception {
+		String cadenaUrl = usuarioServ;
+		String texto = request.getParameter("txtIntroducirTexto");
+		String id = request.getParameter("txtIdPublicacion");
+		publicacionDao.update(id, texto);
+		listarPublicacion(request, model);
+		cadenaUrl += welcome;
+		return cadenaUrl;
+	}
  /***
   * 
-  * @method permite crear una publicaciÃ¯Â¿Â½n por parte de un usuario
+  * @method permite crear una publicacion por parte de un usuario
   * 
   */
  @RequestMapping(value="/crearPublicacion", method = RequestMethod.POST)
@@ -675,13 +656,14 @@ public class UsuarioServlet {
   cadenaUrl+="perfilUsuarioAdmin";  
   return cadenaUrl;
  }
+ 
  /***
   * 
-  * @method permite ver las publicaciones realizadas por un usuario y sus amigos y editar/borrar las propias
+  * @method permite ver las publicaciones realizadas por un usuario, sus amigos y lo que comparten y editar/borrar las propias
   * 
   */
  @RequestMapping(value="/listarPublicacion", method = RequestMethod.POST)
- public String listarPublicacion(HttpServletRequest request, Model model) throws Exception  {
+ public String listarPublicacion(HttpServletRequest request, Model model){
   String cadenaUrl=usuarioServ;
   Usuario usuario;
   usuario=(Usuario) request.getSession().getAttribute(usuario_conect);
@@ -691,12 +673,19 @@ public class UsuarioServlet {
   List<BsonValue> amigos=usuarioDao.obtenerAmigos(usuario);
   ArrayList<Publicacion> publicasAmigos=new ArrayList<Publicacion>();
   ArrayList<Publicacion> aux;
+  ArrayList<Publicacion> compartidasAmigos=new ArrayList<Publicacion>();
+  BsonValue element;
+  
   Iterator<BsonValue> it=amigos.iterator();
   while(it.hasNext()) {
-	  aux=publicacionDao.selectPublicas(new Usuario(it.next().asString().getValue()));
+	  element=it.next();
+	  aux=publicacionDao.selectPublicas(new Usuario(element.asString().getValue()));
 	  publicasAmigos.addAll(aux);
+	  aux=utilidades.obtenerCompartidos(element.asString().getValue());
+	  compartidasAmigos.addAll(aux);
   }
   publicas.addAll(publicasAmigos);
+  publicas.addAll(compartidasAmigos);
   Publicacion[] todas=utilidades.mostrarPublicaciones(publicas, privadas);
   String texto="";
   String nombre="";
@@ -780,13 +769,17 @@ public class UsuarioServlet {
 			  		"</div>	";		  
 	  }else {
 		  
-		  texto+="		<div class=\"panel panel-default\">\r\n" + 
-		  				"			 <div class=\"panel-body\">";
-	  	  texto+="			<b> "+ nombre +" </b> \r\n" + 
-	  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"Ã¯Â¿Â½QuÃ¯Â¿Â½ tal el dÃ¯Â¿Â½a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" ;
-		  texto+="<br>";
-		  texto+="		</div>	\r\n" + 
-		  			"	</div>";
+		  texto+="<div class=\"panel panel-default\">\r\n" + 
+			  		"	<div class=\"panel-body\">\r\n" + 
+			  		"		<b> "+nombre+"</b>\r\n" + 
+			  		"		<textarea name=\"txtIntroducirTexto\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
+			  		"		<br>\r\n" + 
+			  		"		<form action=\"compartir\" method=\"post\">\r\n" + 
+			  		"			<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"ID\">\r\n" + 
+			  		"			<button type=\"submit\" class=\"boton btn-default\"><span class=\"glyphicon glyphicon-send\"></span>&nbsp;</button>\r\n" + 
+			  		"		</form>\r\n" + 
+			  		"	</div>\r\n" + 
+			  		"</div>";
 	  }
 
 	  
@@ -1018,13 +1011,37 @@ public class UsuarioServlet {
 	   model.addAttribute("perfil", utilidades.mostrarPerfilAdmin(usuario));
 	   return "usuario/perfilUsuarioAdmin";
   } 
+  
+  
+	@RequestMapping(value = "/compartir", method = RequestMethod.POST)
+	public String compartir(HttpServletRequest request, Model model) {
+		String cadenaUrl = usuarioServ;
+
+		Usuario usuario = (Usuario) request.getSession().getAttribute(usuario_conect);
+		String id = request.getParameter("txtIdPublicacion");
+		Publicacion publicacion = new Publicacion(new Usuario("autor"), "texto");
+		publicacion.setId(id);
+		publicacion = publicacionDao.selectOne(publicacion);
+		try {
+			utilidades.compartirPublicacion(usuario, publicacion);
+		} catch (Exception e) {
+			try {
+				utilidades.dejarCompartirPublicacion(usuario, publicacion);
+			} catch (Exception e1) {
+				model.addAttribute("alerta", e1.getMessage());
+			}
+		}
+		listarPublicacion(request, model);
+		cadenaUrl += welcome;
+		return cadenaUrl;
+	}
+
  /***
   * 
-  *@method Esta funciÃ¯Â¿Â½n sirve para controlar los cambios de vista por nombre(string)
+  *@method Esta funcion sirve para controlar los cambios de vista por nombre(string)
   *
   */
-  
-  
+   
 //By JA
   @RequestMapping(value="/irPerfilUsuario", method = RequestMethod.GET)
   public ModelAndView irPerfilUsuario(HttpServletRequest request) throws Exception  {
