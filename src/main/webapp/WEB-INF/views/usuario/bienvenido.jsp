@@ -138,7 +138,7 @@ body{
   				
 		<br/>
 			
-			<div class="btn-group col-md-1 col-md-offset-9">
+			<div class="btn-group col-md-1 col-md-offset-10">
 				 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 				    <center><span class="glyphicon glyphicon-cog"></span>&nbsp;<strong>&nbsp;Ajustes&nbsp;</strong><span class="caret"></span></center>
 				  </button>

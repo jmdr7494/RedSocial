@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Bienvenido</title>
+<title>Editar Perfil Usuario</title>
 <!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<!-- jQuery library -->
@@ -66,6 +66,7 @@ body{
 </style>
 	
 	
+	
 </head>
 <body>
  	<jsp:useBean id="administradorConectado" scope="session" class="com.intravita.proyectointranet.modelo.Administrador"></jsp:useBean>
@@ -105,28 +106,20 @@ body{
 		</div>
 	
 	
-	<div class="row">	
-		<br/>
-			
-			<div class="btn-group col-md-1 col-md-offset-8">
-				<form action="irAdmin" method="GET">
-					<button type="submit" class="boton btn-default"><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;Volver</button>
-				</form>
-			</div>					
-	</div>
-	
-	
-
-	
-	<br/>
 	<div class="row">
-		<div class="col-md-12">
-			<spam><em>${alerta}</em></spam>
+		<div class="col-md-1 col-md-offset-10">
+			<br>
+			<form action="irAdmin" method="GET">
+				<button class="btn btn-danger btn-block btn-md login" type="submit">Volver</button>
+			</form>	
+					
+		<br/>
 		</div>
 	</div>
-	<br/>
+	
+	
 	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
+		<div class="col-md-5 col-md-offset-1">
 			<div class="panel panel-default">
 				 <div class="panel-body">
 					<form action="mostrarPerfilAdmin" method="get">
@@ -136,9 +129,8 @@ body{
 				${perfil}
 			</div>	
 		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
+	
+		<div class="col-md-5">
 			<div class="panel panel-default">
 				 <div class="panel-body">
 					<form action="listarPublicacionUsuario" method="post">
@@ -149,6 +141,16 @@ body{
 			</div>	
 		</div>
 	</div>
+	
+	
+	<br/>
+	<div class="row">
+		<div class="col-md-12">
+			<spam><em>${alerta}</em></spam>
+		</div>
+	</div>
+	
+	
 	
 	<div class="col-md-12" style="position: fixed; bottom: 0;">
 		<div class="panel-footer">

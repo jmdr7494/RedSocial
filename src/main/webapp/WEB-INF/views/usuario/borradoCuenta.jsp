@@ -18,12 +18,20 @@
 
 <style>
 	span {
+	
 	    padding: 20px;
 	    color: #DF0101;
 	    margin-left: 12px;
 		font-weight: bold;
 		font-size: 15px;
 	}
+	
+	body {
+		background-color: #FAFAFA;
+		width: 100%;
+		heigth: 100%;
+	}
+	
 </style>
 
 </head>
