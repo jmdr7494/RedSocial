@@ -19,7 +19,7 @@
 <style type="text/css">
 	
 	body {
-		background-color: #2CCBE7;
+		background-color: #FAFAFA;
 		width: 100%;
 		heigth: 100%;
 	}
@@ -92,7 +92,8 @@
 				</div>
 			</div>
 		</div>
-	<%-- volver al muro By JA--%>
+		
+		
 	<div class="row">
 		<div class="col-md-1 col-md-offset-10">
 			<br>
@@ -109,28 +110,32 @@
 	<form action="modificarPerfilUsuario" method="POST">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-				<label for="usr" style="color:white; font-size:15px;">Usuario:</label>
+				<label for="usr" style="color:black; font-size:15px;">Usuario:</label>
 				<input type="text" class="form-control" id="usr" name="txtUsuarioNombre" disabled value=<%=request.getAttribute("usuarioNombre")%>>
+				<br>
 			</div>
 		</div>
 		
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-				<label for="email" style="color:white; font-size:15px;">Email:</label>
+				<label for="email" style="color:black; font-size:15px;">Email:</label>
 				<input type="text" class="form-control" id="email" name="txtEmail" disabled value=<%=request.getAttribute("usuarioEmail")%>>
+				<br>
 			</div>
 		</div>
 		
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-				<label for="pwd" style="color:white; font-size:15px">Modificar contrase&ntilde;a:</label>
+				<label for="pwd" style="color:black; font-size:15px">Modificar contrase&ntilde;a:</label>
 		  		<input type="password" class="form-control" id="pwd" name="txtPwdNueva1" placeholder="password">
+		  		<br>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-			  	<label for="pwd1" style="color:white; font-size:15px">Confirmar Contrase&ntilde;a:</label>
-			  	<input type="password" class="form-control" id="pwd1" name="txtPwdNueva2" placeholder="confirmaci&oacute;n password">	
+			  	<label for="pwd1" style="color:black; font-size:15px">Confirmar Contrase&ntilde;a:</label>
+			  	<input type="password" class="form-control" id="pwd1" name="txtPwdNueva2" placeholder="confirmaci&oacute;n password">
+			  	<br>	
 			</div>
 		</div>
 		

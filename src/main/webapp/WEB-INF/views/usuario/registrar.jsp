@@ -187,6 +187,12 @@
 			<div class="col-md-3">
 				<br/>
 				<t><spam><em>${alerta}</em></spam></t>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
+				<br>
 			</div>
 		</div>	
 	

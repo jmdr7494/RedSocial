@@ -52,7 +52,7 @@
 	
 	
 	body {
-		background-color: #2CC8E7;
+		background-color: #FAFAFA;
 	}
 	
 	.boton {
@@ -155,31 +155,31 @@
 	<form action="registrarDesdeAdmin" method="POST"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-				<label for="usr" style="color:white; font-size:15px;">Usuario:</label>
+				<label for="usr" style="color:black; font-size:15px;">Usuario:</label>
 				<input type="text" class="form-control" id="usr" name="txtUsuarioNombre" autofocus placeholder="usuario" onFocus="if(this.value!='')this.value=''"/>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-				<label for="email" style="color:white; font-size:15px">Email:</label>
+				<label for="email" style="color:black; font-size:15px">Email:</label>
 				<input type="text" class="form-control" id="email" name="txtEmail" placeholder="@alu.uclm.es""/>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-				<label for="pwd" style="color:white; font-size:15px">Contrase&ntilde;a:</label>
+				<label for="pwd" style="color:black; font-size:15px">Contrase&ntilde;a:</label>
 		  		<input type="password" class="form-control" id="pwd" name="txtUsuarioClave" placeholder="password">
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-			  	<label for="pwd1" style="color:white; font-size:15px">Confirmar Contrase&ntilde;a:</label>
+			  	<label for="pwd1" style="color:black; font-size:15px">Confirmar Contrase&ntilde;a:</label>
 			  	<input type="password" class="form-control" id="pwd1" name="txtUsuarioClave1" placeholder="confirmacion password">	
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
-				<label for="usr" style="color:white; font-size:15px">¿Cu&aacute;l es tu mejor amigo/a de la infancia?</label>
+				<label for="usr" style="color:black; font-size:15px">¿Cu&aacute;l es tu mejor amigo/a de la infancia?</label>
 				<input name="txtRespuesta" type="text" class="form-control" id="usr" placeholder="respuesta" onFocus="if(this.value!='')this.value=''">
 			</div>
 		</div>
