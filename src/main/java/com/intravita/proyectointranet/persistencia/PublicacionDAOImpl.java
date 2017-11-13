@@ -2,11 +2,15 @@ package com.intravita.proyectointranet.persistencia;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
+import org.bson.BsonArray;
 import org.bson.BsonDateTime;
 import org.bson.BsonDocument;
+import org.bson.BsonInt32;
 import org.bson.BsonObjectId;
 import org.bson.BsonString;
+import org.bson.BsonValue;
 import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
@@ -30,6 +34,9 @@ public class PublicacionDAOImpl {
 	private final String author = "autor";
 	private final String date = "fecha";
 	private final String privacy = "privacidad";
+	private final String compartidopor= "compartidopor";
+	private final String megustaCont = "megustaCont";
+	private final String megustaUsuarios = "megustaUsuarios";
 	
 	public MongoCollection<BsonDocument> obtenerPublicaciones() {
 		MongoBroker broker = MongoBroker.get();
@@ -65,10 +72,75 @@ public class PublicacionDAOImpl {
 		bso.append(author, new BsonString(publicacion.getUsuario().getNombre()));
 		bso.append(text, new BsonString(publicacion.getTexto()));
 		bso.append(privacy, new BsonString(publicacion.getPrivacidad()));
-		bso.append(date, new BsonDateTime(publicacion.getFecha()));		
+		bso.append(date, new BsonDateTime(publicacion.getFecha()));
+		bso.append(compartidopor, new BsonArray());
+		bso.append(megustaCont, new BsonInt32(publicacion.getMeGustaCont()));
 		
 		MongoCollection<BsonDocument> publicaciones = obtenerPublicaciones();
 		publicaciones.insertOne(bso);
+	}
+	/***
+	 * 
+	 * @method incrementar "me gusta" en publicacion
+	 * 
+	 */
+	public void megusta(String id, Usuario usuario) {
+		BsonDocument bso = new BsonDocument();
+		bso.append(ID, new BsonObjectId(new ObjectId(id)));
+		
+		MongoCollection<BsonDocument> publicaciones = obtenerPublicaciones();
+		BsonDocument actualizacion= new BsonDocument("$inc", new BsonDocument("megustaCont", new BsonInt32(1)));
+		BsonDocument actualizacion2 = new BsonDocument("$addToSet",new BsonDocument(megustaUsuarios, new BsonString(usuario.getNombre())));
+		publicaciones.updateOne(bso,actualizacion);
+		publicaciones.updateOne(bso,actualizacion2);
+	}
+	/***
+	 * 
+	 * @method decrementar el "me gusta" en publicacion
+	 * 
+	 */
+	public void yanomegusta(String id, Usuario usuario) {
+		BsonDocument bso = new BsonDocument();
+		bso.append(ID, new BsonObjectId(new ObjectId(id)));
+		
+		MongoCollection<BsonDocument> publicaciones = obtenerPublicaciones();
+		BsonDocument actualizacion= new BsonDocument("$inc", new BsonDocument("megustaCont", new BsonInt32(-1)));
+		BsonDocument actualizacion2 = new BsonDocument("$pull",new BsonDocument(megustaUsuarios, new BsonString(usuario.getNombre())));
+		publicaciones.updateOne(bso,actualizacion);
+		publicaciones.updateOne(bso,actualizacion2);
+	}
+	/***
+	 * 
+	 * @method consulta de los usuarios que han dado me gusta
+	 * 
+	 */
+	public ArrayList<String> usuariosMeGusta(Publicacion publi){
+		
+		MongoCollection<BsonDocument> publicaciones = obtenerPublicaciones();
+		BsonDocument criterio = new BsonDocument();
+		if(publi.getId()!=null)
+			criterio.append(ID, new BsonObjectId(new ObjectId(publi.getId())));
+		else {
+			criterio.append(author, new BsonString(publi.getUsuario().getNombre()));
+			criterio.append(text, new BsonString(publi.getTexto()));			
+		}
+		FindIterable<BsonDocument> resultado=publicaciones.find(criterio);
+		BsonDocument aux = resultado.first();
+		
+		//System.out.println("Usuarios: "+aux);		
+		//System.out.println("course name = " + aux.getArray(megustaUsuarios));		
+		
+		BsonArray mgUsuariosBson=aux.getArray(megustaUsuarios);		
+		ArrayList<String> mgUsuarios = new ArrayList<String>();
+		for(BsonValue usuarioBson : mgUsuariosBson) {			
+			BsonString usuarioString=usuarioBson.asString();
+			String usuario=usuarioString.getValue();
+			mgUsuarios.add(usuario);
+        }
+		
+		
+		return mgUsuarios;
+		
 	}
 	/***
 	 * 
@@ -99,8 +171,8 @@ public class PublicacionDAOImpl {
 	}
 	/**
 	 * 
-	 * @param usuario del que queremos obtener publicaciones publicas
-	 * @return lista de publicaciones
+	 * @param publicacion que queremos obtener (ID o AUTOR y TEXTO)
+	 * @return publicacion completa
 	 */
 	public Publicacion selectOne(Publicacion publi) {
 		
@@ -118,7 +190,10 @@ public class PublicacionDAOImpl {
 		String texto=aux.getString(text).getValue();
 		String privacidad=aux.getString(privacy).getValue();
 		long fecha=aux.getDateTime(date).getValue();
-		Publicacion publicacion=new Publicacion(new Usuario(autor), texto, privacidad, fecha);
+		int mg=aux.getInt32(megustaCont).getValue();
+
+		
+		Publicacion publicacion=new Publicacion(new Usuario(autor), texto, privacidad, fecha, mg);
 		publicacion.setId(aux.getObjectId(ID).getValue().toString());
 		return publicacion;
 	}
@@ -201,5 +276,95 @@ public class PublicacionDAOImpl {
 		MongoCollection<BsonDocument> publicaciones = obtenerPublicaciones();
 		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument(author, new BsonString("Papelera")));
 		publicaciones.updateMany(bso,actualizacion);		
+	}
+	
+
+	/**
+	 * 
+	 * @return devuelve una lista de nombres de usuarios que comparten la publicacion
+	 */
+	public List<BsonValue> obtenerCompartidos(Publicacion comp) {
+		MongoCollection<BsonDocument> publicaciones = obtenerPublicaciones();
+		BsonDocument criterio = new BsonDocument();
+		criterio.append(ID, new BsonObjectId(new ObjectId(comp.getId())));
+		FindIterable<BsonDocument> resultado=publicaciones.find(criterio);
+		BsonDocument publicacion = resultado.first();
+		List <BsonValue> comparticiones= publicacion.getArray(compartidopor);
+		return comparticiones;
+	}
+
+	/**
+	 * 
+	 * @param compartir: usuario que quiere compartir
+	 * @param comp: publicacion a compartir
+	 */
+	public void compartir(Usuario compartir, Publicacion comp) {
+		List<BsonValue> lista=obtenerCompartidos(comp);
+		lista.add(new BsonString(compartir.getNombre()));
+		
+		
+		MongoCollection<BsonDocument> publicaciones = obtenerPublicaciones();
+		BsonDocument criterio = new BsonDocument();
+		criterio.append(ID, new BsonObjectId(new ObjectId(comp.getId())));
+		FindIterable<BsonDocument> resultado=publicaciones.find(criterio);
+		BsonDocument publicacion = resultado.first();
+		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument(compartidopor, new BsonArray(lista)));
+		publicaciones.findOneAndUpdate(publicacion, actualizacion);
+	}
+
+	/**
+	 * 
+	 * @param usuario: usuario que quiere dejar de compartir
+	 * @param compartida: publicacion a dejar de compartir
+	 */
+	public void dejarCompartir(Usuario usuario, Publicacion compartida) {
+		List<BsonValue> lista=obtenerCompartidos(compartida);
+		lista.remove(new BsonString(usuario.getNombre()));
+		
+		
+		MongoCollection<BsonDocument> publicaciones = obtenerPublicaciones();
+		BsonDocument criterio = new BsonDocument();
+		criterio.append(ID, new BsonObjectId(new ObjectId(compartida.getId())));
+		FindIterable<BsonDocument> resultado=publicaciones.find(criterio);
+		BsonDocument publicacion = resultado.first();
+		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument(compartidopor, new BsonArray(lista)));
+		publicaciones.findOneAndUpdate(publicacion, actualizacion);
+		
+	}
+	/***
+	 * @method select que devuelve todas las publicaciones completas
+	 * @return la lista de publicaciones
+	 */
+	public List<Publicacion> selectAll() {
+		MongoCollection<BsonDocument> publicaciones = obtenerPublicaciones();
+		FindIterable<BsonDocument> resultado=publicaciones.find();
+		
+		Usuario usuario;
+		String texto;
+		String privacidad;
+		long fecha;
+		String id;
+		List<BsonValue> compartidopor;
+		
+		BsonDocument publicacion;
+		Iterator<BsonDocument> lista=resultado.iterator();
+		List<Publicacion> retorno=new ArrayList<Publicacion>();
+		
+		Publicacion aux;
+		while(lista.hasNext()) {
+			publicacion=lista.next();
+			usuario=new Usuario(publicacion.getString(author).getValue());
+			texto=publicacion.getString(text).getValue();
+			privacidad=publicacion.getString(privacy).getValue();
+			fecha=publicacion.getDateTime(date).getValue();
+			compartidopor=publicacion.getArray(this.compartidopor);
+			id=publicacion.getObjectId(ID).getValue().toString();
+			
+			aux=new Publicacion(usuario, texto, privacidad, fecha);
+			aux.setCompartidopor(compartidopor);
+			aux.setId(id);
+			retorno.add(aux);
+		}
+		return retorno;
 	}
 }
