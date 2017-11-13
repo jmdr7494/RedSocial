@@ -20,6 +20,7 @@ import com.mongodb.gridfs.GridFS;
 import com.intravita.proyectointranet.modelo.Usuario;
 import com.intravita.proyectointranet.persistencia.MongoBroker;
 import com.intravita.proyectointranet.persistencia.UsuarioDAO;
+import com.intravita.proyectointranet.utlidades.utilidades;
 
 /**
  * UsuarioDAOImpl- Implementacion del DAO con los metodos CRUD para los usuarios
@@ -302,8 +303,9 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		Usuario aux;
 		while(it2.hasNext()) {
 			aux=it2.next();
-			borrarAmistad(usuario,aux);
-			rechazarSolicitud(usuario, aux);	
+			if(utilidades.comprobarAmistad(usuario, aux)) borrarAmistad(usuario,aux);
+			else
+				if(utilidades.comprobarSolicitudes(usuario, aux)) rechazarSolicitud(usuario, aux);	
 		}
 		BsonDocument bso = new BsonDocument();
 		bso.append(name, new BsonString(usuario.getNombre()));
@@ -440,7 +442,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		criterio.append(name, new BsonString(user.getNombre()));
 		FindIterable<BsonDocument> resultado=usuarios.find(criterio);
 		BsonDocument usuario = resultado.first();
-		List <BsonValue> solicitudes= usuario.getArray(this.solicitudes);
+		List <BsonValue> solicitudes= usuario.getArray("solicitudes");
 		return solicitudes;
 	}
 	/**
