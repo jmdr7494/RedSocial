@@ -1103,6 +1103,7 @@ public class UsuarioServlet {
 		try {
 			utilidades.comprobacionNombre(nuevoNombre);
 			usuarioDao.updateNombre(usuario.getNombre(), nuevoNombre);
+			publicacionDao.updateNombre(usuario.getNombre(), nuevoNombre);
 			usuario.setNombre(nuevoNombre);
 			request.getSession().setAttribute(usuario_edit, usuario);
 		} catch (Exception e) {
