@@ -367,4 +367,20 @@ public class PublicacionDAOImpl {
 		}
 		return retorno;
 	}
+	/**
+	 * 
+	 * @param nombreViejo
+	 * @param nuevoNombre
+	 * @method todas las publicaciones de nombreViejo pasan a ser de nuevoNombre
+	 */
+
+	public void updateNombre(String nombreViejo, String nuevoNombre) {
+		BsonDocument bso = new BsonDocument();
+		bso.append(author, new BsonString(nombreViejo));
+		
+		MongoCollection<BsonDocument> publicaciones = obtenerPublicaciones();
+		BsonDocument actualizacion= new BsonDocument("$set", new BsonDocument(author, new BsonString(nuevoNombre)));
+		publicaciones.updateMany(bso,actualizacion);
+		
+	}
 }
