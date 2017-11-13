@@ -120,10 +120,10 @@ body{
 	
 	
 	<div class="row">
-		<div class="col-md-1 col-md-offset-1">
-			<h3>
-				<jsp:getProperty name="usuarioConectado" property="nombre"/>				
-			</h3>
+		<div class="col-md-2 col-md-offset-1">
+			<h3><em><strong>
+				<span class="glyphicon glyphicon-user"></span>&nbsp;<jsp:getProperty name="usuarioConectado" property="nombre"/>				
+			</strong></em></h3>
 
 		</div>
 		<div class="col-md-1">
@@ -133,12 +133,12 @@ body{
 				<img src=>
 		</div>
 
-		<div class="col-md-1 col-md-offset-5">
+		<div class="col-md-1 col-md-offset-">
   		</div>
   				
 		<br/>
 			
-			<div class="btn-group col-md-1 col-md-offset-10">
+			<div class="btn-group col-md-1 col-md-offset-6">
 				 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
 				    <center><span class="glyphicon glyphicon-cog"></span>&nbsp;<strong>&nbsp;Ajustes&nbsp;</strong><span class="caret"></span></center>
 				  </button>
@@ -185,10 +185,10 @@ body{
 		
 		<div class="row">
 			<div class="col-md-1 col-md-offset-8">
- 				<button class="btn btn-primary btn-block login" formaction="crearPublicacionPrivada" type="submit" title="Publicación Privada"><strong><span class="glyphicon glyphicon-tag"></span>&nbsp;Borrador</strong></button>
+ 				<button class="btn btn-primary btn-block login" formaction="crearPublicacionPrivada" type="submit" title="Publicaci&oacute;n Privada"><strong><span class="glyphicon glyphicon-tag"></span>&nbsp;Borrador</strong></button>
  			</div>	
  			<div class="col-md-1">
- 				<button class="btn btn-primary btn-block login" type="submit" title="Publicación Pública"><strong><span class="glyphicon glyphicon-share-alt"></span>&nbsp;Publicar</strong></button>
+ 				<button class="btn btn-primary btn-block login" type="submit" title="Publicaci&oacute;n P&uacute;blica"><strong><span class="glyphicon glyphicon-share-alt"></span>&nbsp;Publicar</strong></button>
  			</div>	  
 		</div>
 	</form>

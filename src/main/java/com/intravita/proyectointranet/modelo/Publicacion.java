@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import org.bson.BsonValue;
 
@@ -34,6 +35,7 @@ public class Publicacion implements Comparable<Publicacion>{
 		this.fecha=new Date().getTime();
 		this.megustaCont=0;
 		this.megustaUsuarios=null;
+		this.compartidopor=null;
 	}
 	public Publicacion(Usuario usuario, String texto, String privacidad) {
 		this.usuario = usuario;
@@ -42,6 +44,7 @@ public class Publicacion implements Comparable<Publicacion>{
 		this.fecha=new Date().getTime();
 		this.megustaCont=0;
 		this.megustaUsuarios=null;
+		this.compartidopor=null;
 	}
 	public Publicacion(Usuario usuario, String texto, String privacidad, long fecha, int mg) {
 		this.usuario = usuario;
@@ -49,12 +52,14 @@ public class Publicacion implements Comparable<Publicacion>{
 		this.privacidad=privacidad;
 		this.fecha=fecha;
 		this.megustaCont=mg;
+		this.compartidopor=null;
 	}
 	public Publicacion(Usuario usuario, String texto, String privacidad, long fecha) {
 		this.usuario = usuario;
 		this.texto = texto;
 		this.privacidad=privacidad;
 		this.fecha=fecha;	
+		this.compartidopor=null;
 		
 	}
 	public Publicacion() {
@@ -128,5 +133,18 @@ public class Publicacion implements Comparable<Publicacion>{
 	}
 	public void setCompartidopor(List<BsonValue> compartidopor) {
 		this.compartidopor = compartidopor;
+	}
+	public String textoCompartido() {
+		try {
+			if(compartidopor.equals(null)) return "No est&aacute; compartido por nadie";
+		}catch(Exception e) {
+			return "No esta compartido por nadie";
+		}
+		Iterator <BsonValue> it=compartidopor.iterator();
+		String texto="";
+		while(it.hasNext()) {
+			texto+=it.next().asString().getValue()+" ";
+		}
+		return texto;
 	}
 }
