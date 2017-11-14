@@ -403,7 +403,10 @@ public class UsuarioServlet {
 			return cadenaUrl += "registrar";
 		}
 		System.out.println("llega a la victoria");
-		return cadenaUrl += "login";
+		HttpSession session = request.getSession();
+		session.setAttribute("alertaRegistro", "Mandando alerta registro");
+		
+		return cadenaUrl+="registrar";
 
 	}
 	

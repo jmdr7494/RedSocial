@@ -173,10 +173,17 @@
 			
 			
 			</div>
-		</div>
 		
-		<br>
-		<br>
+		</div>
+		<%--By JA --%>
+		<% String alertaRegistro = (String)session.getAttribute("alertaRegistro");
+			if (alertaRegistro != null) { %>
+				<script>
+				alert ("Se ha registrado corectamente.");
+				window.location = "http://localhost:8080/IntraVita/irLogin";
+				</script>	
+		<% 		session.setAttribute("alertaRegistro", null);
+			}%>
 		
 		<div class="row">
 			<div class="col-md-2 col-md-offset-5">
@@ -184,6 +191,7 @@
 					<button type="submit" class="boton login" value="Registrar">Registrar</button>	
 				</center>
 			</div>
+		
 			<div class="col-md-3">
 				<br/>
 				<t><spam><em>${alerta}</em></spam></t>
