@@ -123,7 +123,8 @@ public class UsuarioServlet {
 	
 	
 	@RequestMapping(value = "/irAdmin", method = RequestMethod.GET)
-	public ModelAndView irAdmin() {
+	public ModelAndView irAdmin(HttpServletRequest request, Model model) {
+		listarUsuario(model);
 		return cambiarVista("usuario/inicioAdmin");
 	}
 
@@ -144,14 +145,16 @@ public class UsuarioServlet {
 	
 	
 	@RequestMapping(value = "/irBienvenido", method = RequestMethod.GET)
-	public ModelAndView irBienvenido() {
+	public ModelAndView irBienvenido(HttpServletRequest request, Model model) {
+		listarPublicacion(request, model);
 		return cambiarVista("usuario/bienvenido");
 	}
 
 	
 	
 	@RequestMapping(value = "/irVistaAmigos", method = RequestMethod.GET)
-	public ModelAndView irVistaAmigos() {
+	public ModelAndView irVistaAmigos(HttpServletRequest request, Model model) {
+		mostrarNotificaciones(request, model);
 		return cambiarVista("usuario/vistaAmigos");
 	}
 
@@ -168,53 +171,57 @@ public class UsuarioServlet {
 	public ModelAndView irPerfilUsuarioAdmin(HttpServletRequest request, Model model) {
 		String nombre = request.getParameter("txtNombre");
 		request.getSession().setAttribute(usuario_edit, new Usuario(nombre));
+		listarPublicacionUsuario(request, model);
+		mostrarPerfilAdmin(request, model);
 		return cambiarVista("usuario/perfilUsuarioAdmin");
 	}
  
 	
 	
- /***
-  * 
-  *@method cambiar roles Admin->Usuario
-  *
-  */
- @RequestMapping(value="/changeToUser", method = RequestMethod.POST)
- public String changeToUser(HttpServletRequest request, Model model) {
-	Administrador admin=(Administrador) request.getSession().getAttribute(admin_conect);
-	String cadenaUrl=usuarioServ;
-	if(!admin.getNombre().equals("admin")) {
-		Usuario usuario=usuarioDao.selectNombre(admin.getNombre());
-		request.getSession().setAttribute("usuarioConectado", usuario);
-		return cadenaUrl+=welcome;
-	}
-	model.addAttribute("alerta", "No tienes permisos de usuario" );
-	cadenaUrl+=ini_admin;
-	return cadenaUrl;
- }
- 
- 
- 
- /***
-  * 
-  *@method cambiar roles Usuario->Admin
-  *
-  */
-	@RequestMapping(value = "/changeToAdmin", method = RequestMethod.POST)
-	public String changeToAdmin(HttpServletRequest request, Model model) {
-		Usuario usuario = (Usuario) request.getSession().getAttribute(usuario_conect);
-		String cadenaUrl = usuarioServ;
-		try {
-			Administrador admin = administradorDao.selectNombre(usuario.getNombre());
-			if (admin.getNombre() != null) {
-				request.getSession().setAttribute(admin_conect, admin);
-				cadenaUrl += ini_admin;
-				return cadenaUrl;
-			}
-		} catch (Exception e) {
-			model.addAttribute(alert, "No tienes permisos de administrador");
+	/***
+	  * 
+	  *@method cambiar roles Admin->Usuario
+	  *
+	  */
+	 @RequestMapping(value="/changeToUser", method = RequestMethod.POST)
+	 public String changeToUser(HttpServletRequest request, Model model) {
+		Administrador admin=(Administrador) request.getSession().getAttribute(admin_conect);
+		String cadenaUrl=usuarioServ;
+		if(!admin.getNombre().equals("admin")) {
+			Usuario usuario=usuarioDao.selectNombre(admin.getNombre());
+			request.getSession().setAttribute("usuarioConectado", usuario);
+			listarPublicacion(request, model);
+			return cadenaUrl+=welcome;
 		}
-		return cadenaUrl += welcome;
-	}
+		model.addAttribute("alerta", "No tienes permisos de usuario" );
+		cadenaUrl+=ini_admin;
+		return cadenaUrl;
+	 }
+	 
+	 
+	 
+	 /***
+	  * 
+	  *@method cambiar roles Usuario->Admin
+	  *
+	  */
+		@RequestMapping(value = "/changeToAdmin", method = RequestMethod.POST)
+		public String changeToAdmin(HttpServletRequest request, Model model) {
+			Usuario usuario = (Usuario) request.getSession().getAttribute(usuario_conect);
+			String cadenaUrl = usuarioServ;
+			try {
+				Administrador admin = administradorDao.selectNombre(usuario.getNombre());
+				if (admin.getNombre() != null) {
+					request.getSession().setAttribute(admin_conect, admin);
+					cadenaUrl += ini_admin;
+					listarUsuario(model);
+					return cadenaUrl;
+				}
+			} catch (Exception e) {
+				model.addAttribute(alert, "No tienes permisos de administrador");
+			}
+			return cadenaUrl += welcome;
+		}
  
 	
 	
@@ -238,6 +245,7 @@ public class UsuarioServlet {
 		administrador.setClave(clave);
 		if (administradorDao.login(administrador) && request.getSession().getAttribute(admin_conect) == null) {
 			request.getSession().setAttribute(admin_conect, administrador);
+			listarUsuario(model);
 			return cadenaUrl += ini_admin;
 		}
 
@@ -250,7 +258,7 @@ public class UsuarioServlet {
 			request.getSession().setAttribute(usuario_conect, usuario);
 			String base64Encoded = DatatypeConverter.printBase64Binary(usuario.getImagen());
 			model.addAttribute("imagen", base64Encoded);
-
+			listarPublicacion(request, model);
 			return cadenaUrl += welcome;
 		}
 
@@ -511,7 +519,7 @@ public class UsuarioServlet {
 	 * 
 	 */
 	@RequestMapping(value = "/listarUsuario", method = RequestMethod.POST)
-	public String listarUsuario(Model model) throws Exception {
+	public String listarUsuario(Model model){
 		String cadenaUrl = usuarioServ;
 		model.addAttribute("usuarios", utilidades.listarUsuarios());
 		model.addAttribute("administradores", utilidades.listarAdministradores());
@@ -668,7 +676,7 @@ public class UsuarioServlet {
   * 
   */
 	@RequestMapping(value = "/listarPublicacionUsuario", method = RequestMethod.POST)
-	public String listarPublicacionUsuario(HttpServletRequest request, Model model) throws Exception {
+	public String listarPublicacionUsuario(HttpServletRequest request, Model model){
 		String cadenaUrl = usuarioServ;
 		Usuario usuario = (Usuario) request.getSession().getAttribute(usuario_edit);
 		ArrayList<Publicacion> publicas = publicacionDao.selectPublicas(usuario);
@@ -859,16 +867,18 @@ public class UsuarioServlet {
 					  		"		<textarea name=\"txtIntroducirTexto\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
 					  		"		<br>\r\n" + 
 					  		"			<div class=\"row\">	"+
-					  		"				<div class=\"col-md-2 col-md-offset-10\">"+
+					  		"				<div class=\"col-md-1 col-md-offset-10\">"+
 					  		"					<form action=\"compartir\" method=\"post\">\r\n" + 
 					  		"						<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"ID\">\r\n" + 
 					  		"						<button type=\"submit\" class=\"btn btn-primary\" title=\""+todas[i].textoCompartido()+"\"><strong><center><span class=\"glyphicon glyphicon-retweet\"></span>&nbsp; Compartir</center></strong></button>\r\n" + 
-					  		"					</form>\r\n" +
-					  		"					<form action=\"meGusta\" method=\"post\">\r\n" + 
-							"						<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"ID\">\r\n" + 
-							"						<button type=\"submit\" class=\"boton btn-default\" title=\""+publicacion.textoMeGusta()+"\"><span class=\"glyphicon glyphicon-thumbs-up\"></span>&nbsp;"+usuarios.size()+"</button>\r\n" + 
-							"					</form>\r\n" + 
+					  		"					</form>\r\n" + 
 					  		"				</div>" +
+					  		"				<div class=\"col-md-1 col-md-offset-10\">"+
+							"					<form action=\"meGusta\" method=\"post\">\r\n" + 
+							"						<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"ID\">\r\n" + 
+							"						<button type=\"submit\" class=\"btn btn-primary\" title=\""+publicacion.textoMeGusta()+"\"><strong><center><span class=\"glyphicon glyphicon-thumbs-up\"></span>&nbsp;"+usuarios.size()+"</center></strong></button>\r\n" + 
+							"					</form>\r\n" +
+							"				</div>" +
 					  		"			</div>" +	
 					  		"	</div>\r\n" + 
 					  		"</div>";
@@ -1073,7 +1083,7 @@ public class UsuarioServlet {
 	
 	
 	@RequestMapping(value = "/mostrarNotificaciones", method = RequestMethod.GET)
-	public String mostrarNotificaciones(HttpServletRequest request, Model model) throws Exception {
+	public String mostrarNotificaciones(HttpServletRequest request, Model model){
 		Usuario usuario;
 		usuario = (Usuario) request.getSession().getAttribute(usuario_conect);
 		model.addAttribute("notificaciones", utilidades.mostrarNotificaciones(usuario));
@@ -1087,7 +1097,7 @@ public class UsuarioServlet {
 	 *         nombre y pwd
 	 */
 	@RequestMapping(value = "/mostrarPerfilAdmin", method = RequestMethod.GET)
-	public String mostrarPerfilAdmin(HttpServletRequest request, Model model) throws Exception {
+	public String mostrarPerfilAdmin(HttpServletRequest request, Model model){
 		Usuario usuario;
 		usuario = (Usuario) request.getSession().getAttribute(usuario_edit);
 		model.addAttribute("perfil", utilidades.mostrarPerfilAdmin(usuario));

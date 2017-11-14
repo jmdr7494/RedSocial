@@ -381,6 +381,7 @@ public class utilidades {
 					"		<div class=\"col-md-2\">\r\n" + 
 					"			<button class=\"btn btn-danger btn-block login\" type=\"submit\" title=\"Eliminar Usuario\"><strong><span class=\"glyphicon glyphicon-trash\"></span></strong></button>\r\n" +  
 					"		</div></div>\r\n" + 
+					"		<br>\r\n" +
 					"</form>	";
 		}
 		return texto;
@@ -407,6 +408,7 @@ public class utilidades {
 					"		<div class=\"col-md-3\">\r\n" + 
 					"			<button class=\"btn btn-danger btn-block login\" type=\"submit\" title=\"Eliminar Administrador\"><strong><span class=\"glyphicon glyphicon-trash\"></span></strong></button>\r\n" +  
 					"		</div></div>\r\n" + 
+					"		<br>\r\n" +
 					"</form>	";
 		}
 		return texto;		
