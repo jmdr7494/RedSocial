@@ -428,7 +428,7 @@ public class utilidades {
 				"				<input name=\"txtNombre\" class=\"form-control\" value=\""+user.getNombre()+"\" id=\"usr\" placeholder=\"usuario\" disabled>\r\n" +
 				"				<br>\r\n" +
 				"				<div class=\"col-md-3 col-md-offset-9\">"+
-				"					<button class=\"btn btn-primary btn-block btn-md login\" data-toggle=\"modal\" data-target=\"#miModals\" type=\"submit\">Editar</button>\r\n" + 
+				"					<button class=\"btn btn-primary login\" data-toggle=\"modal\" data-target=\"#miModals\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-trash\">&nbsp;</span>Editar</strong></button>\r\n" + 
 				"					<br>\r\n" +
 				"				</div>\r\n" + 
 				"			</div>\r\n" + 
@@ -440,7 +440,7 @@ public class utilidades {
 				"				<input name=\"txtPWD\" class=\"form-control\" id=\"pwd\" placeholder=\"Nueva password\" disabled>\r\n" +
 				"				<br>\r\n" +
 				"				<div class=\"col-md-3 col-md-offset-9\">"+
-				"					<button class=\"btn btn-primary btn-block btn-md login\" data-toggle=\"modal\" data-target=\"#miModales\" type=\"submit\">Editar</button>\r\n" + 
+				"					<button class=\"btn btn-primary login\" data-toggle=\"modal\" data-target=\"#miModales\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-trash\">&nbsp;</span>Editar</strong></button>\r\n" + 
 				"					<br>\r\n" +
 				"				</div>\r\n" +
 				"			</div>\r\n" + 
@@ -470,12 +470,17 @@ public class utilidades {
 				"						<form action=\"editarNombre\" method=\"GET\">\r\n" +
 				"							<input name=\"txtNombre\" autofocus class=\"form-control\" value=\""+user.getNombre()+"\" id=\"usr\" placeholder=\"usuario\">\r\n" +
 				"							<br>\r\n" +
-				"							<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
+				"							<div class=\"row\">	"+
+		  		"								<div class=\"col-md-1 col-md-offset-8\">"+		
+		  		"								<button class=\"btn btn-success\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;Si</strong></button>\r\n" + 
+		  		"							</div>"+	
 				"						</form>\r\n" + 
-				"						<form action=\"mostrarPerfilAdmin\" method=\"GET\">\r\n" + 
-				"							<br>\r\n" + 
-				"							<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
+		  		"						<div class=\"col-md-1 col-md-offset-1\">"+
+				"						<form action=\"mostrarPerfilAdmin\" method=\"GET\">\r\n" +  
+				"							<button class=\"btn btn-danger\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-remove\"></span>&nbsp;No</strong></button>\r\n" + 
 				"						</form>\r\n" + 
+				" 					</div>"+
+				" 					</div>"+
 				"					</div>\r\n" + 
 				"				</div>\r\n" + 
 				"			</div>\r\n" + 
@@ -498,12 +503,17 @@ public class utilidades {
 				"						<form action=\"editarPwd\" method=\"GET\">\r\n" +
 				"							<input name=\"txtPWD\" autofocus type=\"password\" class=\"form-control\" id=\"pwd\" placeholder=\"Nueva password\">\r\n" +
 				"							<br>\r\n" +
-				"							<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
+				"							<div class=\"row\">	"+
+		  		"								<div class=\"col-md-1 col-md-offset-8\">"+		
+		  		"								<button class=\"btn btn-success\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;Si</strong></button>\r\n" + 
+		  		"							</div>"+	
 				"						</form>\r\n" + 
-				"						<form action=\"mostrarPerfilAdmin\" method=\"GET\">\r\n" + 
-				"							<br>\r\n" + 
-				"							<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
+		  		"						<div class=\"col-md-1 col-md-offset-1\">"+
+				"						<form action=\"mostrarPerfilAdmin\" method=\"GET\">\r\n" +  
+				"							<button class=\"btn btn-danger\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-remove\"></span>&nbsp;No</strong></button>\r\n" + 
 				"						</form>\r\n" + 
+				" 					</div>"+
+				" 					</div>"+
 				"					</div>\r\n" + 
 				"				</div>\r\n" + 
 				"			</div>\r\n" + 

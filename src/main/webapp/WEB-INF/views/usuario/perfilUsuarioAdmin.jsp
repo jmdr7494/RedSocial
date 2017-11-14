@@ -107,10 +107,19 @@ body{
 	
 	
 	<div class="row">
-		<div class="col-md-1 col-md-offset-10">
+	
+			<div class="col-md-5 col-md-offset-1">
+				<h3><em><strong>
+					<span class="glyphicon glyphicon-user"></span>&nbsp;<jsp:getProperty name="administradorConectado" property="nombre"/>
+				</strong></em></h3>
+			</div>	
+
+		<div class="col-md-1 col-md-offset-4">
 			<br>
 			<form action="irAdmin" method="GET">
-				<button class="btn btn-danger btn-block btn-md login" type="submit">Volver</button>
+				<button class="btn btn-danger btn-block btn-md login" type="submit">
+					<strong><span class="glyphicon glyphicon-menu-left"></span>&nbsp;Volver</strong>
+				</button>
 			</form>	
 					
 		<br/>
@@ -123,7 +132,7 @@ body{
 			<div class="panel panel-default">
 				 <div class="panel-body">
 					<form action="mostrarPerfilAdmin" method="get">
-						<button class="btn btn-info btn-block login" type="submit">Mostrar Datos</button>
+						<button class="btn btn-info btn-block login" type="submit" title="Mostrar Datos del Usuario"><strong><span class="glyphicon glyphicon-list"></span>&nbsp;Mostrar Datos</strong></button>
 					</form>
 				</div>
 				${perfil}
@@ -134,7 +143,7 @@ body{
 			<div class="panel panel-default">
 				 <div class="panel-body">
 					<form action="listarPublicacionUsuario" method="post">
-						<button class="btn btn-info btn-block login" type="submit">Mostrar Publicaciones</button>
+						<button class="btn btn-info btn-block login" type="submit" title="Mostrar publicaciones del usuario"><strong><span class="glyphicon glyphicon-list"></span>&nbsp;Mostrar Publicaciones</strong></button>
 					</form>
 				</div>
 				${publicaciones}
@@ -154,7 +163,7 @@ body{
 	
 	<div class="col-md-12" style="position: fixed; bottom: 0;">
 		<div class="panel-footer">
-			© Copyright 2017 IntraVita. Todos los derechos reservados.
+			&xopy; Copyright 2017 IntraVita. Todos los derechos reservados.
 		</div>
 	</div>
 
