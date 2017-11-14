@@ -750,6 +750,9 @@ public class UsuarioServlet {
 		ArrayList<Publicacion> compartidasAmigos = new ArrayList<Publicacion>();
 		BsonValue element;
 
+		Publicacion publicacion = new Publicacion(new Usuario("autor"), "texto");
+		ArrayList<String> usuarios;
+		  
 		Iterator<BsonValue> it = amigos.iterator();
 		while (it.hasNext()) {
 			element = it.next();
@@ -765,6 +768,11 @@ public class UsuarioServlet {
 		String nombre = "";
 		for (int i = 0; i < todas.length; i++) {
 			nombre = todas[i].getUsuario().getNombre();
+			publicacion.setId(todas[i].getId());
+			publicacion = publicacionDao.selectOne(publicacion);
+			usuarios = publicacionDao.usuariosMeGusta(publicacion);	
+			publicacion.setMegustaUsuarios(usuarios);
+			
 			if (nombre.equals(usuario.getNombre())) {
 				texto = texto + "<div class=\"panel panel-default\">\r\n" + 
 				  		"	<div class=\"panel-body\">\r\n" + 
@@ -856,8 +864,12 @@ public class UsuarioServlet {
 					  		"						<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"ID\">\r\n" + 
 					  		"						<button type=\"submit\" class=\"btn btn-primary\" title=\""+todas[i].textoCompartido()+"\"><strong><center><span class=\"glyphicon glyphicon-retweet\"></span>&nbsp; Compartir</center></strong></button>\r\n" + 
 					  		"					</form>\r\n" +
-					  		"				</div>				" +
-					  		"			</div>					" +	
+					  		"					<form action=\"meGusta\" method=\"post\">\r\n" + 
+							"						<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"ID\">\r\n" + 
+							"						<button type=\"submit\" class=\"boton btn-default\" title=\""+publicacion.textoMeGusta()+"\"><span class=\"glyphicon glyphicon-thumbs-up\"></span>&nbsp;"+usuarios.size()+"</button>\r\n" + 
+							"					</form>\r\n" + 
+					  		"				</div>" +
+					  		"			</div>" +	
 					  		"	</div>\r\n" + 
 					  		"</div>";
 			  }
@@ -1196,6 +1208,28 @@ public class UsuarioServlet {
 
 		return "usuario/bienvenido";
 
+	}
+	@RequestMapping(value = "/meGusta", method = RequestMethod.POST)
+	public String meGusta(HttpServletRequest request, Model model) {
+		String cadenaUrl = usuarioServ;
+
+		Usuario usuario = (Usuario) request.getSession().getAttribute(usuario_conect);
+		String id = request.getParameter("txtIdPublicacion");
+		Publicacion publicacion = new Publicacion(new Usuario("autor"), "texto");
+		publicacion.setId(id);
+		publicacion = publicacionDao.selectOne(publicacion);
+		try {
+			utilidades.megusta(publicacion, usuario);
+		} catch (Exception e) {
+			try {
+				utilidades.nomegusta(publicacion, usuario);
+			} catch (Exception e1) {
+				model.addAttribute("alerta", e1.getMessage());
+			}
+		}
+		listarPublicacion(request, model);
+		cadenaUrl += welcome;
+		return cadenaUrl;
 	}
 
 	public ModelAndView cambiarVista(String nombreVista) {

@@ -574,4 +574,14 @@ public class utilidades {
 		}
 		return retorno;
 	}
+	public static void megusta(Publicacion publicacion, Usuario usuario) throws Exception {
+		List<String> meGusta=publicacionDao.usuariosMeGusta(publicacion);
+		if(meGusta.contains(usuario.getNombre())) throw new Exception("Ya te gusta esta publicacion");
+		publicacionDao.megusta(publicacion.getId(), usuario);	
+	}
+	public static void nomegusta(Publicacion publicacion, Usuario usuario) throws Exception {
+		List<String> meGusta=publicacionDao.usuariosMeGusta(publicacion);
+		if(!meGusta.contains(usuario.getNombre())) throw new Exception("No te gusta esta publicacion");
+		publicacionDao.yanomegusta(publicacion.getId(), usuario);	
+	}
 }
