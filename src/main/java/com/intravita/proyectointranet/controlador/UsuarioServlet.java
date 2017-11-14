@@ -839,21 +839,25 @@ public class UsuarioServlet {
 						"		</div>" + 
 						  		"	</div>\r\n" + 
 						  		"</div>	";		  
-				  }else {
-					  
-					  texto+="<div class=\"panel panel-default\">\r\n" + 
-						  		"	<div class=\"panel-body\">\r\n" + 
-						  		"		<b> "+nombre+"</b>\r\n" + 
-						  		"		<textarea name=\"txtIntroducirTexto\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
-						  		"		<br>\r\n" + 
-						  		"		<form action=\"compartir\" method=\"post\">\r\n" + 
-						  		"			<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"ID\">\r\n" + 
-						  		"			<button type=\"submit\" class=\"boton btn-default\"><span class=\"glyphicon glyphicon-send\"></span>&nbsp;</button>\r\n" + 
-						  		"		</form>\r\n" + 
-						  		"	</div>\r\n" + 
-						  		"</div>";
-				  }
-			
+			  }else {
+				  
+				  texto+="<div class=\"panel panel-default\">\r\n" + 
+					  		"	<div class=\"panel-body\">\r\n" + 
+					  		"		<b> "+nombre+"</b>\r\n" + 
+					  		"		<textarea name=\"txtIntroducirTexto\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
+					  		"		<br>\r\n" + 
+					  		"			<div class=\"row\">	"+
+					  		"				<div class=\"col-md-2 col-md-offset-10\">"+
+					  		"					<form action=\"compartir\" method=\"post\">\r\n" + 
+					  		"						<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"ID\">\r\n" + 
+					  		"						<button type=\"submit\" class=\"btn btn-primary\" title=\""+todas[i].textoCompartido()+"\"><strong><center><span class=\"glyphicon glyphicon-retweet\"></span>&nbsp; Compartir</center></strong></button>\r\n" + 
+					  		"					</form>\r\n" +
+					  		"				</div>				" +
+					  		"			</div>					" +	
+					  		"	</div>\r\n" + 
+					  		"</div>";
+			  }
+
 				  
 				  
 			
@@ -1099,6 +1103,7 @@ public class UsuarioServlet {
 		try {
 			utilidades.comprobacionNombre(nuevoNombre);
 			usuarioDao.updateNombre(usuario.getNombre(), nuevoNombre);
+			publicacionDao.updateNombre(usuario.getNombre(), nuevoNombre);
 			usuario.setNombre(nuevoNombre);
 			request.getSession().setAttribute(usuario_edit, usuario);
 		} catch (Exception e) {
