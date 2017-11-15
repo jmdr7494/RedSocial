@@ -116,7 +116,9 @@ public class UsuarioServlet {
 	
 	
 	@RequestMapping(value = "/irRegistrar", method = RequestMethod.GET)
-	public ModelAndView irRegistrar() {
+	public ModelAndView irRegistrar(HttpServletRequest request) {
+		request.setAttribute("usuarioRegistro", "");
+		request.setAttribute("emailRegistro", "");
 		return cambiarVista("usuario/registrar");
 	}
 
@@ -384,6 +386,21 @@ public class UsuarioServlet {
 			utilidades.credencialesValidas(nombre, email, pwd1, pwd2);
 		} catch (Exception e) {
 			model.addAttribute("alerta", e.getMessage());
+			if (e.getMessage().equals("Email invalido")) {
+				request.setAttribute("usuarioRegistro", nombre);
+				request.setAttribute("emailRegistro", "");
+			}
+			if (e.getMessage().equals("No coinciden las password")) {
+				request.setAttribute("usuarioRegistro", nombre);
+				request.setAttribute("emailRegistro", email);
+			}
+			if (e.getMessage().equals("Por favor rellene todos los campos")) {
+				request.setAttribute("usuarioRegistro", "");
+				request.setAttribute("emailRegistro", "");
+			}
+		
+			
+			
 			return cadenaUrl += "registrar";
 		}
 
@@ -400,6 +417,7 @@ public class UsuarioServlet {
 		} catch (Exception e) {
 			// model.addAttribute(alert, "Nombre de usuario no disponible");
 			model.addAttribute(alert, e);
+			request.setAttribute("emailRegistro", email);
 			return cadenaUrl += "registrar";
 		}
 		System.out.println("llega a la victoria");
