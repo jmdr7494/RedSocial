@@ -330,7 +330,7 @@ public class UsuarioServlet {
 		String respuesta = request.getParameter("txtRespuesta");
 
 		try {
-			utilidades.credencialesValidas(nombre, email, pwd1, pwd2);
+			utilidades.credencialesValidas(nombre, email, pwd1, pwd2, respuesta);
 		} catch (Exception e) {
 			model.addAttribute("alerta", e.getMessage());
 			return cadenaUrl += registrar;
@@ -383,7 +383,7 @@ public class UsuarioServlet {
 		System.out.println("Esta es la imagen: " + imagen.toString());
 
 		try {
-			utilidades.credencialesValidas(nombre, email, pwd1, pwd2);
+			utilidades.credencialesValidas(nombre, email, pwd1, pwd2, respuesta);
 		} catch (Exception e) {
 			model.addAttribute("alerta", e.getMessage());
 			if (e.getMessage().equals("Email invalido")) {
@@ -395,13 +395,29 @@ public class UsuarioServlet {
 				request.setAttribute("emailRegistro", email);
 			}
 			if (e.getMessage().equals("Por favor rellene todos los campos")) {
-				request.setAttribute("usuarioRegistro", "");
-				request.setAttribute("emailRegistro", "");
+				if (nombre!=null) {
+					request.setAttribute("usuarioRegistro", nombre);
+				}
+				if (email!=null) {
+					request.setAttribute("emailRegistro", email);
+				}
+				else {	
+					request.setAttribute("usuarioRegistro", "");
+					request.setAttribute("emailRegistro", "");
+				}
 			}
-		
+			if (e.getMessage().equals("Formato nombre invalido")) {
+				request.setAttribute("usuarioRegistro", "");
+				request.setAttribute("emailRegistro", email);
+			}
 			
+			if (e.getMessage().equals("Password poco segura (minimo 8 caracteres, con numeros y letras)")) {
+				request.setAttribute("usuarioRegistro", nombre);
+				request.setAttribute("emailRegistro", email);
+			}
 			
 			return cadenaUrl += "registrar";
+			
 		}
 
 		Usuario usuario = new Usuario();
@@ -415,15 +431,14 @@ public class UsuarioServlet {
 		try {
 			usuarioDao.insertConImagen(usuario);
 		} catch (Exception e) {
-			// model.addAttribute(alert, "Nombre de usuario no disponible");
-			model.addAttribute(alert, e);
-			request.setAttribute("emailRegistro", email);
+			model.addAttribute(alert, e.getMessage());
 			return cadenaUrl += "registrar";
 		}
 		System.out.println("llega a la victoria");
 		HttpSession session = request.getSession();
 		session.setAttribute("alertaRegistro", "Mandando alerta registro");
-		
+		request.setAttribute("usuarioRegistro", "");
+		request.setAttribute("emailRegistro", "");
 		return cadenaUrl+="registrar";
 
 	}
