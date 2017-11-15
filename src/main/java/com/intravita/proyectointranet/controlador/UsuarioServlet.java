@@ -146,10 +146,7 @@ public class UsuarioServlet {
 	
 	@RequestMapping(value = "/irBienvenido", method = RequestMethod.GET)
 	public ModelAndView irBienvenido(HttpServletRequest request, Model model) {
-		Usuario usuario=(Usuario) request.getAttribute(usuario_conect);
-		String base64Encoded = DatatypeConverter.printBase64Binary(usuario.getImagen());
-		model.addAttribute("imagen", base64Encoded);
-		listarPublicacion(request, model);
+		listarPublicacion(request,model);
 		return cambiarVista("usuario/bienvenido");
 	}
 
