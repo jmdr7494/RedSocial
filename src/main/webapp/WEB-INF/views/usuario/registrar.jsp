@@ -117,13 +117,13 @@
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
 				<label for="usr" style="color:white; font-size:15px;">Usuario:</label>
-				<input type="text" class="form-control" id="usr" name="txtUsuarioNombre" autofocus placeholder="usuario" onFocus="if(this.value!='')this.value=''"/>
+				<input type="text" class="form-control" id="usr" name="txtUsuarioNombre" placeholder="usuario" value=<%=request.getAttribute("usuarioRegistro")%>>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
 				<label for="email" style="color:white; font-size:15px">Email:</label>
-				<input type="text" class="form-control" id="email" name="txtEmail" placeholder="@alu.uclm.es""/>
+				<input type="text" class="form-control" id="email" name="txtEmail" placeholder="@uclm.es | @alu.uclm.es" value=<%=request.getAttribute("emailRegistro")%>>
 			</div>
 		</div>
 		<div class="row">
@@ -173,10 +173,17 @@
 			
 			
 			</div>
-		</div>
 		
-		<br>
-		<br>
+		</div>
+		<%--By JA --%>
+		<% String alertaRegistro = (String)session.getAttribute("alertaRegistro");
+			if (alertaRegistro != null) { %>
+				<script>
+				alert ("Se ha registrado corectamente.");
+				window.location = "http://localhost:8080/IntraVita/irLogin";
+				</script>	
+		<% 		session.setAttribute("alertaRegistro", null);
+			}%>
 		
 		<div class="row">
 			<div class="col-md-2 col-md-offset-5">
@@ -184,6 +191,7 @@
 					<button type="submit" class="boton login" value="Registrar">Registrar</button>	
 				</center>
 			</div>
+		
 			<div class="col-md-3">
 				<br/>
 				<t><spam><em>${alerta}</em></spam></t>
