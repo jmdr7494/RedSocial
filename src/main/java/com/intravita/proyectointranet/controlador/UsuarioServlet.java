@@ -1162,6 +1162,12 @@ public class UsuarioServlet {
 		usuario = (Usuario) request.getSession().getAttribute(usuario_edit);
 		usuario.setClave(request.getParameter("txtPWD"));
 		usuarioDao.updatePwd(usuario);
+		usuario=usuarioDao.selectNombre(usuario.getNombre());
+		String subject="Servicio de atención al cliente de IntraVita - Cambio de contraseña";
+		String msg="Un administrador ha modificado su contraseña, a partir de ahora para acceder al sistema"
+				+ " debe hacerlo con: "+ request.getParameter("txtPWD");
+		MailSender mailSender = new MailSender();
+		mailSender.sendEmailGeneric(usuario.getEmail(), subject, msg);
 		model.addAttribute("perfil", utilidades.mostrarPerfilAdmin(usuario));
 		return "usuario/perfilUsuarioAdmin";
 	}
@@ -1180,6 +1186,14 @@ public class UsuarioServlet {
 			publicacionDao.updateCompartidosYMegusta(usuario.getNombre(),nuevoNombre);
 			usuario.setNombre(nuevoNombre);
 			request.getSession().setAttribute(usuario_edit, usuario);
+
+
+			usuario=usuarioDao.selectNombre(usuario.getNombre());
+			String subject="Servicio de atención al cliente de IntraVita - Cambio de nombre";
+			String msg="Un administrador ha modificado su nombre de usuario, a partir de ahora para acceder al sistema"
+					+ " debe hacerlo con el siguiente nombre: "+ request.getParameter("txtNombre");
+			MailSender mailSender = new MailSender();
+			mailSender.sendEmailGeneric(usuario.getEmail(), subject, msg);
 		} catch (Exception e) {
 			model.addAttribute("alerta", e.getMessage());
 		}
