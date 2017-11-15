@@ -146,9 +146,6 @@ public class UsuarioServlet {
 	
 	@RequestMapping(value = "/irBienvenido", method = RequestMethod.GET)
 	public ModelAndView irBienvenido(HttpServletRequest request, Model model) {
-		Usuario usuario=(Usuario) request.getAttribute(usuario_conect);
-		String base64Encoded = DatatypeConverter.printBase64Binary(usuario.getImagen());
-		model.addAttribute("imagen", base64Encoded);
 		listarPublicacion(request, model);
 		return cambiarVista("usuario/bienvenido");
 	}
@@ -752,10 +749,7 @@ public class UsuarioServlet {
 		String cadenaUrl = usuarioServ;
 		Usuario usuario;
 		usuario = (Usuario) request.getSession().getAttribute(usuario_conect);
-		/*Variables avatar usuarioConectado*/
-		Usuario usrAux;
-		byte[]imagenBinaria;
-		/*Variables avatar usuarioConectado*/
+
 		ArrayList<Publicacion> publicas = publicacionDao.selectPublicas(usuario);
 		ArrayList<Publicacion> privadas = publicacionDao.selectPrivadas(usuario);
 		List<BsonValue> amigos = usuarioDao.obtenerAmigos(usuario);
@@ -780,33 +774,17 @@ public class UsuarioServlet {
 		Publicacion[] todas = utilidades.mostrarPublicaciones(publicas, privadas);
 		String texto = "";
 		String nombre = "";
-		/*Variables del tratamiento de imagen*/
-		String base64Encoded = DatatypeConverter.printBase64Binary(usuario.getImagen());
-		String imagenCodificada="";
-		/*Variables del tratamiento de imagen*/
-		
 		for (int i = 0; i < todas.length; i++) {
 			nombre = todas[i].getUsuario().getNombre();
-			
-			/*tratamiento de imagen*/
-			usrAux=usuarioDao.selectNombreImagen(nombre);
-			imagenBinaria=usrAux.getImagen();
-			imagenCodificada=DatatypeConverter.printBase64Binary(imagenBinaria);
-			/*tratamiento de imagen*/
-			
 			publicacion.setId(todas[i].getId());
 			publicacion = publicacionDao.selectOne(publicacion);
 			usuarios = publicacionDao.usuariosMeGusta(publicacion);	
 			publicacion.setMegustaUsuarios(usuarios);
 			
-			
 			if (nombre.equals(usuario.getNombre())) {
 				texto = texto + "<div class=\"panel panel-default\">\r\n" + 
-				  		"	<div class=\"panel-body\">\r\n" +
-				  		"			<b> "+ nombre +" </b> \r\n" +
-				  		/*Añadimos la linea imagenCodificada*/
-				  		"<img src=\"data:image/gif;base64,"+imagenCodificada+"\" class=\"fotoPerfil\">"+
-				  		/*Añadimos la linea imagenCodificada*/
+				  		"	<div class=\"panel-body\">\r\n" + 
+				  		"			<b> "+ nombre +" </b> \r\n" + 
 				  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"¿Qu&eacute; tal el d&iacute;a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
 				  		"			<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
 				  		"<br>"+
@@ -885,10 +863,7 @@ public class UsuarioServlet {
 				  
 				  texto+="<div class=\"panel panel-default\">\r\n" + 
 					  		"	<div class=\"panel-body\">\r\n" + 
-					  		"		<b> "+nombre+"</b>\r\n" +
-					  		/*Añadimos la linea imagenCodificada*/
-					  		"<img src=\"data:image/gif;base64,"+imagenCodificada+"\" class=\"fotoPerfil\">"+
-					  		/*Añadimos la linea imagenCodificada*/
+					  		"		<b> "+nombre+"</b>\r\n" + 
 					  		"		<textarea name=\"txtIntroducirTexto\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
 					  		"		<br>\r\n" + 
 					  		"			<div class=\"row\">	"+
@@ -913,9 +888,6 @@ public class UsuarioServlet {
 				  
 			
 				  }
-				  /*se añade a ${imagen} en bienvenido.jsp*/
-				  model.addAttribute("imagen", base64Encoded);
-				  /*se añade a ${imagen} en la vista bienvenido.jsp*/
 				  model.addAttribute("publicaciones", texto);
 				  
 				  cadenaUrl+=welcome;  
