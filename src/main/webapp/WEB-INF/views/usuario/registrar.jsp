@@ -180,7 +180,8 @@
 			if (alertaRegistro != null) { %>
 				<script>
 				alert ("Se ha registrado corectamente.");
-				window.location = "http://localhost:8080/IntraVita/irLogin";
+				window.location = "https://intravitawebapp.herokuapp.com/irLogin";
+				<%--window.location = "http://localhost:8080/IntraVita/irLogin"; (Si estas en local usa esta linea)--%>
 				</script>	
 		<% 		session.setAttribute("alertaRegistro", null);
 			}%>
