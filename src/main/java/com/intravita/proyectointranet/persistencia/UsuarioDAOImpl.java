@@ -119,8 +119,8 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 			System.out.println("no es por el binario?");
 			MongoCollection<BsonDocument> usuarios = obtenerUsuarios();
 			usuarios.insertOne(bso);
-		}//else
-			//throw new Exception("Cuenta existente");
+		}else
+			throw new Exception("Cuenta existente");
 	}
 	/**
 	 * @method insercion de usuarios con y sin encriptar clave

@@ -128,9 +128,7 @@ body{
 		</div>
 		<div class="col-md-1">
 				<br/>
-				<img src=<jsp:getProperty name="usuarioConectado" property="imagen"/>>
 				<img src="data:image/gif;base64,${imagen}" class="fotoPerfil">
-				<img src=>
 		</div>
 
 		<div class="col-md-1 col-md-offset-">
