@@ -339,7 +339,7 @@ public class PublicacionDAOImpl {
 		long fecha;
 		String id;
 		List<BsonValue> compartidopor;
-		
+		ArrayList<String> megusta;
 		BsonDocument publicacion;
 		Iterator<BsonDocument> lista=resultado.iterator();
 		List<Publicacion> retorno=new ArrayList<Publicacion>();
@@ -353,10 +353,13 @@ public class PublicacionDAOImpl {
 			fecha=publicacion.getDateTime(date).getValue();
 			compartidopor=publicacion.getArray(this.compartidopor);
 			id=publicacion.getObjectId(ID).getValue().toString();
-			
+
 			aux=new Publicacion(usuario, texto, privacidad, fecha);
+
 			aux.setCompartidopor(compartidopor);
 			aux.setId(id);
+			megusta=usuariosMeGusta(aux);
+			aux.setMegustaUsuarios(megusta);
 			retorno.add(aux);
 		}
 		return retorno;
@@ -377,4 +380,40 @@ public class PublicacionDAOImpl {
 		publicaciones.updateMany(bso,actualizacion);
 		
 	}
+
+	/**
+	 * 
+	 * @param nombreViejo
+	 * @param nuevoNombre
+	 * @method todos los compartidos y me gusta de nombreViejo pasan a ser de nuevoNombre
+	 */
+
+	public void updateCompartidosYMegusta(String nombreViejo, String nuevoNombre) {
+		List<Publicacion> todas=selectAll();
+		BsonString bsoViejoNombre=new BsonString(nombreViejo);
+		Publicacion aux;
+		Iterator<Publicacion> it=todas.iterator();
+		List<BsonValue> compartidos;
+		ArrayList<String> megusta;
+		
+		Usuario viejo=new Usuario(nombreViejo);
+		Usuario nuevo=new Usuario(nuevoNombre);
+		
+		while(it.hasNext()) {
+			aux=it.next();
+			
+			if(aux.getPrivacidad().equals("Publica")) {
+				megusta=aux.getMegustaUsuarios();
+				if(megusta.contains(nombreViejo)) {
+					yanomegusta(aux.getId(),viejo);
+					megusta(aux.getId(),nuevo);
+				}
+				compartidos=aux.getCompartidopor();
+				if(compartidos.contains(bsoViejoNombre)) {
+					dejarCompartir(viejo,aux);
+					compartir(nuevo, aux);
+				}
+			}
+		}
+	} 
 }

@@ -191,6 +191,7 @@ public class UsuarioServlet {
 		String cadenaUrl=usuarioServ;
 		if(!admin.getNombre().equals("admin")) {
 			Usuario usuario=usuarioDao.selectNombre(admin.getNombre());
+			usuario = usuarioDao.selectNombreImagen(admin.getNombre());
 			request.getSession().setAttribute("usuarioConectado", usuario);
 			listarPublicacion(request, model);
 			return cadenaUrl+=welcome;
@@ -1176,6 +1177,7 @@ public class UsuarioServlet {
 			utilidades.comprobacionNombre(nuevoNombre);
 			usuarioDao.updateNombre(usuario.getNombre(), nuevoNombre);
 			publicacionDao.updateNombre(usuario.getNombre(), nuevoNombre);
+			publicacionDao.updateCompartidosYMegusta(usuario.getNombre(),nuevoNombre);
 			usuario.setNombre(nuevoNombre);
 			request.getSession().setAttribute(usuario_edit, usuario);
 		} catch (Exception e) {
