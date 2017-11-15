@@ -1,6 +1,5 @@
 package com.intravita.proyectointranet.modelo;
 
-
 /**
  * Usuario- Modelo de los usuarios del sistema
  *
@@ -84,24 +83,23 @@ public class Usuario {
 	
 	/*Para la imagen*/
 	public String getNombreImagen() {
-		// TODO Auto-generated method stub
 		return this.nombreImagen;
-		
 	}
 	
 	public byte[] getImagen() {
-		// TODO Auto-generated method stub
 		return this.imagen;
 	}
 	
 	
 	public void setNombreImagen(String nombreImagen) {
-		// TODO Auto-generated method stub
 		this.nombreImagen=nombreImagen;
-		
 	}
+	
 	public void setImagen(byte[] imagen) {
-		// TODO Auto-generated method stub
 		this.imagen=imagen;
 	}
+	
+	
+	
+	
 }
