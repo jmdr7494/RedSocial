@@ -54,21 +54,6 @@ public class MailSender {
 			throw new RuntimeException(e);
 		}
 	}
-	public void sendEmailGeneric(String usuario, String subject, String msg) throws Exception{
-		try {
-
-			Message message = new MimeMessage(getSession());
-			message.setFrom(new InternetAddress(userData.getUserName()));
-			message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(usuario));
-			message.setSubject(subject);
-			message.setText(msg);
-			Transport.send(message);
-
-
-		} catch (MessagingException e) {
-			throw new RuntimeException(e);
-		}
-	}
 }
 
 

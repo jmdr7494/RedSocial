@@ -404,29 +404,13 @@ public class UsuarioServlet {
 				request.setAttribute("emailRegistro", email);
 			}
 			if (e.getMessage().equals("Por favor rellene todos los campos")) {
-				if (nombre!=null) {
-					request.setAttribute("usuarioRegistro", nombre);
-				}
-				if (email!=null) {
-					request.setAttribute("emailRegistro", email);
-				}
-				else {	
-					request.setAttribute("usuarioRegistro", "");
-					request.setAttribute("emailRegistro", "");
-				}
-			}
-			if (e.getMessage().equals("Formato nombre invalido")) {
 				request.setAttribute("usuarioRegistro", "");
-				request.setAttribute("emailRegistro", email);
+				request.setAttribute("emailRegistro", "");
 			}
+		
 			
-			if (e.getMessage().equals("Password poco segura (minimo 8 caracteres, con numeros y letras)")) {
-				request.setAttribute("usuarioRegistro", nombre);
-				request.setAttribute("emailRegistro", email);
-			}
 			
 			return cadenaUrl += "registrar";
-			
 		}
 
 		Usuario usuario = new Usuario();
@@ -440,14 +424,15 @@ public class UsuarioServlet {
 		try {
 			usuarioDao.insertConImagen(usuario);
 		} catch (Exception e) {
-			model.addAttribute(alert, e.getMessage());
+			// model.addAttribute(alert, "Nombre de usuario no disponible");
+			model.addAttribute(alert, e);
+			request.setAttribute("emailRegistro", email);
 			return cadenaUrl += "registrar";
 		}
 		System.out.println("llega a la victoria");
 		HttpSession session = request.getSession();
 		session.setAttribute("alertaRegistro", "Mandando alerta registro");
-		request.setAttribute("usuarioRegistro", "");
-		request.setAttribute("emailRegistro", "");
+		
 		return cadenaUrl+="registrar";
 
 	}
@@ -800,7 +785,7 @@ public class UsuarioServlet {
 
 		Publicacion publicacion = new Publicacion(new Usuario("autor"), "texto");
 		ArrayList<String> usuarios;
-		  
+		List<BsonValue> usuariosComparten;
 		Iterator<BsonValue> it = amigos.iterator();
 		while (it.hasNext()) {
 			element = it.next();
@@ -821,7 +806,6 @@ public class UsuarioServlet {
 		
 		for (int i = 0; i < todas.length; i++) {
 			nombre = todas[i].getUsuario().getNombre();
-			
 			/*tratamiento de imagen*/
 			usrAux=usuarioDao.selectNombreImagen(nombre);
 			imagenBinaria=usrAux.getImagen();
@@ -832,7 +816,8 @@ public class UsuarioServlet {
 			publicacion = publicacionDao.selectOne(publicacion);
 			usuarios = publicacionDao.usuariosMeGusta(publicacion);	
 			publicacion.setMegustaUsuarios(usuarios);
-			
+			usuariosComparten=publicacionDao.obtenerCompartidos(publicacion);
+			publicacion.setCompartidopor(usuariosComparten);
 			
 			if (nombre.equals(usuario.getNombre())) {
 				texto = texto + "<div class=\"panel panel-default\">\r\n" + 
@@ -918,10 +903,10 @@ public class UsuarioServlet {
 			  }else {
 				  
 				  texto+="<div class=\"panel panel-default\">\r\n" + 
-					  		"	<div class=\"panel-body\">\r\n" + 
-					  		"		<b> "+nombre+"</b>\r\n" +
+					  		"	<div class=\"panel-body\">\r\n" +
 					  		/*Añadimos la linea imagenCodificada*/
-					  		"<img src=\"data:image/gif;base64,"+imagenCodificada+"\" class=\"fotoPerfil\">"+
+					  		"<img src=\"data:image/gif;base64,"+imagenCodificada+"\" class=\"fotoPerfil img-thumbnail\" style=\"width:4%;\">"+ 
+					  		"		<b> "+nombre+"</b>\r\n" +
 					  		/*Añadimos la linea imagenCodificada*/
 					  		"		<textarea name=\"txtIntroducirTexto\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
 					  		"		<br>\r\n" + 
@@ -935,7 +920,7 @@ public class UsuarioServlet {
 					  		"				<div class=\"col-md-1\">"+
 					  		"					<form action=\"compartir\" method=\"post\">\r\n" + 
 					  		"						<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"ID\">\r\n" + 
-					  		"						<button type=\"submit\" class=\"btn btn-primary\" title=\""+todas[i].textoCompartido()+"\"><strong><center><span class=\"glyphicon glyphicon-retweet\"></span>&nbsp; Compartir</center></strong></button>\r\n" + 
+					  		"						<button type=\"submit\" class=\"btn btn-primary\" title=\""+publicacion.textoCompartido()+"\"><strong><center><span class=\"glyphicon glyphicon-retweet\"></span>&nbsp; Compartir</center></strong></button>\r\n" + 
 					  		"					</form>\r\n" + 
 					  		"				</div>" +
 
@@ -943,8 +928,6 @@ public class UsuarioServlet {
 					  		"	</div>\r\n" + 
 					  		"</div>";
 			  }
-
-				  
 				  
 			
 				  }
@@ -1178,12 +1161,6 @@ public class UsuarioServlet {
 		usuario = (Usuario) request.getSession().getAttribute(usuario_edit);
 		usuario.setClave(request.getParameter("txtPWD"));
 		usuarioDao.updatePwd(usuario);
-		usuario=usuarioDao.selectNombre(usuario.getNombre());
-		String subject="Servicio de atención al cliente de IntraVita - Cambio de contraseña";
-		String msg="Un administrador ha modificado su contraseña, a partir de ahora para acceder al sistema"
-				+ " debe hacerlo con: "+ request.getParameter("txtPWD");
-		MailSender mailSender = new MailSender();
-		mailSender.sendEmailGeneric(usuario.getEmail(), subject, msg);
 		model.addAttribute("perfil", utilidades.mostrarPerfilAdmin(usuario));
 		return "usuario/perfilUsuarioAdmin";
 	}
@@ -1202,14 +1179,6 @@ public class UsuarioServlet {
 			publicacionDao.updateCompartidosYMegusta(usuario.getNombre(),nuevoNombre);
 			usuario.setNombre(nuevoNombre);
 			request.getSession().setAttribute(usuario_edit, usuario);
-
-
-			usuario=usuarioDao.selectNombre(usuario.getNombre());
-			String subject="Servicio de atención al cliente de IntraVita - Cambio de nombre";
-			String msg="Un administrador ha modificado su nombre de usuario, a partir de ahora para acceder al sistema"
-					+ " debe hacerlo con el siguiente nombre: "+ request.getParameter("txtNombre");
-			MailSender mailSender = new MailSender();
-			mailSender.sendEmailGeneric(usuario.getEmail(), subject, msg);
 		} catch (Exception e) {
 			model.addAttribute("alerta", e.getMessage());
 		}
