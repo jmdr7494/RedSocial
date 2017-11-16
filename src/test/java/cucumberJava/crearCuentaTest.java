@@ -47,7 +47,7 @@ public class crearCuentaTest {
 
 	@Then("^Mensaje de validacion y usuario insertado$")
 	public void Mensaje_de_validacion_y_usuario_insertado() {
-			if(usuarioDao.selectNombre(usuario))usuarioDao.delete(usuario);
+		if(usuarioDao.selectNombre(usuario))usuarioDao.delete(usuario);
 		try {
 			usuarioDao.insert(usuario);
 		}catch(Exception e) {
