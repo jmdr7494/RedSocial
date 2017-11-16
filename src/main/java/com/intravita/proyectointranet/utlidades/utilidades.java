@@ -49,8 +49,8 @@ public class utilidades {
 
 	
 	
-	public static void credencialesValidas(String nombre, String email, String pwd1, String pwd2) throws Exception {
-		if (nombre.equals("") || email.equals("") || pwd1.equals("") || pwd2.equals(""))
+	public static void credencialesValidas(String nombre, String email, String pwd1, String pwd2, String respuesta) throws Exception {
+		if (nombre.equals("") || email.equals("") || pwd1.equals("") || pwd2.equals("") || respuesta.equals(""))
 			throw new Exception("Por favor rellene todos los campos");
 		comprobacionNombre(nombre);
 
