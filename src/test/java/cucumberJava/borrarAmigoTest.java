@@ -19,7 +19,7 @@ public class borrarAmigoTest {
 	@Given("^Usuario conectado para borrar a otro usuario$")
 	public void Usuario_conectado_para_borrar_a_otro_usuario() {
 		borrador=new Usuario("borrador.borrador", "1234qwer", "borrador@alu.uclm.es", "borrador");
-		usuarioDao.delete(borrador);
+		if(usuarioDao.selectNombre(borrador)) usuarioDao.delete(borrador);
 		try {		
 			usuarioDao.insert(borrador);
 		} catch (Exception e) {
