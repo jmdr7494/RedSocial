@@ -952,79 +952,84 @@ public class UsuarioServlet {
 		return "usuario/bienvenido";
 	}
 
-	// By JA
-	@RequestMapping(value = "/irRecuperarCredenciales", method = RequestMethod.GET)
-	public ModelAndView irRecuperarCredenciales() throws Exception {
-		return cambiarVista("usuario/recuperarCredenciales");
-	}
-
-	
 	
 	// By JA
-	@RequestMapping(value = "/recuperarCredenciales", method = RequestMethod.POST)
-	public String recuperarCredenciales(HttpServletRequest request, Model model) throws Exception {
-		String nombre = request.getParameter("txtUsuarioNombre");
-		String respuesta = request.getParameter("txtRespuesta");
-
-		Usuario usuario = usuarioDao.selectNombre(nombre);
-		int pin = (int) (Math.random() * (9999 - 1000 + 1) + 1000);
-		String pinEmail = "intravita" + String.valueOf(pin);
-
-		try {
-			utilidades.comprobacionNombre(nombre);
-		} catch (Exception e) {
-			model.addAttribute(alert, e.getMessage());
-			return "usuario/recuperarCredenciales";
+		@RequestMapping(value = "/irRecuperarCredenciales", method = RequestMethod.GET)
+		public ModelAndView irRecuperarCredenciales() throws Exception {
+			return cambiarVista("usuario/recuperarCredenciales");
 		}
 
-		if (usuario == null || (!respuesta.equals(usuario.getRespuesta()))) {
-			model.addAttribute(alert, "Datos incorrectos");
-			return "usuario/recuperarCredenciales";
-		} else {
-			MailSender mailSender = new MailSender();
-			System.out.println("Estamos para mandar el correo");
+		
+		
+		// By JA
+		@RequestMapping(value = "/recuperarCredenciales", method = RequestMethod.POST)
+		public String recuperarCredenciales(HttpServletRequest request, Model model) throws Exception {
+			String nombre = request.getParameter("txtUsuarioNombre");
+			String respuesta = request.getParameter("txtRespuesta");
 
-			mailSender.sendMailRecoverPwd(usuario.getEmail(), pinEmail);
-			usuario.setClave(pinEmail);
+			Usuario usuario = usuarioDao.selectNombre(nombre);
+			int pin = (int) (Math.random() * (9999 - 1000 + 1) + 1000);
+			String pinEmail = "intravita" + String.valueOf(pin);
+
+			try {
+				utilidades.comprobacionNombre(nombre);
+			} catch (Exception e) {
+				model.addAttribute(alert, e.getMessage());
+				return "usuario/recuperarCredenciales";
+			}
+
+			if (usuario == null || (!respuesta.equals(usuario.getRespuesta()))) {
+				model.addAttribute(alert, "Datos incorrectos");
+				return "usuario/recuperarCredenciales";
+			} else {
+				MailSender mailSender = new MailSender();
+				System.out.println("Estamos para mandar el correo");
+
+				mailSender.sendMailRecoverPwd(usuario.getEmail(), pinEmail);
+				usuario.setClave(pinEmail);
+				usuarioDao.updatePwd(usuario);
+			}
+			HttpSession session = request.getSession();
+			session.setAttribute("alertaRecuperarCredenciales", "Mandando alerta recuperar credenciales");
+			return "usuario/recuperarCredenciales";
+
+		}
+
+		// By JA
+		@RequestMapping(value = "/irReestablecerPwd", method = RequestMethod.GET)
+		public ModelAndView irReestablecerPwd() throws Exception {
+			return cambiarVista("usuario/reestablecerPwd");
+		}
+		
+		// By JA
+		@RequestMapping(value = "/reestablecerPwd", method = RequestMethod.POST)
+		public String reestablecerPwd(HttpServletRequest request, Model model) throws Exception {
+			String pwdTemporal = DigestUtils.md5Hex(request.getParameter("txtPwdTemporal"));
+			String pwdNueva1 = request.getParameter("txtPwdNueva1");
+			String pwdNueva2 = request.getParameter("txtPwdNueva2");
+
+			Usuario usuario = usuarioDao.selectPwd(pwdTemporal);// buscar encriptada
+
+			if (usuario == null || !(pwdNueva1.equals(pwdNueva2))) {
+				model.addAttribute(alert, "Datos incorrectos");
+				return "usuario/reestablecerPwd";
+
+			}
+
+			try {
+				utilidades.seguridadPassword(pwdNueva1);
+			} catch (Exception e) {
+				model.addAttribute(alert, e.getMessage());
+				return "usuario/reestablecerPwd";
+			}
+
+			usuario.setClave(pwdNueva1);
 			usuarioDao.updatePwd(usuario);
-		}
-
-		return "usuario/reestablecerPwd";
-
-	}
-
-	
-	
-	// By JA
-	@RequestMapping(value = "/reestablecerPwd", method = RequestMethod.POST)
-	public String reestablecerPwd(HttpServletRequest request, Model model) throws Exception {
-		String pwdTemporal = DigestUtils.md5Hex(request.getParameter("txtPwdTemporal"));
-		String pwdNueva1 = request.getParameter("txtPwdNueva1");
-		String pwdNueva2 = request.getParameter("txtPwdNueva2");
-
-		Usuario usuario = usuarioDao.selectPwd(pwdTemporal);// buscar encriptada
-
-		if (usuario == null || !(pwdNueva1.equals(pwdNueva2))) {
-			model.addAttribute(alert, "Datos incorrectos");
+			HttpSession session = request.getSession();
+			session.setAttribute("alertaReestablecerPwd", "Mandando alerta reestablecer Pwd");
 			return "usuario/reestablecerPwd";
 
 		}
-
-		try {
-			utilidades.seguridadPassword(pwdNueva1);
-		} catch (Exception e) {
-			model.addAttribute(alert, e.getMessage());
-			return "usuario/reestablecerPwd";
-		}
-
-		usuario.setClave(pwdNueva1);
-		usuarioDao.updatePwd(usuario);
-
-		return "usuario/login";
-
-	}
-
-	
 	
 	/**
 	 * 
