@@ -97,7 +97,7 @@ spam {
 		<div class="row">
 		 	<div class="col-md-8 col-md-offset-2">
 		 		<label for="usr" style="color:white; font-size:15px;">Introduzca su contraseña temporal:</label>
-				<input name="txtPwdTemporal" type="password" class="form-control" id="usr" placeholder="pwdC">
+				<input name="txtPwdTemporal" type="password" class="form-control" id="usr" placeholder="clave email">
 				<br>
 			</div>  
 		</div>
@@ -105,7 +105,7 @@ spam {
 		<div class="row">
 		 	<div class="col-md-8 col-md-offset-2">
 		 		<label for="usr" style="color:white; font-size:15px;">Introduzca una nueva contraseña:</label>
-				<input name="txtPwdNueva1" type="password" class="form-control" id="usr" placeholder="pwd1">
+				<input name="txtPwdNueva1" type="password" class="form-control" id="usr" placeholder="password">
 				<br>
 			</div>  
 		</div>
@@ -113,11 +113,20 @@ spam {
 		<div class="row">
 			<div class="col-md-8 col-md-offset-2">
 				<label for="usr" style="color:white; font-size:15px;">Vuelva a introducir su nueva contraseña</label>
-				<input name="txtPwdNueva2" type="password" class="form-control" id="usr" placeholder="pwd2">
+				<input name="txtPwdNueva2" type="password" class="form-control" id="usr" placeholder="password">
 				<br>
 			</div>
 		</div>	
-		
+		<%--By JA --%>
+		<% String alertaReestablecerPwd = (String)session.getAttribute("alertaReestablecerPwd");
+			if (alertaReestablecerPwd != null) { %>
+				<script>
+				alert ("El cambio de su contraseña de inicio de sesion se ha realizado correctamente.");
+				window.location = "https://intravitawebapp.herokuapp.com/irLogin";
+				<%--window.location= "http://localhost:8080/IntraVita/irLogin"; (Si estas en local usa esta linea)--%>
+				</script>	
+		<% 		session.setAttribute("alertaReestablecerPwd", null);
+			}%>	
 		<div class="row">
 			<div class="col-md-2 col-md-offset-8">
 				

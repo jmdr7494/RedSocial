@@ -121,11 +121,21 @@
 				<input name="txtRespuesta" type="text" class="form-control" id="usr" placeholder="respuesta">
 				<br>
 			</div>
-		</div>	
+		</div>
+		<%--By JA --%>
+		<% String alertaRecuperarCredenciales = (String)session.getAttribute("alertaRecuperarCredenciales");
+			if (alertaRecuperarCredenciales != null) { %>
+				<script>
+				alert ("Enviando correo electronico con las intrucciones recuperacion. Revise su bandeja de entrada.");
+				window.location = "https://intravitawebapp.herokuapp.com/irReestablecerPwd";
+				<%--window.location= "http://localhost:8080/IntraVita/irReestablecerPwd";(Si estas en local usa esta linea)--%> 
+				</script>	
+		<% 		session.setAttribute("alertaRecuperarCredenciales", null);
+			}%>		
 		<div class="row">
 			<div class="col-md-2 col-md-offset-7">
 				<button class="boton login" type="submit" value="recuperar" title="Recuperar Contrase&ntilde;a mediante correo">
-					<span class="glyphicon glyphicon-send"></span> &nbsp;<strong>Recuperar Constrase&ntilde;a</strong>
+					<span class="glyphicon glyphicon-send"></span> &nbsp;<strong>Recuperar Contrase&ntilde;a</strong>
 				</button>
 			</div>	  
 		
