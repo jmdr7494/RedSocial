@@ -822,10 +822,10 @@ public class UsuarioServlet {
 			if (nombre.equals(usuario.getNombre())) {
 				texto = texto + "<div class=\"panel panel-default\">\r\n" + 
 				  		"	<div class=\"panel-body\">\r\n" +
+				  		/*Añadimos la linea imagenCodificada*/
+				  		"		<img src=\"data:image/gif;base64,"+imagenCodificada+"\" class=\"fotoPerfil img-thumbnail\" style=\"width:4%;\">"+ 
+				  		/*Añadimos la linea imagenCodificada*/
 				  		"			<b> "+ nombre +" </b> \r\n" +
-				  		/*Añadimos la linea imagenCodificada*/
-				  		"<img src=\"data:image/gif;base64,"+imagenCodificada+"\" class=\"fotoPerfil\">"+
-				  		/*Añadimos la linea imagenCodificada*/
 				  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"¿Qu&eacute; tal el d&iacute;a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
 				  		"			<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
 				  		"<br>"+
@@ -911,18 +911,19 @@ public class UsuarioServlet {
 					  		"		<textarea name=\"txtIntroducirTexto\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
 					  		"		<br>\r\n" + 
 					  		"			<div class=\"row\">	"+
-					  		"				<div class=\"col-md-1 col-md-offset-10\">"+
-					  		"					<form action=\"compartir\" method=\"post\">\r\n" + 
-					  		"						<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"ID\">\r\n" + 
-					  		"						<button type=\"submit\" class=\"btn btn-primary\" title=\""+todas[i].textoCompartido()+"\"><strong><center><span class=\"glyphicon glyphicon-retweet\"></span>&nbsp; Compartir</center></strong></button>\r\n" + 
-					  		"					</form>\r\n" + 
-					  		"				</div>" +
-					  		"				<div class=\"col-md-1 col-md-offset-10\">"+
+					  		"				<div class=\"col-md-1 col-md-offset-9\">"+
 							"					<form action=\"meGusta\" method=\"post\">\r\n" + 
 							"						<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"ID\">\r\n" + 
 							"						<button type=\"submit\" class=\"btn btn-primary\" title=\""+publicacion.textoMeGusta()+"\"><strong><center><span class=\"glyphicon glyphicon-thumbs-up\"></span>&nbsp;"+usuarios.size()+"</center></strong></button>\r\n" + 
 							"					</form>\r\n" +
 							"				</div>" +
+					  		"				<div class=\"col-md-1\">"+
+					  		"					<form action=\"compartir\" method=\"post\">\r\n" + 
+					  		"						<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"ID\">\r\n" + 
+					  		"						<button type=\"submit\" class=\"btn btn-primary\" title=\""+todas[i].textoCompartido()+"\"><strong><center><span class=\"glyphicon glyphicon-retweet\"></span>&nbsp; Compartir</center></strong></button>\r\n" + 
+					  		"					</form>\r\n" + 
+					  		"				</div>" +
+
 					  		"			</div>" +	
 					  		"	</div>\r\n" + 
 					  		"</div>";

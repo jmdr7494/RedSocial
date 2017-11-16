@@ -13,60 +13,80 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+<link rel="shortcut icon" href="https://thumb.ibb.co/h7RMiR/Intra_Vita_Favicon.png" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
 
 <style>
-.boton {
-  padding: 15px 35px;
-  font-size: 18px;
-  text-align: center;
-  cursor: pointer;
-  outline: none;
-  color: #fff;
-  background-color: #166EE7;
-  border: none;
-  border-radius: 10px;
-  box-shadow: 0 3px #999;
-}
-
-.btn:hover {background-color: #21DD27}
-
-.b:active {
-  background-color: #21DD27;
-  box-shadow: 0 5px #666;
-  transform: translateY(4px);
-}
-
-span {
-    padding: 20px;
-    color: #DF0101;
-    margin-left: 12px;
-	font-weight: bold;
-	font-size: 15px;
-}
-
-
-* {
-   margin:0;
-   padding:0
-}
-html,
-body,
-#wrap {
-   height: 100%;
-}
-body > #wrap {
-   height: auto;
-   min-height: 100%;
-}
-#content {
-   padding-bottom: 50px; /* Mis altura que el footer */
-} 
-#footer {
-   position: relative;
-   margin-top: -50px; /* Misma altura que el footer en negativo */
-   height: 50px; /* Altura del footer */
-   clear: both;
-}
+	p {
+	    padding: 20px;
+	    color: #DF0101;
+	    margin-left: 12px;
+		font-weight: bold;
+		font-size: 15px;
+	}
+	
+	
+	
+	* {
+	   margin:0;
+	   padding:0
+	}
+	html,
+	body,
+	#wrap {
+	   height: 100%;
+	}
+	body > #wrap {
+	   height: auto;
+	   min-height: 100%;
+	}
+	#content {
+	   padding-bottom: 50px; /* Mis altura que el footer */
+	} 
+	#footer {
+	   position: relative;
+	   margin-top: -50px; /* Misma altura que el footer en negativo */
+	   height: 50px; /* Altura del footer */
+	   clear: both;
+	}
+	
+	
+	body {
+		background-color: #FAFAFA;
+	}
+	
+	.boton {
+		  padding: 15px 35px;
+		  font-size: 18px;
+		  cursor: pointer;
+		  outline: none;
+		  color: #fff;
+		  background-color: #166EE7;
+		  border: 2px;
+		  border-color: #FFFFFF;
+		  border-radius: 10px;
+		  box-shadow: 0 3px #999;
+	}
+	
+	.boton:hover {
+		 background: rgba(41, 128, 185, 0);
+		 color: #0058A3;
+		 box-shadow: inset 0 0 0 3px #0058A3;
+	}
+	
+	.boton:active {
+		 background-color: #FFFFFF;
+		 color: #0058A3;
+		 transform: translateY(4px);
+	}
+	
+	spam {
+		padding: 20px;
+		color: #DF0101;
+		margin-left: 12px;
+		font-weight: bold;
+		font-size: 15px;
+	}
 
 </style>
 
@@ -79,8 +99,20 @@ body > #wrap {
 			<img src="http://i65.tinypic.com/2dvizyh.png" style="width:30%;">
 		</div>
 		
-		<div class="col-md-2 col-md-offset-4">
+		<div class="col-md-1 col-md-offset-3">
 				<button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#miModal" style="border-width: 10px;"><strong>?</strong></button>
+		</div>
+		
+		<div class="col-md-1 fixed-top" style="position: relative; top: 8px">
+			<form action="logout" method="GET"> 
+				<button class="btn btn-danger" type="submit">
+					<center>
+						<strong>
+							<span class="glyphicon glyphicon-log-out"></span>Salir
+						</strong>
+					</center>
+				</button>
+			</form>
 		</div>
 	</div>
 	
@@ -114,7 +146,9 @@ body > #wrap {
 			<div class="col-md-1 col-md-offset-10">
 				<br>
 				<form action="irBienvenido" method="GET">
-					<button class="btn btn-danger btn-block btn-md login" type="submit">Volver</button>
+					<button class="btn btn-danger btn-block btn-md login" type="submit">
+						<strong><span class="glyphicon glyphicon-menu-left"></span>Volver</strong>
+					</button>
 				</form>	
 						
 				<br/>
@@ -137,7 +171,9 @@ body > #wrap {
 							<div class="row">
 								<div class="col-md-2 col-md-offset-10">
 									<br/>
-									<button class="btn btn-primary btn-block" type="submit">Buscar</button>
+									<button class="btn btn-primary btn-block" type="submit">
+										<strong><span class="glyphicon glyphicon-search"></span>&nbsp;Buscar</strong>
+									</button>
 									<br/>
 								</div>	  
 							</div>
@@ -169,7 +205,9 @@ body > #wrap {
 						<div class="col-md-12">
 							<form action="mostrarNotificaciones" method="get">
 								<label for="usr" style="color:black; font-size:15px;">Peticiones de amistad:</label>
-								<button class="btn btn-primary btn-block login" type="submit">&nbsp;&nbsp;   Peticiones   &nbsp;&nbsp;</button>
+								<button class="btn btn-primary btn-block login" type="submit">
+									<strong><span class="glyphicon glyphicon-bell"></span>&nbsp;Peticiones Pendientes</strong>
+								</button>
 							</form>
 						</div>
 					

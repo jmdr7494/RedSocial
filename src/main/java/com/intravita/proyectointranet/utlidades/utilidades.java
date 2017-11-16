@@ -294,7 +294,9 @@ public class utilidades {
 							"					<input name=\"txtNombreEnviar\" type=\"hidden\" class=\"form-control\" value=\""+aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\">"+
 							"				</div>\r\n" + 
 							"				<div class=\"col-md-3\">\r\n" + 
-							"					<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Agregar</button>\r\n" +
+							"					<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">" +
+							"						<strong><span class=\"glyphicon glyphicon-plus\"></span>&nbsp;Agregar</strong>" +
+							"					</button>\r\n" +
 							"					<br>\r\n" + 
 							"				</div>\r\n" +
 							"			</div>\r\n" +
@@ -307,7 +309,9 @@ public class utilidades {
 							"					<input name=\"txtNombreEliminar\" type=\"hidden\" class=\"form-control\" value=\""+aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\">"+
 							"				</div>\r\n" + 
 							"				<div class=\"col-md-3\">\r\n" +
-							"					<button class=\"btn btn-danger btn-block btn-md login\"  type=\"submit\">Eliminar</button>\r\n" +
+							"					<button class=\"btn btn-danger btn-block btn-md login\"  type=\"submit\">" +
+							"						<strong><span class=\"glyphicon glyphicon-trash\"></span>&nbsp;Eliminar</strong>" +
+							"					</button>\r\n" +
 							"					<br>\r\n" + 
 							"				</div>\r\n" +
 							"			</div>\r\n" +
@@ -336,16 +340,21 @@ public class utilidades {
 		while (it.hasNext()) {
 			aux = it.next().asString();
 			retorno+="    <form action=\"aceptarSolicitud\" method=\"POST\">\r\n" +
+					  "		<br/>	"+
 			          "      <div class=\"row\">\r\n" + 
 			          "        <div class=\"col-md-6\">\r\n" +
 			          "          <input name=\"noSirve\" type=\"text\" class=\"form-control\" value=\""+aux.getValue()+"\" id=\"usr\" placeholder=\"usuario\" disabled>\r\n" + 
 			          "          <input name=\"txtNombre\" type=\"hidden\" class=\"form-control\" value=\""+aux.getValue()+"\" id=\"usr\" placeholder=\"usuario\" >\r\n" +
 			          "        </div>\r\n" + 
 			          "        <div class=\"col-md-3\">\r\n" + 
-			          "          <button class=\"btn btn-success btn-block btn-md login\"  type=\"submit\">Aceptar</button>\r\n" +
+			          "          <button class=\"btn btn-success btn-block btn-md login\"  type=\"submit\">" +
+			          "				<strong><span class=\"glyphicon glyphicon-hand-up\"></span> &nbsp;Aceptar</strong>" +
+			          "			</button>\r\n" +
 			          "        </div>\r\n" + 
 			          "        <div class=\"col-md-3\">\r\n" +
-			          "          <button class=\"btn btn-danger btn-block btn-md login\"  formaction=\"rechazarSolicitud\" type=\"submit\">Rechazar</button>\r\n" +
+			          "        		<button class=\"btn btn-danger btn-block btn-md login\"  formaction=\"rechazarSolicitud\" type=\"submit\">"+
+			          "				 	<strong><span class=\"glyphicon glyphicon-hand-down\"></span> &nbsp;Rechazar</strong>"+
+			          "				</button>\r\n" +
 			          "			<br>\r\n" +
 			          "      </div></div>\r\n" +  
 			          "    </form>";
