@@ -13,6 +13,11 @@
 	<!-- Latest compiled JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="estilo.css" />
+	
+	<link rel="shortcut icon" href="https://thumb.ibb.co/h7RMiR/Intra_Vita_Favicon.png" type="image/x-icon">
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+	
+	
 <style>	
 	spam {
     padding: 20px;

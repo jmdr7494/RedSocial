@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>Mi perfil</title>
+		<title>Mi perfil - IntraVita</title>
 		<!-- Latest compiled and minified CSS -->
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
@@ -15,6 +15,9 @@
 		<!-- Latest compiled JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		
+		
+		<link rel="shortcut icon" href="https://thumb.ibb.co/h7RMiR/Intra_Vita_Favicon.png" type="image/x-icon">
+		<link rel="icon" href="/favicon.ico" type="image/x-icon">
 		
 <style type="text/css">
 	
@@ -66,15 +69,19 @@
 </head>
 <body>
 
-	<div class="row bg-primary">
-		<div class="col-md-5 col-md-offset-1">
-			<img src="http://i65.tinypic.com/2dvizyh.png" style="width:30%;">
+		<div class="row bg-primary">
+			<div class="col-md-5 col-md-offset-1">
+				<img src="http://i65.tinypic.com/2dvizyh.png" style="width:30%;">
+			</div>
+			
+			<div class="col-md-1 col-md-offset-3">
+					<button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#miModal" style="border-width: 10px;"><strong>&nbsp;?&nbsp;</strong></button>
+			</div>
+			
+			<div class="col-md-1 fixed-top" style="position: relative; top: 8px">
+				<form action="logout" method="GET"> <button class="btn btn-danger" type="submit"><strong><span class="glyphicon glyphicon-log-out"></span>Salir</strong></button></form>
+			</div>
 		</div>
-		
-		<div class="col-md-2 col-md-offset-4">
-				<button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#miModal" style="border-width: 10px;"><strong>?</strong></button>
-		</div>
-	</div>
 	
 	<div class="modal fade" id="miModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 			<div class="modal-dialog" role="document">
@@ -95,7 +102,7 @@
 		
 		
 	<div class="row">
-		<div class="col-md-1 col-md-offset-10">
+		<div class="col-md-1 col-md-offset-8">
 			<br>
 			<form action="irBienvenido" method="GET">
 				<button class="btn btn-danger btn-block btn-md login" type="submit" title="atr&aacute;s">

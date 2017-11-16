@@ -14,7 +14,8 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-
+<link rel="shortcut icon" href="https://thumb.ibb.co/h7RMiR/Intra_Vita_Favicon.png" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
 
 <style>
 	p {
@@ -108,7 +109,9 @@
 				<form action="logout" method="GET"> 
 					<button class="btn btn-danger" type="submit">
 						<center>
-							<strong><span class="glyphicon glyphicon-log-out"></span>Salir</strong>
+							<strong>
+								<span class="glyphicon glyphicon-log-out"></span>Salir
+							</strong>
 						</center>
 					</button>
 				</form>
@@ -140,7 +143,7 @@
 		</div>
 
 	<div class="row">
-		<div class="col-md-1 col-md-offset-10">
+		<div class="col-md-1 col-md-offset-8">
 			<br>
 			<form action="irAdmin" method="GET">
 				<button class="btn btn-danger btn-block btn-md login" type="submit">
@@ -190,7 +193,9 @@
 		<div class="row">
 			<div class="col-md-2 col-md-offset-5">
 				<center>
-					<button type="submit" class="boton login" value="Registrar">Registrar</button>	
+					<button type="submit" class="boton login" value="Registrar">
+						<strong><span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Registrar</strong>
+					</button>	
 				</center>
 			</div>
 			<div class="col-md-3">
@@ -200,5 +205,11 @@
 		</div>		
 	</form>
 
+	<div class="col-md-12" style="position: fixed; bottom: 0;">
+		<div class="panel-footer">
+			&copy; Copyright 2017 IntraVita. Todos los derechos reservados.
+		</div>
+	</div>
+	
 </body>
 </html>

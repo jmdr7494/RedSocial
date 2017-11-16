@@ -14,7 +14,8 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-
+<link rel="shortcut icon" href="https://thumb.ibb.co/h7RMiR/Intra_Vita_Favicon.png" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
 
 <style>
 spam {
@@ -139,7 +140,7 @@ body{
 						<li>
 							<form action="changeToUser" method="post">
 								<button type="submit" class="boton btn-success">
-									<strong><span class="glyphicon glyphicon-arrow-down"></span>&nbsp;Cambiar Rol </strong>
+									<strong><span class="glyphicon glyphicon-arrow-down"></span>&nbsp;Modo Usuario </strong>
 								</button>
 							</form>
 						</li>
@@ -198,7 +199,6 @@ body{
 								</div>
 							</div>
 						</div>
-						
 					</div>
 				</div>
 			</div>	  
