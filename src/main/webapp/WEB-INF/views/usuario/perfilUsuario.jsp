@@ -145,9 +145,16 @@
 			  	<br>	
 			</div>
 		</div>
-		
-		<br/>
-		
+		<%--By JA --%>
+		<% String alertaModificarPerfilUsuario = (String)session.getAttribute("alertaModificarPerfilUsuario");
+			if (alertaModificarPerfilUsuario != null) { %>
+				<script>
+				alert ("Su perfil ha sido actualizado correctamente.");
+				window.location = "https://intravitawebapp.herokuapp.com/irBienvenido";
+				<%--window.location= "http://localhost:8080/IntraVita/irBienvenido";(Si estas en local usa esta linea)--%> 
+				</script>	
+		<% 		session.setAttribute("alertaModificarPerfilUsuario", null);
+			}%>	
 		<div class="row">
 			<div class="col-md-2 col-md-offset-5">
 				<button type="submit" class="boton login" value="Modificar" title="Grabar cambios">
