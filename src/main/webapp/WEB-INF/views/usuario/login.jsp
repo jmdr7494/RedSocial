@@ -11,6 +11,9 @@
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+<link rel="shortcut icon" href="https://thumb.ibb.co/h7RMiR/Intra_Vita_Favicon.png" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+
 
 <style>
 .btn {
@@ -114,9 +117,9 @@ body{
  <div class="row">
  	<div class="col-md-7 col-md-offset-5">
 		<br/>
-			<button class="btn login" type="submit">
+			<button class="btn login" type="submit"><strong>
 				Iniciar Sesi&oacute;n
-			</button> 
+			</strong></button> 
    			<span><em>${alerta}</em></span>
    		<br/>
   	</div>   
@@ -127,9 +130,9 @@ body{
  <div class="row">
   <div class="col-md-1 col-md-offset-5">
 	<form action="irRegistrar" method="get">
-   		<button class="btn login" type="submit">
+   		<button class="btn login" type="submit"><strong>
    			&nbsp;&nbsp;   Reg&iacute;strate   &nbsp;&nbsp;
-   		</button>
+   		</strong></button>
 	</form>
   </div>
  </div>

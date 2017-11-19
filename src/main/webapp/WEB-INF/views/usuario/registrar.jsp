@@ -14,10 +14,10 @@
 		<!-- Latest compiled JavaScript -->
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 		
-		
-</head>
+		<link rel="shortcut icon" href="https://thumb.ibb.co/h7RMiR/Intra_Vita_Favicon.png" type="image/x-icon">
+		<link rel="icon" href="/favicon.ico" type="image/x-icon">
 
-<style>
+		<style>
 
 	body {
 		background-color: #2CCBE7;
@@ -59,6 +59,10 @@
 	}
 
 </style>
+		
+</head>
+
+
 
 
 <body>
@@ -189,7 +193,7 @@
 		<div class="row">
 			<div class="col-md-2 col-md-offset-5">
 				<center>
-					<button type="submit" class="boton login" value="Registrar">Registrar</button>	
+					<button type="submit" class="boton login" value="Registrar"><strong><span class="glyphicon glyphicon-ok-circle"></span> &nbsp;Registrar</strong></button>	
 				</center>
 			</div>
 		

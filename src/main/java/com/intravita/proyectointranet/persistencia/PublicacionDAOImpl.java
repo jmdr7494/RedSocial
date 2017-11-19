@@ -35,7 +35,7 @@ public class PublicacionDAOImpl {
 	private final String date = "fecha";
 	private final String privacy = "privacidad";
 	private final String compartidopor= "compartidopor";
-	private final String megustaCont = "megustaCont";
+	
 	private final String megustaUsuarios = "megustaUsuarios";
 	
 	public MongoCollection<BsonDocument> obtenerPublicaciones() {
@@ -74,11 +74,11 @@ public class PublicacionDAOImpl {
 		bso.append(privacy, new BsonString(publicacion.getPrivacidad()));
 		bso.append(date, new BsonDateTime(publicacion.getFecha()));
 		bso.append(compartidopor, new BsonArray());
-		bso.append(megustaCont, new BsonInt32(publicacion.getMeGustaCont()));
+		bso.append(megustaUsuarios, new BsonArray());
 		
 		MongoCollection<BsonDocument> publicaciones = obtenerPublicaciones();
 		publicaciones.insertOne(bso);
-	}
+		}
 	/***
 	 * 
 	 * @method incrementar "me gusta" en publicacion
@@ -89,10 +89,8 @@ public class PublicacionDAOImpl {
 		bso.append(ID, new BsonObjectId(new ObjectId(id)));
 		
 		MongoCollection<BsonDocument> publicaciones = obtenerPublicaciones();
-		BsonDocument actualizacion= new BsonDocument("$inc", new BsonDocument("megustaCont", new BsonInt32(1)));
-		BsonDocument actualizacion2 = new BsonDocument("$addToSet",new BsonDocument(megustaUsuarios, new BsonString(usuario.getNombre())));
+		BsonDocument actualizacion = new BsonDocument("$addToSet",new BsonDocument(megustaUsuarios, new BsonString(usuario.getNombre())));
 		publicaciones.updateOne(bso,actualizacion);
-		publicaciones.updateOne(bso,actualizacion2);
 	}
 	/***
 	 * 
@@ -104,10 +102,8 @@ public class PublicacionDAOImpl {
 		bso.append(ID, new BsonObjectId(new ObjectId(id)));
 		
 		MongoCollection<BsonDocument> publicaciones = obtenerPublicaciones();
-		BsonDocument actualizacion= new BsonDocument("$inc", new BsonDocument("megustaCont", new BsonInt32(-1)));
-		BsonDocument actualizacion2 = new BsonDocument("$pull",new BsonDocument(megustaUsuarios, new BsonString(usuario.getNombre())));
+		BsonDocument actualizacion = new BsonDocument("$pull",new BsonDocument(megustaUsuarios, new BsonString(usuario.getNombre())));
 		publicaciones.updateOne(bso,actualizacion);
-		publicaciones.updateOne(bso,actualizacion2);
 	}
 	/***
 	 * 
@@ -127,8 +123,7 @@ public class PublicacionDAOImpl {
 		FindIterable<BsonDocument> resultado=publicaciones.find(criterio);
 		BsonDocument aux = resultado.first();
 		
-		//System.out.println("Usuarios: "+aux);		
-		//System.out.println("course name = " + aux.getArray(megustaUsuarios));		
+			
 		
 		BsonArray mgUsuariosBson=aux.getArray(megustaUsuarios);		
 		ArrayList<String> mgUsuarios = new ArrayList<String>();
@@ -190,10 +185,9 @@ public class PublicacionDAOImpl {
 		String texto=aux.getString(text).getValue();
 		String privacidad=aux.getString(privacy).getValue();
 		long fecha=aux.getDateTime(date).getValue();
-		int mg=aux.getInt32(megustaCont).getValue();
 
 		
-		Publicacion publicacion=new Publicacion(new Usuario(autor), texto, privacidad, fecha, mg);
+		Publicacion publicacion=new Publicacion(new Usuario(autor), texto, privacidad, fecha);
 		publicacion.setId(aux.getObjectId(ID).getValue().toString());
 		return publicacion;
 	}
@@ -345,7 +339,7 @@ public class PublicacionDAOImpl {
 		long fecha;
 		String id;
 		List<BsonValue> compartidopor;
-		
+		ArrayList<String> megusta;
 		BsonDocument publicacion;
 		Iterator<BsonDocument> lista=resultado.iterator();
 		List<Publicacion> retorno=new ArrayList<Publicacion>();
@@ -359,10 +353,13 @@ public class PublicacionDAOImpl {
 			fecha=publicacion.getDateTime(date).getValue();
 			compartidopor=publicacion.getArray(this.compartidopor);
 			id=publicacion.getObjectId(ID).getValue().toString();
-			
+
 			aux=new Publicacion(usuario, texto, privacidad, fecha);
+
 			aux.setCompartidopor(compartidopor);
 			aux.setId(id);
+			megusta=usuariosMeGusta(aux);
+			aux.setMegustaUsuarios(megusta);
 			retorno.add(aux);
 		}
 		return retorno;
@@ -383,4 +380,40 @@ public class PublicacionDAOImpl {
 		publicaciones.updateMany(bso,actualizacion);
 		
 	}
+
+	/**
+	 * 
+	 * @param nombreViejo
+	 * @param nuevoNombre
+	 * @method todos los compartidos y me gusta de nombreViejo pasan a ser de nuevoNombre
+	 */
+
+	public void updateCompartidosYMegusta(String nombreViejo, String nuevoNombre) {
+		List<Publicacion> todas=selectAll();
+		BsonString bsoViejoNombre=new BsonString(nombreViejo);
+		Publicacion aux;
+		Iterator<Publicacion> it=todas.iterator();
+		List<BsonValue> compartidos;
+		ArrayList<String> megusta;
+		
+		Usuario viejo=new Usuario(nombreViejo);
+		Usuario nuevo=new Usuario(nuevoNombre);
+		
+		while(it.hasNext()) {
+			aux=it.next();
+			
+			if(aux.getPrivacidad().equals("Publica")) {
+				megusta=aux.getMegustaUsuarios();
+				if(megusta.contains(nombreViejo)) {
+					yanomegusta(aux.getId(),viejo);
+					megusta(aux.getId(),nuevo);
+				}
+				compartidos=aux.getCompartidopor();
+				if(compartidos.contains(bsoViejoNombre)) {
+					dejarCompartir(viejo,aux);
+					compartir(nuevo, aux);
+				}
+			}
+		}
+	} 
 }

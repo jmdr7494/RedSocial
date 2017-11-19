@@ -294,7 +294,9 @@ public class utilidades {
 							"					<input name=\"txtNombreEnviar\" type=\"hidden\" class=\"form-control\" value=\""+aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\">"+
 							"				</div>\r\n" + 
 							"				<div class=\"col-md-3\">\r\n" + 
-							"					<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Agregar</button>\r\n" +
+							"					<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">" +
+							"						<strong><span class=\"glyphicon glyphicon-plus\"></span>&nbsp;Agregar</strong>" +
+							"					</button>\r\n" +
 							"					<br>\r\n" + 
 							"				</div>\r\n" +
 							"			</div>\r\n" +
@@ -307,7 +309,9 @@ public class utilidades {
 							"					<input name=\"txtNombreEliminar\" type=\"hidden\" class=\"form-control\" value=\""+aux.getNombre()+"\" id=\"usr\" placeholder=\"usuario\">"+
 							"				</div>\r\n" + 
 							"				<div class=\"col-md-3\">\r\n" +
-							"					<button class=\"btn btn-danger btn-block btn-md login\"  type=\"submit\">Eliminar</button>\r\n" +
+							"					<button class=\"btn btn-danger btn-block btn-md login\"  type=\"submit\">" +
+							"						<strong><span class=\"glyphicon glyphicon-trash\"></span>&nbsp;Eliminar</strong>" +
+							"					</button>\r\n" +
 							"					<br>\r\n" + 
 							"				</div>\r\n" +
 							"			</div>\r\n" +
@@ -336,16 +340,21 @@ public class utilidades {
 		while (it.hasNext()) {
 			aux = it.next().asString();
 			retorno+="    <form action=\"aceptarSolicitud\" method=\"POST\">\r\n" +
+					  "		<br/>	"+
 			          "      <div class=\"row\">\r\n" + 
 			          "        <div class=\"col-md-6\">\r\n" +
 			          "          <input name=\"noSirve\" type=\"text\" class=\"form-control\" value=\""+aux.getValue()+"\" id=\"usr\" placeholder=\"usuario\" disabled>\r\n" + 
 			          "          <input name=\"txtNombre\" type=\"hidden\" class=\"form-control\" value=\""+aux.getValue()+"\" id=\"usr\" placeholder=\"usuario\" >\r\n" +
 			          "        </div>\r\n" + 
 			          "        <div class=\"col-md-3\">\r\n" + 
-			          "          <button class=\"btn btn-success btn-block btn-md login\"  type=\"submit\">Aceptar</button>\r\n" +
+			          "          <button class=\"btn btn-success btn-block btn-md login\"  type=\"submit\">" +
+			          "				<strong><span class=\"glyphicon glyphicon-hand-up\"></span> &nbsp;Aceptar</strong>" +
+			          "			</button>\r\n" +
 			          "        </div>\r\n" + 
 			          "        <div class=\"col-md-3\">\r\n" +
-			          "          <button class=\"btn btn-danger btn-block btn-md login\"  formaction=\"rechazarSolicitud\" type=\"submit\">Rechazar</button>\r\n" +
+			          "        		<button class=\"btn btn-danger btn-block btn-md login\"  formaction=\"rechazarSolicitud\" type=\"submit\">"+
+			          "				 	<strong><span class=\"glyphicon glyphicon-hand-down\"></span> &nbsp;Rechazar</strong>"+
+			          "				</button>\r\n" +
 			          "			<br>\r\n" +
 			          "      </div></div>\r\n" +  
 			          "    </form>";
@@ -381,6 +390,7 @@ public class utilidades {
 					"		<div class=\"col-md-2\">\r\n" + 
 					"			<button class=\"btn btn-danger btn-block login\" type=\"submit\" title=\"Eliminar Usuario\"><strong><span class=\"glyphicon glyphicon-trash\"></span></strong></button>\r\n" +  
 					"		</div></div>\r\n" + 
+					"		<br>\r\n" +
 					"</form>	";
 		}
 		return texto;
@@ -407,6 +417,7 @@ public class utilidades {
 					"		<div class=\"col-md-3\">\r\n" + 
 					"			<button class=\"btn btn-danger btn-block login\" type=\"submit\" title=\"Eliminar Administrador\"><strong><span class=\"glyphicon glyphicon-trash\"></span></strong></button>\r\n" +  
 					"		</div></div>\r\n" + 
+					"		<br>\r\n" +
 					"</form>	";
 		}
 		return texto;		
@@ -428,7 +439,7 @@ public class utilidades {
 				"				<input name=\"txtNombre\" class=\"form-control\" value=\""+user.getNombre()+"\" id=\"usr\" placeholder=\"usuario\" disabled>\r\n" +
 				"				<br>\r\n" +
 				"				<div class=\"col-md-3 col-md-offset-9\">"+
-				"					<button class=\"btn btn-primary btn-block btn-md login\" data-toggle=\"modal\" data-target=\"#miModals\" type=\"submit\">Editar</button>\r\n" + 
+				"					<button class=\"btn btn-primary login\" data-toggle=\"modal\" data-target=\"#miModals\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-trash\">&nbsp;</span>Editar</strong></button>\r\n" + 
 				"					<br>\r\n" +
 				"				</div>\r\n" + 
 				"			</div>\r\n" + 
@@ -440,7 +451,7 @@ public class utilidades {
 				"				<input name=\"txtPWD\" class=\"form-control\" id=\"pwd\" placeholder=\"Nueva password\" disabled>\r\n" +
 				"				<br>\r\n" +
 				"				<div class=\"col-md-3 col-md-offset-9\">"+
-				"					<button class=\"btn btn-primary btn-block btn-md login\" data-toggle=\"modal\" data-target=\"#miModales\" type=\"submit\">Editar</button>\r\n" + 
+				"					<button class=\"btn btn-primary login\" data-toggle=\"modal\" data-target=\"#miModales\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-trash\">&nbsp;</span>Editar</strong></button>\r\n" + 
 				"					<br>\r\n" +
 				"				</div>\r\n" +
 				"			</div>\r\n" + 
@@ -470,12 +481,17 @@ public class utilidades {
 				"						<form action=\"editarNombre\" method=\"GET\">\r\n" +
 				"							<input name=\"txtNombre\" autofocus class=\"form-control\" value=\""+user.getNombre()+"\" id=\"usr\" placeholder=\"usuario\">\r\n" +
 				"							<br>\r\n" +
-				"							<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
+				"							<div class=\"row\">	"+
+		  		"								<div class=\"col-md-1 col-md-offset-8\">"+		
+		  		"								<button class=\"btn btn-success\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;Si</strong></button>\r\n" + 
+		  		"							</div>"+	
 				"						</form>\r\n" + 
-				"						<form action=\"mostrarPerfilAdmin\" method=\"GET\">\r\n" + 
-				"							<br>\r\n" + 
-				"							<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
+		  		"						<div class=\"col-md-1 col-md-offset-1\">"+
+				"						<form action=\"mostrarPerfilAdmin\" method=\"GET\">\r\n" +  
+				"							<button class=\"btn btn-danger\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-remove\"></span>&nbsp;No</strong></button>\r\n" + 
 				"						</form>\r\n" + 
+				" 					</div>"+
+				" 					</div>"+
 				"					</div>\r\n" + 
 				"				</div>\r\n" + 
 				"			</div>\r\n" + 
@@ -498,12 +514,17 @@ public class utilidades {
 				"						<form action=\"editarPwd\" method=\"GET\">\r\n" +
 				"							<input name=\"txtPWD\" autofocus type=\"password\" class=\"form-control\" id=\"pwd\" placeholder=\"Nueva password\">\r\n" +
 				"							<br>\r\n" +
-				"							<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
+				"							<div class=\"row\">	"+
+		  		"								<div class=\"col-md-1 col-md-offset-8\">"+		
+		  		"								<button class=\"btn btn-success\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;Si</strong></button>\r\n" + 
+		  		"							</div>"+	
 				"						</form>\r\n" + 
-				"						<form action=\"mostrarPerfilAdmin\" method=\"GET\">\r\n" + 
-				"							<br>\r\n" + 
-				"							<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
+		  		"						<div class=\"col-md-1 col-md-offset-1\">"+
+				"						<form action=\"mostrarPerfilAdmin\" method=\"GET\">\r\n" +  
+				"							<button class=\"btn btn-danger\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-remove\"></span>&nbsp;No</strong></button>\r\n" + 
 				"						</form>\r\n" + 
+				" 					</div>"+
+				" 					</div>"+
 				"					</div>\r\n" + 
 				"				</div>\r\n" + 
 				"			</div>\r\n" + 
@@ -563,5 +584,15 @@ public class utilidades {
 			}
 		}
 		return retorno;
+	}
+	public static void megusta(Publicacion publicacion, Usuario usuario) throws Exception {
+		List<String> meGusta=publicacionDao.usuariosMeGusta(publicacion);
+		if(meGusta.contains(usuario.getNombre())) throw new Exception("Ya te gusta esta publicacion");
+		publicacionDao.megusta(publicacion.getId(), usuario);	
+	}
+	public static void nomegusta(Publicacion publicacion, Usuario usuario) throws Exception {
+		List<String> meGusta=publicacionDao.usuariosMeGusta(publicacion);
+		if(!meGusta.contains(usuario.getNombre())) throw new Exception("No te gusta esta publicacion");
+		publicacionDao.yanomegusta(publicacion.getId(), usuario);	
 	}
 }

@@ -24,16 +24,14 @@ public class Publicacion implements Comparable<Publicacion>{
 	private long fecha;
 	private String id;
 	final DateFormat formato=new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
-	private ArrayList<String> megustaUsuarios;
-	private int megustaCont;
+	private ArrayList<String> megustaUsuarios;	
 	private List<BsonValue> compartidopor;
 	
 	public Publicacion(Usuario usuario, String texto) {
 		this.usuario=usuario;
 		this.texto=texto;
 		this.privacidad="Publica";
-		this.fecha=new Date().getTime();
-		this.megustaCont=0;
+		this.fecha=new Date().getTime();		
 		this.megustaUsuarios=null;
 		this.compartidopor=null;
 	}
@@ -42,18 +40,9 @@ public class Publicacion implements Comparable<Publicacion>{
 		this.texto = texto;
 		this.privacidad=privacidad;
 		this.fecha=new Date().getTime();
-		this.megustaCont=0;
 		this.megustaUsuarios=null;
 		this.compartidopor=null;
-	}
-	public Publicacion(Usuario usuario, String texto, String privacidad, long fecha, int mg) {
-		this.usuario = usuario;
-		this.texto = texto;
-		this.privacidad=privacidad;
-		this.fecha=fecha;
-		this.megustaCont=mg;
-		this.compartidopor=null;
-	}
+	}	
 	public Publicacion(Usuario usuario, String texto, String privacidad, long fecha) {
 		this.usuario = usuario;
 		this.texto = texto;
@@ -100,20 +89,11 @@ public class Publicacion implements Comparable<Publicacion>{
 	public void setId(String id) {
 		this.id = id;
 	}
-	public void setMeGustaCont() {
-		megustaCont++;
-	}
-	public int getMeGustaCont() {
-		return megustaCont;
-	}
+	
 	public ArrayList<String> getMegustaUsuarios() {
 		return megustaUsuarios;
 	}
-	/*public void setMeGustaUsuarios(Usuario usuario) {
-		for(int i = 0; i<megustaUsers.length;i++)
-			if(megustaUsuarios[i]==null)
-				megustaUsuarios[i] = usuario.getNombre();
-	}*/
+	
 	@Override
 	public int compareTo (Publicacion p2) {
 		if(this.getFecha()>p2.getFecha())
@@ -122,9 +102,7 @@ public class Publicacion implements Comparable<Publicacion>{
 			return 1;
 		return 0;
 	}
-	/*public boolean equals(Publicacion p) {
-		return this.getId().equals(p.getId());
-	}*/
+	
 	public String toString() {
 		return "<b>"+usuario.getNombre()+" </b>: <br>"+ this.texto+ " id:"+this.id; 
 	}
@@ -146,5 +124,21 @@ public class Publicacion implements Comparable<Publicacion>{
 			texto+=it.next().asString().getValue()+" ";
 		}
 		return texto;
+	}
+	public String textoMeGusta() {
+		try {
+			if(megustaUsuarios.equals(null)) return "No le gusta a nadie";
+		}catch(Exception e) {
+			return "No le gusta a nadie";
+		}
+		Iterator <String> it=megustaUsuarios.iterator();
+		String texto="";
+		while(it.hasNext()) {
+			texto+=it.next()+" ";
+		}
+		return texto;
+	}
+	public void setMegustaUsuarios(ArrayList<String> megustaUsuarios) {
+		this.megustaUsuarios = megustaUsuarios;
 	}
 }

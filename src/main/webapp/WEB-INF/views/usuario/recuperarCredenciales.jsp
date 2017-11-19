@@ -14,6 +14,9 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 
+<link rel="shortcut icon" href="https://thumb.ibb.co/h7RMiR/Intra_Vita_Favicon.png" type="image/x-icon">
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+
 <style>
 	body {
 		background-color: #2CCBE7;
@@ -118,11 +121,21 @@
 				<input name="txtRespuesta" type="text" class="form-control" id="usr" placeholder="respuesta">
 				<br>
 			</div>
-		</div>	
+		</div>
+		<%--By JA --%>
+		<% String alertaRecuperarCredenciales = (String)session.getAttribute("alertaRecuperarCredenciales");
+			if (alertaRecuperarCredenciales != null) { %>
+				<script>
+				alert ("Enviando correo electronico con las intrucciones recuperacion. Revise su bandeja de entrada.");
+				window.location = "https://intravitawebapp.herokuapp.com/irReestablecerPwd";
+				<%--window.location= "http://localhost:8080/IntraVita/irReestablecerPwd";(Si estas en local usa esta linea)--%> 
+				</script>	
+		<% 		session.setAttribute("alertaRecuperarCredenciales", null);
+			}%>		
 		<div class="row">
 			<div class="col-md-2 col-md-offset-7">
 				<button class="boton login" type="submit" value="recuperar" title="Recuperar Contrase&ntilde;a mediante correo">
-					<span class="glyphicon glyphicon-send"></span> &nbsp;Recuperar Constrase&ntilde;a
+					<span class="glyphicon glyphicon-send"></span> &nbsp;<strong>Recuperar Contrase&ntilde;a</strong>
 				</button>
 			</div>	  
 		

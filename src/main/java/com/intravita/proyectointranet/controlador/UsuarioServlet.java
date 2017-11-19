@@ -125,7 +125,8 @@ public class UsuarioServlet {
 	
 	
 	@RequestMapping(value = "/irAdmin", method = RequestMethod.GET)
-	public ModelAndView irAdmin() {
+	public ModelAndView irAdmin(HttpServletRequest request, Model model) {
+		listarUsuario(model);
 		return cambiarVista("usuario/inicioAdmin");
 	}
 
@@ -146,14 +147,16 @@ public class UsuarioServlet {
 	
 	
 	@RequestMapping(value = "/irBienvenido", method = RequestMethod.GET)
-	public ModelAndView irBienvenido() {
+	public ModelAndView irBienvenido(HttpServletRequest request, Model model) {
+		listarPublicacion(request,model);
 		return cambiarVista("usuario/bienvenido");
 	}
 
 	
 	
 	@RequestMapping(value = "/irVistaAmigos", method = RequestMethod.GET)
-	public ModelAndView irVistaAmigos() {
+	public ModelAndView irVistaAmigos(HttpServletRequest request, Model model) {
+		mostrarNotificaciones(request, model);
 		return cambiarVista("usuario/vistaAmigos");
 	}
 
@@ -170,53 +173,58 @@ public class UsuarioServlet {
 	public ModelAndView irPerfilUsuarioAdmin(HttpServletRequest request, Model model) {
 		String nombre = request.getParameter("txtNombre");
 		request.getSession().setAttribute(usuario_edit, new Usuario(nombre));
+		listarPublicacionUsuario(request, model);
+		mostrarPerfilAdmin(request, model);
 		return cambiarVista("usuario/perfilUsuarioAdmin");
 	}
  
 	
 	
- /***
-  * 
-  *@method cambiar roles Admin->Usuario
-  *
-  */
- @RequestMapping(value="/changeToUser", method = RequestMethod.POST)
- public String changeToUser(HttpServletRequest request, Model model) {
-	Administrador admin=(Administrador) request.getSession().getAttribute(admin_conect);
-	String cadenaUrl=usuarioServ;
-	if(!admin.getNombre().equals("admin")) {
-		Usuario usuario=usuarioDao.selectNombre(admin.getNombre());
-		request.getSession().setAttribute("usuarioConectado", usuario);
-		return cadenaUrl+=welcome;
-	}
-	model.addAttribute("alerta", "No tienes permisos de usuario" );
-	cadenaUrl+=ini_admin;
-	return cadenaUrl;
- }
- 
- 
- 
- /***
-  * 
-  *@method cambiar roles Usuario->Admin
-  *
-  */
-	@RequestMapping(value = "/changeToAdmin", method = RequestMethod.POST)
-	public String changeToAdmin(HttpServletRequest request, Model model) {
-		Usuario usuario = (Usuario) request.getSession().getAttribute(usuario_conect);
-		String cadenaUrl = usuarioServ;
-		try {
-			Administrador admin = administradorDao.selectNombre(usuario.getNombre());
-			if (admin.getNombre() != null) {
-				request.getSession().setAttribute(admin_conect, admin);
-				cadenaUrl += ini_admin;
-				return cadenaUrl;
-			}
-		} catch (Exception e) {
-			model.addAttribute(alert, "No tienes permisos de administrador");
+	/***
+	  * 
+	  *@method cambiar roles Admin->Usuario
+	  *
+	  */
+	 @RequestMapping(value="/changeToUser", method = RequestMethod.POST)
+	 public String changeToUser(HttpServletRequest request, Model model) {
+		Administrador admin=(Administrador) request.getSession().getAttribute(admin_conect);
+		String cadenaUrl=usuarioServ;
+		if(!admin.getNombre().equals("admin")) {
+			Usuario usuario=usuarioDao.selectNombre(admin.getNombre());
+			usuario = usuarioDao.selectNombreImagen(admin.getNombre());
+			request.getSession().setAttribute("usuarioConectado", usuario);
+			listarPublicacion(request, model);
+			return cadenaUrl+=welcome;
 		}
-		return cadenaUrl += welcome;
-	}
+		model.addAttribute("alerta", "No tienes permisos de usuario" );
+		cadenaUrl+=ini_admin;
+		return cadenaUrl;
+	 }
+	 
+	 
+	 
+	 /***
+	  * 
+	  *@method cambiar roles Usuario->Admin
+	  *
+	  */
+		@RequestMapping(value = "/changeToAdmin", method = RequestMethod.POST)
+		public String changeToAdmin(HttpServletRequest request, Model model) {
+			Usuario usuario = (Usuario) request.getSession().getAttribute(usuario_conect);
+			String cadenaUrl = usuarioServ;
+			try {
+				Administrador admin = administradorDao.selectNombre(usuario.getNombre());
+				if (admin.getNombre() != null) {
+					request.getSession().setAttribute(admin_conect, admin);
+					cadenaUrl += ini_admin;
+					listarUsuario(model);
+					return cadenaUrl;
+				}
+			} catch (Exception e) {
+				model.addAttribute(alert, "No tienes permisos de administrador");
+			}
+			return cadenaUrl += welcome;
+		}
  
 	
 	
@@ -240,6 +248,7 @@ public class UsuarioServlet {
 		administrador.setClave(clave);
 		if (administradorDao.login(administrador) && request.getSession().getAttribute(admin_conect) == null) {
 			request.getSession().setAttribute(admin_conect, administrador);
+			listarUsuario(model);
 			return cadenaUrl += ini_admin;
 		}
 
@@ -252,7 +261,7 @@ public class UsuarioServlet {
 			request.getSession().setAttribute(usuario_conect, usuario);
 			String base64Encoded = DatatypeConverter.printBase64Binary(usuario.getImagen());
 			model.addAttribute("imagen", base64Encoded);
-
+			listarPublicacion(request, model);
 			return cadenaUrl += welcome;
 		}
 
@@ -395,29 +404,13 @@ public class UsuarioServlet {
 				request.setAttribute("emailRegistro", email);
 			}
 			if (e.getMessage().equals("Por favor rellene todos los campos")) {
-				if (nombre!=null) {
-					request.setAttribute("usuarioRegistro", nombre);
-				}
-				if (email!=null) {
-					request.setAttribute("emailRegistro", email);
-				}
-				else {	
-					request.setAttribute("usuarioRegistro", "");
-					request.setAttribute("emailRegistro", "");
-				}
-			}
-			if (e.getMessage().equals("Formato nombre invalido")) {
 				request.setAttribute("usuarioRegistro", "");
-				request.setAttribute("emailRegistro", email);
+				request.setAttribute("emailRegistro", "");
 			}
+		
 			
-			if (e.getMessage().equals("Password poco segura (minimo 8 caracteres, con numeros y letras)")) {
-				request.setAttribute("usuarioRegistro", nombre);
-				request.setAttribute("emailRegistro", email);
-			}
 			
 			return cadenaUrl += "registrar";
-			
 		}
 
 		Usuario usuario = new Usuario();
@@ -431,14 +424,15 @@ public class UsuarioServlet {
 		try {
 			usuarioDao.insertConImagen(usuario);
 		} catch (Exception e) {
-			model.addAttribute(alert, e.getMessage());
+			// model.addAttribute(alert, "Nombre de usuario no disponible");
+			model.addAttribute(alert, e);
+			request.setAttribute("emailRegistro", email);
 			return cadenaUrl += "registrar";
 		}
 		System.out.println("llega a la victoria");
 		HttpSession session = request.getSession();
 		session.setAttribute("alertaRegistro", "Mandando alerta registro");
-		request.setAttribute("usuarioRegistro", "");
-		request.setAttribute("emailRegistro", "");
+		
 		return cadenaUrl+="registrar";
 
 	}
@@ -547,7 +541,7 @@ public class UsuarioServlet {
 	 * 
 	 */
 	@RequestMapping(value = "/listarUsuario", method = RequestMethod.POST)
-	public String listarUsuario(Model model) throws Exception {
+	public String listarUsuario(Model model){
 		String cadenaUrl = usuarioServ;
 		model.addAttribute("usuarios", utilidades.listarUsuarios());
 		model.addAttribute("administradores", utilidades.listarAdministradores());
@@ -704,7 +698,7 @@ public class UsuarioServlet {
   * 
   */
 	@RequestMapping(value = "/listarPublicacionUsuario", method = RequestMethod.POST)
-	public String listarPublicacionUsuario(HttpServletRequest request, Model model) throws Exception {
+	public String listarPublicacionUsuario(HttpServletRequest request, Model model){
 		String cadenaUrl = usuarioServ;
 		Usuario usuario = (Usuario) request.getSession().getAttribute(usuario_edit);
 		ArrayList<Publicacion> publicas = publicacionDao.selectPublicas(usuario);
@@ -722,7 +716,7 @@ public class UsuarioServlet {
 		  		
 				"			<div class=\"col-md-3 col-md-offset-9\">"+
 				"				<br>\r\n" +
-				"				<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModalss\">Eliminar</button>\r\n" +
+				"				<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModalss\"><strong><span class=\"glyphicon glyphicon-trash\"></span>&nbsp;Eliminar</strong></button>\r\n" +
 				"			</div>\r\n" +
 				"			<div class=\"modal fade\" id=\"miModalss\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalssLabel\" aria-hidden=\"true\">\r\n" + 
 				"				<div class=\"modal-dialog\" role=\"document\">\r\n" + 
@@ -734,18 +728,22 @@ public class UsuarioServlet {
 				"							<h4 class=\"modal-title\" id=\"myModalssLabel\">Eliminar</h4>\r\n" + 
 				"						</div>\r\n" + 
 				"						<div class=\"modal-body\">\r\n" + 
-				"							¿Está seguro que desea eliminar la publicación?\r\n" + 
+				"							¿Est&aacute; seguro que desea eliminar la publicacit&oacute;n?\r\n" + 
 				"							<br>\r\n" + 
 				"							<form action=\"eliminarPubliAdmin\" method=\"POST\">\r\n" + 
 				"								<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
 				"								<br>" + 
-				"								<button class=\"btn btn-success btn-block btn-md login\" type=\"submit\">Si</button>\r\n" + 
+		  		"							<div class=\"row\">	"+
+		  		"								<div class=\"col-md-1 col-md-offset-7\">"+		
+		  		"								<button class=\"btn btn-success\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;Si</strong></button>\r\n" + 
+		  		"							</div>"+	
 				"							</form>\r\n" + 
 				"							<form action=\"listarPublicacionUsuario\" method=\"POST\">\r\n" + 
-				"								<br>\r\n" + 
-				"								<button class=\"btn btn-danger btn-block btn-md login\" type=\"submit\">No</button>\r\n" + 
+		  		"								<div class=\"col-md-1 col-md-offset-1\">"+
+		  		"									<button class=\"btn btn-danger\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-remove\"></span>&nbsp;No</strong></button>\r\n" + 
+		  		" 								</div>				"+
 				"							</form>\r\n" + 
-				"						</div>\r\n" + 
+				"						</div></div>\r\n" + 
 				"					</div>\r\n" + 
 				"				</div>\r\n" + 
 				"			</div>" + 
@@ -773,7 +771,10 @@ public class UsuarioServlet {
 		String cadenaUrl = usuarioServ;
 		Usuario usuario;
 		usuario = (Usuario) request.getSession().getAttribute(usuario_conect);
-
+		/*Variables avatar usuarioConectado*/
+		Usuario usrAux;
+		byte[]imagenBinaria;
+		/*Variables avatar usuarioConectado*/
 		ArrayList<Publicacion> publicas = publicacionDao.selectPublicas(usuario);
 		ArrayList<Publicacion> privadas = publicacionDao.selectPrivadas(usuario);
 		List<BsonValue> amigos = usuarioDao.obtenerAmigos(usuario);
@@ -782,6 +783,9 @@ public class UsuarioServlet {
 		ArrayList<Publicacion> compartidasAmigos = new ArrayList<Publicacion>();
 		BsonValue element;
 
+		Publicacion publicacion = new Publicacion(new Usuario("autor"), "texto");
+		ArrayList<String> usuarios;
+		List<BsonValue> usuariosComparten;
 		Iterator<BsonValue> it = amigos.iterator();
 		while (it.hasNext()) {
 			element = it.next();
@@ -795,18 +799,39 @@ public class UsuarioServlet {
 		Publicacion[] todas = utilidades.mostrarPublicaciones(publicas, privadas);
 		String texto = "";
 		String nombre = "";
+		/*Variables del tratamiento de imagen*/
+		String base64Encoded = DatatypeConverter.printBase64Binary(usuario.getImagen());
+		String imagenCodificada="";
+		/*Variables del tratamiento de imagen*/
+		
 		for (int i = 0; i < todas.length; i++) {
 			nombre = todas[i].getUsuario().getNombre();
+			/*tratamiento de imagen*/
+			usrAux=usuarioDao.selectNombreImagen(nombre);
+			imagenBinaria=usrAux.getImagen();
+			imagenCodificada=DatatypeConverter.printBase64Binary(imagenBinaria);
+			/*tratamiento de imagen*/
+			
+			publicacion.setId(todas[i].getId());
+			publicacion = publicacionDao.selectOne(publicacion);
+			usuarios = publicacionDao.usuariosMeGusta(publicacion);	
+			publicacion.setMegustaUsuarios(usuarios);
+			usuariosComparten=publicacionDao.obtenerCompartidos(publicacion);
+			publicacion.setCompartidopor(usuariosComparten);
+			
 			if (nombre.equals(usuario.getNombre())) {
 				texto = texto + "<div class=\"panel panel-default\">\r\n" + 
-				  		"	<div class=\"panel-body\">\r\n" + 
-				  		"			<b> "+ nombre +" </b> \r\n" + 
-				  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"ÃƒÂ¯Ã‚Â¿Ã‚Â½QuÃƒÂ¯Ã‚Â¿Ã‚Â½ tal el dÃƒÂ¯Ã‚Â¿Ã‚Â½a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
+				  		"	<div class=\"panel-body\">\r\n" +
+				  		/*Añadimos la linea imagenCodificada*/
+				  		"		<img src=\"data:image/gif;base64,"+imagenCodificada+"\" class=\"fotoPerfil img-thumbnail\" style=\"width:4%;\">"+ 
+				  		/*Añadimos la linea imagenCodificada*/
+				  		"			<b> "+ nombre +" </b> \r\n" +
+				  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"¿Qu&eacute; tal el d&iacute;a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
 				  		"			<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
 				  		"<br>"+
 				  		"<div class=\"row\">\r\n" + 
 				  		"	<div class=\"col-md-1 col-md-offset-9\">\r\n" + 
-				  		"		<button class=\"btn btn-primary\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModals\" title=\"Editar Publicación\"><strong><span class=\"glyphicon glyphicon-edit\"></span>&nbsp;Editar</strong></button>\r\n" + 
+				  		"		<button class=\"btn btn-primary\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModals\" title=\"Editar Publicaci&oacute;n\"><strong><span class=\"glyphicon glyphicon-edit\"></span>&nbsp;Editar</strong></button>\r\n" + 
 				  		"	</div>	 \r\n" +
 				  		"		<div class=\"modal fade\" id=\"miModals\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalsLabel\" aria-hidden=\"true\">\r\n" + 
 				  		"			<div class=\"modal-dialog\" role=\"document\">\r\n" + 
@@ -878,26 +903,37 @@ public class UsuarioServlet {
 			  }else {
 				  
 				  texto+="<div class=\"panel panel-default\">\r\n" + 
-					  		"	<div class=\"panel-body\">\r\n" + 
-					  		"		<b> "+nombre+"</b>\r\n" + 
+					  		"	<div class=\"panel-body\">\r\n" +
+					  		/*Añadimos la linea imagenCodificada*/
+					  		"<img src=\"data:image/gif;base64,"+imagenCodificada+"\" class=\"fotoPerfil img-thumbnail\" style=\"width:4%;\">"+ 
+					  		"		<b> "+nombre+"</b>\r\n" +
+					  		/*Añadimos la linea imagenCodificada*/
 					  		"		<textarea name=\"txtIntroducirTexto\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
 					  		"		<br>\r\n" + 
 					  		"			<div class=\"row\">	"+
-					  		"				<div class=\"col-md-2 col-md-offset-10\">"+
+					  		"				<div class=\"col-md-1 col-md-offset-9\">"+
+							"					<form action=\"meGusta\" method=\"post\">\r\n" + 
+							"						<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"ID\">\r\n" + 
+							"						<button type=\"submit\" class=\"btn btn-primary\" title=\""+publicacion.textoMeGusta()+"\"><strong><center><span class=\"glyphicon glyphicon-thumbs-up\"></span>&nbsp;"+usuarios.size()+"</center></strong></button>\r\n" + 
+							"					</form>\r\n" +
+							"				</div>" +
+					  		"				<div class=\"col-md-1\">"+
 					  		"					<form action=\"compartir\" method=\"post\">\r\n" + 
 					  		"						<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"ID\">\r\n" + 
-					  		"						<button type=\"submit\" class=\"btn btn-primary\" title=\""+todas[i].textoCompartido()+"\"><strong><center><span class=\"glyphicon glyphicon-retweet\"></span>&nbsp; Compartir</center></strong></button>\r\n" + 
-					  		"					</form>\r\n" +
-					  		"				</div>				" +
-					  		"			</div>					" +	
+					  		"						<button type=\"submit\" class=\"btn btn-primary\" title=\""+publicacion.textoCompartido()+"\"><strong><center><span class=\"glyphicon glyphicon-retweet\"></span>&nbsp; Compartir</center></strong></button>\r\n" + 
+					  		"					</form>\r\n" + 
+					  		"				</div>" +
+
+					  		"			</div>" +	
 					  		"	</div>\r\n" + 
 					  		"</div>";
 			  }
-
-				  
 				  
 			
 				  }
+				  /*se añade a ${imagen} en bienvenido.jsp*/
+				  model.addAttribute("imagen", base64Encoded);
+				  /*se añade a ${imagen} en la vista bienvenido.jsp*/
 				  model.addAttribute("publicaciones", texto);
 				  
 				  cadenaUrl+=welcome;  
@@ -916,79 +952,84 @@ public class UsuarioServlet {
 		return "usuario/bienvenido";
 	}
 
-	// By JA
-	@RequestMapping(value = "/irRecuperarCredenciales", method = RequestMethod.GET)
-	public ModelAndView irRecuperarCredenciales() throws Exception {
-		return cambiarVista("usuario/recuperarCredenciales");
-	}
-
-	
 	
 	// By JA
-	@RequestMapping(value = "/recuperarCredenciales", method = RequestMethod.POST)
-	public String recuperarCredenciales(HttpServletRequest request, Model model) throws Exception {
-		String nombre = request.getParameter("txtUsuarioNombre");
-		String respuesta = request.getParameter("txtRespuesta");
-
-		Usuario usuario = usuarioDao.selectNombre(nombre);
-		int pin = (int) (Math.random() * (9999 - 1000 + 1) + 1000);
-		String pinEmail = "intravita" + String.valueOf(pin);
-
-		try {
-			utilidades.comprobacionNombre(nombre);
-		} catch (Exception e) {
-			model.addAttribute(alert, e.getMessage());
-			return "usuario/recuperarCredenciales";
+		@RequestMapping(value = "/irRecuperarCredenciales", method = RequestMethod.GET)
+		public ModelAndView irRecuperarCredenciales() throws Exception {
+			return cambiarVista("usuario/recuperarCredenciales");
 		}
 
-		if (usuario == null || (!respuesta.equals(usuario.getRespuesta()))) {
-			model.addAttribute(alert, "Datos incorrectos");
-			return "usuario/recuperarCredenciales";
-		} else {
-			MailSender mailSender = new MailSender();
-			System.out.println("Estamos para mandar el correo");
+		
+		
+		// By JA
+		@RequestMapping(value = "/recuperarCredenciales", method = RequestMethod.POST)
+		public String recuperarCredenciales(HttpServletRequest request, Model model) throws Exception {
+			String nombre = request.getParameter("txtUsuarioNombre");
+			String respuesta = request.getParameter("txtRespuesta");
 
-			mailSender.sendMailRecoverPwd(usuario.getEmail(), pinEmail);
-			usuario.setClave(pinEmail);
+			Usuario usuario = usuarioDao.selectNombre(nombre);
+			int pin = (int) (Math.random() * (9999 - 1000 + 1) + 1000);
+			String pinEmail = "intravita" + String.valueOf(pin);
+
+			try {
+				utilidades.comprobacionNombre(nombre);
+			} catch (Exception e) {
+				model.addAttribute(alert, e.getMessage());
+				return "usuario/recuperarCredenciales";
+			}
+
+			if (usuario == null || (!respuesta.equals(usuario.getRespuesta()))) {
+				model.addAttribute(alert, "Datos incorrectos");
+				return "usuario/recuperarCredenciales";
+			} else {
+				MailSender mailSender = new MailSender();
+				System.out.println("Estamos para mandar el correo");
+
+				mailSender.sendMailRecoverPwd(usuario.getEmail(), pinEmail);
+				usuario.setClave(pinEmail);
+				usuarioDao.updatePwd(usuario);
+			}
+			HttpSession session = request.getSession();
+			session.setAttribute("alertaRecuperarCredenciales", "Mandando alerta recuperar credenciales");
+			return "usuario/recuperarCredenciales";
+
+		}
+
+		// By JA
+		@RequestMapping(value = "/irReestablecerPwd", method = RequestMethod.GET)
+		public ModelAndView irReestablecerPwd() throws Exception {
+			return cambiarVista("usuario/reestablecerPwd");
+		}
+		
+		// By JA
+		@RequestMapping(value = "/reestablecerPwd", method = RequestMethod.POST)
+		public String reestablecerPwd(HttpServletRequest request, Model model) throws Exception {
+			String pwdTemporal = DigestUtils.md5Hex(request.getParameter("txtPwdTemporal"));
+			String pwdNueva1 = request.getParameter("txtPwdNueva1");
+			String pwdNueva2 = request.getParameter("txtPwdNueva2");
+
+			Usuario usuario = usuarioDao.selectPwd(pwdTemporal);// buscar encriptada
+
+			if (usuario == null || !(pwdNueva1.equals(pwdNueva2))) {
+				model.addAttribute(alert, "Datos incorrectos");
+				return "usuario/reestablecerPwd";
+
+			}
+
+			try {
+				utilidades.seguridadPassword(pwdNueva1);
+			} catch (Exception e) {
+				model.addAttribute(alert, e.getMessage());
+				return "usuario/reestablecerPwd";
+			}
+
+			usuario.setClave(pwdNueva1);
 			usuarioDao.updatePwd(usuario);
-		}
-
-		return "usuario/reestablecerPwd";
-
-	}
-
-	
-	
-	// By JA
-	@RequestMapping(value = "/reestablecerPwd", method = RequestMethod.POST)
-	public String reestablecerPwd(HttpServletRequest request, Model model) throws Exception {
-		String pwdTemporal = DigestUtils.md5Hex(request.getParameter("txtPwdTemporal"));
-		String pwdNueva1 = request.getParameter("txtPwdNueva1");
-		String pwdNueva2 = request.getParameter("txtPwdNueva2");
-
-		Usuario usuario = usuarioDao.selectPwd(pwdTemporal);// buscar encriptada
-
-		if (usuario == null || !(pwdNueva1.equals(pwdNueva2))) {
-			model.addAttribute(alert, "Datos incorrectos");
+			HttpSession session = request.getSession();
+			session.setAttribute("alertaReestablecerPwd", "Mandando alerta reestablecer Pwd");
 			return "usuario/reestablecerPwd";
 
 		}
-
-		try {
-			utilidades.seguridadPassword(pwdNueva1);
-		} catch (Exception e) {
-			model.addAttribute(alert, e.getMessage());
-			return "usuario/reestablecerPwd";
-		}
-
-		usuario.setClave(pwdNueva1);
-		usuarioDao.updatePwd(usuario);
-
-		return "usuario/login";
-
-	}
-
-	
 	
 	/**
 	 * 
@@ -1093,7 +1134,7 @@ public class UsuarioServlet {
 	
 	
 	@RequestMapping(value = "/mostrarNotificaciones", method = RequestMethod.GET)
-	public String mostrarNotificaciones(HttpServletRequest request, Model model) throws Exception {
+	public String mostrarNotificaciones(HttpServletRequest request, Model model){
 		Usuario usuario;
 		usuario = (Usuario) request.getSession().getAttribute(usuario_conect);
 		model.addAttribute("notificaciones", utilidades.mostrarNotificaciones(usuario));
@@ -1107,7 +1148,7 @@ public class UsuarioServlet {
 	 *         nombre y pwd
 	 */
 	@RequestMapping(value = "/mostrarPerfilAdmin", method = RequestMethod.GET)
-	public String mostrarPerfilAdmin(HttpServletRequest request, Model model) throws Exception {
+	public String mostrarPerfilAdmin(HttpServletRequest request, Model model){
 		Usuario usuario;
 		usuario = (Usuario) request.getSession().getAttribute(usuario_edit);
 		model.addAttribute("perfil", utilidades.mostrarPerfilAdmin(usuario));
@@ -1140,6 +1181,7 @@ public class UsuarioServlet {
 			utilidades.comprobacionNombre(nuevoNombre);
 			usuarioDao.updateNombre(usuario.getNombre(), nuevoNombre);
 			publicacionDao.updateNombre(usuario.getNombre(), nuevoNombre);
+			publicacionDao.updateCompartidosYMegusta(usuario.getNombre(),nuevoNombre);
 			usuario.setNombre(nuevoNombre);
 			request.getSession().setAttribute(usuario_edit, usuario);
 		} catch (Exception e) {
@@ -1225,9 +1267,32 @@ public class UsuarioServlet {
 
 		usuario.setClave(pwdNueva1);
 		usuarioDao.updatePwd(usuario);
+		HttpSession session = request.getSession();
+		session.setAttribute("alertaModificarPerfilUsuario", "Mandando alerta modificar perfil usuario");
+		return "usuario/perfilUsuario";
 
-		return "usuario/bienvenido";
+	}
+	@RequestMapping(value = "/meGusta", method = RequestMethod.POST)
+	public String meGusta(HttpServletRequest request, Model model) {
+		String cadenaUrl = usuarioServ;
 
+		Usuario usuario = (Usuario) request.getSession().getAttribute(usuario_conect);
+		String id = request.getParameter("txtIdPublicacion");
+		Publicacion publicacion = new Publicacion(new Usuario("autor"), "texto");
+		publicacion.setId(id);
+		publicacion = publicacionDao.selectOne(publicacion);
+		try {
+			utilidades.megusta(publicacion, usuario);
+		} catch (Exception e) {
+			try {
+				utilidades.nomegusta(publicacion, usuario);
+			} catch (Exception e1) {
+				model.addAttribute("alerta", e1.getMessage());
+			}
+		}
+		listarPublicacion(request, model);
+		cadenaUrl += welcome;
+		return cadenaUrl;
 	}
 
 	public ModelAndView cambiarVista(String nombreVista) {

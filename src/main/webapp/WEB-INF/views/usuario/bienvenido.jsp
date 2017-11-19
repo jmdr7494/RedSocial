@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Bienvenido</title>
+<title>Bienvenido - IntraVita</title>
 <!-- Latest compiled and minified CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<!-- jQuery library -->
@@ -13,6 +13,12 @@
 	<!-- Latest compiled JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="estilo.css" />
+	
+	
+	<!--Favicon-->
+	<link rel="shortcut icon" href="https://thumb.ibb.co/h7RMiR/Intra_Vita_Favicon.png" type="image/x-icon">
+	<link rel="icon" href="/favicon.ico" type="image/x-icon">
+	
 <style>	
 	spam {
     padding: 20px;
@@ -65,6 +71,10 @@ body{
       
 .fotoPerfil{
 	width:100px;
+}
+
+textarea {
+	resize: none;
 }
 
 </style>
@@ -126,12 +136,6 @@ body{
 			</strong></em></h3>
 
 		</div>
-		<div class="col-md-1">
-				<br/>
-				<img src=<jsp:getProperty name="usuarioConectado" property="imagen"/>>
-				<img src="data:image/gif;base64,${imagen}" class="fotoPerfil">
-				<img src=>
-		</div>
 
 		<div class="col-md-1 col-md-offset-">
   		</div>
@@ -173,9 +177,17 @@ body{
 	</div>
 	
 	
-	 <form action="crearPublicacion" method="post" id="formlogin">
+	 <form action="crearPublicacion" method="post" id="formlogin">    	
+    	
     	<div class="row">
-	 		<div class="col-md-8 col-md-offset-2">
+	 		<div class="col-md-1 col-md-offset-1">
+	 			<center>
+					<img src="data:image/gif;base64,${imagen}" class="fotoPerfil">
+				</center>
+			</div>
+	 		
+	 		
+	 		<div class="col-md-8">
 			  <label for="comment">Realizar publicaci&oacute;n</label>
 			  <textarea name="txtIntroducirTexto" autofocus placeholder="¿Qu&eacute; tal el d&iacute;a?" class="form-control" rows="5" id="comment"></textarea>
 			</div>  
