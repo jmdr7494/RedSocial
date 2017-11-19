@@ -1267,8 +1267,9 @@ public class UsuarioServlet {
 
 		usuario.setClave(pwdNueva1);
 		usuarioDao.updatePwd(usuario);
-
-		return "usuario/bienvenido";
+		HttpSession session = request.getSession();
+		session.setAttribute("alertaModificarPerfilUsuario", "Mandando alerta modificar perfil usuario");
+		return "usuario/perfilUsuario";
 
 	}
 	@RequestMapping(value = "/meGusta", method = RequestMethod.POST)
