@@ -803,68 +803,70 @@ public class UsuarioServlet {
 		String base64Encoded = DatatypeConverter.printBase64Binary(usuario.getImagen());
 		String imagenCodificada="";
 		/*Variables del tratamiento de imagen*/
-		
+
 		for (int i = 0; i < todas.length; i++) {
 			nombre = todas[i].getUsuario().getNombre();
 			/*tratamiento de imagen*/
 			usrAux=usuarioDao.selectNombreImagen(nombre);
-			imagenBinaria=usrAux.getImagen();
-			imagenCodificada=DatatypeConverter.printBase64Binary(imagenBinaria);
-			/*tratamiento de imagen*/
-			
-			publicacion.setId(todas[i].getId());
-			publicacion = publicacionDao.selectOne(publicacion);
-			usuarios = publicacionDao.usuariosMeGusta(publicacion);	
-			publicacion.setMegustaUsuarios(usuarios);
-			usuariosComparten=publicacionDao.obtenerCompartidos(publicacion);
-			publicacion.setCompartidopor(usuariosComparten);
-			
-			if (nombre.equals(usuario.getNombre())) {
-				texto = texto + "<div class=\"panel panel-default\">\r\n" + 
-				  		"	<div class=\"panel-body\">\r\n" +
-				  		/*Añadimos la linea imagenCodificada*/
-				  		"		<img src=\"data:image/gif;base64,"+imagenCodificada+"\" class=\"fotoPerfil img-thumbnail\" style=\"width:4%;\">"+ 
-				  		/*Añadimos la linea imagenCodificada*/
-				  		"			<b> "+ nombre +" </b> \r\n" +
-				  		"			<textarea name=\"txtIntroducirTexto\" placeholder=\"¿Qu&eacute; tal el d&iacute;a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
-				  		"			<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
-				  		"<br>"+
-				  		"<div class=\"row\">\r\n" + 
-				  		"	<div class=\"col-md-1 col-md-offset-9\">\r\n" + 
-				  		"		<button class=\"btn btn-primary\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModals\" title=\"Editar Publicaci&oacute;n\"><strong><span class=\"glyphicon glyphicon-edit\"></span>&nbsp;Editar</strong></button>\r\n" + 
-				  		"	</div>	 \r\n" +
-				  		"		<div class=\"modal fade\" id=\"miModals\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalsLabel\" aria-hidden=\"true\">\r\n" + 
-				  		"			<div class=\"modal-dialog\" role=\"document\">\r\n" + 
-				  		"				<div class=\"modal-content\">\r\n" + 
-				  		"					<div class=\"modal-header\">\r\n" + 
-				  		"						<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n" + 
-				  		"							<span aria-hidden=\"true\">&times;</span>\r\n" + 
-				  		"						</button>\r\n" + 
-				  		"						<h4 class=\"modal-title\" id=\"myModalsLabel\">Editar</h4>\r\n" + 
-				  		"					</div>\r\n" + 
-				  		"					<div class=\"modal-body\">\r\n" + 
-				  		"						¿Está seguro que desea editar la publicación?\r\n" + 
-				  		"						<br>\r\n" + 
-				  		"						<form action=\"editarPubli\" method=\"POST\">\r\n" + 
-				  		"							<textarea name=\"txtIntroducirTexto\" placeholder=\"¿Qué tal el día?\" class=\"form-control\" rows=\"5\" id=\"comment\">"+ todas[i].getTexto()+"</textarea>\r\n" + 
-				  		"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
-				  		"							<br>		"	+
-				  		"							<div class=\"row\">	"+
-				  		"								<div class=\"col-md-1 col-md-offset-8\">"+		
-				  		"								<button class=\"btn btn-success\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;Si</strong></button>\r\n" + 
-				  		"							</div>"+	
-				  		"						</form>\r\n" + 
-				  		"						<div class=\"col-md-1 col-md-offset-1\">"+
-				  		"						<form action=\"listarPublicacion\" method=\"POST\">\r\n" +  
-				  		"							<button class=\"btn btn-danger\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-remove\"></span>&nbsp;No</strong></button>\r\n" + 
-				  		"						</form>\r\n" + 
-				  		"						</div></div>"+	
-				  		"					</div>\r\n" + 
-				  		"				</div>\r\n" + 
-				  		"			</div>\r\n" + 
-				  		"		</div>" +
-				  		
-				  		
+			if(!nombre.equals("Papelera")) {
+				imagenBinaria=usrAux.getImagen();
+
+				imagenCodificada=DatatypeConverter.printBase64Binary(imagenBinaria);
+				/*tratamiento de imagen*/
+
+				publicacion.setId(todas[i].getId());
+				publicacion = publicacionDao.selectOne(publicacion);
+				usuarios = publicacionDao.usuariosMeGusta(publicacion);	
+				publicacion.setMegustaUsuarios(usuarios);
+				usuariosComparten=publicacionDao.obtenerCompartidos(publicacion);
+				publicacion.setCompartidopor(usuariosComparten);
+
+				if (nombre.equals(usuario.getNombre())) {
+					texto = texto + "<div class=\"panel panel-default\">\r\n" + 
+							"	<div class=\"panel-body\">\r\n" +
+							/*Añadimos la linea imagenCodificada*/
+							"		<img src=\"data:image/gif;base64,"+imagenCodificada+"\" class=\"fotoPerfil img-thumbnail\" style=\"width:4%;\">"+ 
+							/*Añadimos la linea imagenCodificada*/
+							"			<b> "+ nombre +" </b> \r\n" +
+							"			<textarea name=\"txtIntroducirTexto\" placeholder=\"¿Qu&eacute; tal el d&iacute;a?\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
+							"			<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
+							"<br>"+
+							"<div class=\"row\">\r\n" + 
+							"	<div class=\"col-md-1 col-md-offset-9\">\r\n" + 
+							"		<button class=\"btn btn-primary\" type=\"submit\" data-toggle=\"modal\" data-target=\"#miModals\" title=\"Editar Publicaci&oacute;n\"><strong><span class=\"glyphicon glyphicon-edit\"></span>&nbsp;Editar</strong></button>\r\n" + 
+							"	</div>	 \r\n" +
+							"		<div class=\"modal fade\" id=\"miModals\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalsLabel\" aria-hidden=\"true\">\r\n" + 
+							"			<div class=\"modal-dialog\" role=\"document\">\r\n" + 
+							"				<div class=\"modal-content\">\r\n" + 
+							"					<div class=\"modal-header\">\r\n" + 
+							"						<button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\r\n" + 
+							"							<span aria-hidden=\"true\">&times;</span>\r\n" + 
+							"						</button>\r\n" + 
+							"						<h4 class=\"modal-title\" id=\"myModalsLabel\">Editar</h4>\r\n" + 
+							"					</div>\r\n" + 
+							"					<div class=\"modal-body\">\r\n" + 
+							"						¿Está seguro que desea editar la publicación?\r\n" + 
+							"						<br>\r\n" + 
+							"						<form action=\"editarPubli\" method=\"POST\">\r\n" + 
+							"							<textarea name=\"txtIntroducirTexto\" placeholder=\"¿Qué tal el día?\" class=\"form-control\" rows=\"5\" id=\"comment\">"+ todas[i].getTexto()+"</textarea>\r\n" + 
+							"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
+							"							<br>		"	+
+							"							<div class=\"row\">	"+
+							"								<div class=\"col-md-1 col-md-offset-8\">"+		
+							"								<button class=\"btn btn-success\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;Si</strong></button>\r\n" + 
+							"							</div>"+	
+							"						</form>\r\n" + 
+							"						<div class=\"col-md-1 col-md-offset-1\">"+
+							"						<form action=\"listarPublicacion\" method=\"POST\">\r\n" +  
+							"							<button class=\"btn btn-danger\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-remove\"></span>&nbsp;No</strong></button>\r\n" + 
+							"						</form>\r\n" + 
+							"						</div></div>"+	
+							"					</div>\r\n" + 
+							"				</div>\r\n" + 
+							"			</div>\r\n" + 
+							"		</div>" +
+
+
 						"	<div class=\"col-md-1\">"+
 						"		<button type=\"submit\" class=\"btn btn-danger\" data-toggle=\"modal\" data-target=\"#miModalss\" title=\"Eliminar Publicación\"><strong><span class=\"glyphicon glyphicon-trash\"></span>&nbsp;Eliminar</strong></button>\r\n" +
 						"  	</div>"+	 
@@ -885,61 +887,62 @@ public class UsuarioServlet {
 						"							<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"usr\" placeholder=\"usuario\">" + 
 						"							<br>" + 
 						"							<div class=\"row\">	"+
-				  		"								<div class=\"col-md-1 col-md-offset-8\">"+		
-				  		"								<button class=\"btn btn-success\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;Si</strong></button>\r\n" + 
-				  		"							</div>		"+ 
+						"								<div class=\"col-md-1 col-md-offset-8\">"+		
+						"								<button class=\"btn btn-success\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-ok\"></span>&nbsp;Si</strong></button>\r\n" + 
+						"							</div>		"+ 
 						"						</form>\r\n" + 
-				  		"						<div class=\"col-md-1 col-md-offset-1\">"+	  		
+						"						<div class=\"col-md-1 col-md-offset-1\">"+	  		
 						"						<form action=\"listarPublicacion\" method=\"POST\">\r\n" + 
-				  		"							<button class=\"btn btn-danger\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-remove\"></span>&nbsp;No</strong></button>\r\n" + 
-				  		"						</form>\r\n" + 
-				  		"						</div></div>"+	
+						"							<button class=\"btn btn-danger\" type=\"submit\"><strong><span class=\"glyphicon glyphicon-remove\"></span>&nbsp;No</strong></button>\r\n" + 
+						"						</form>\r\n" + 
+						"						</div></div>"+	
 						"					</div>\r\n" + 
 						"				</div>\r\n" + 
 						"			</div>\r\n" + 
 						"		</div>" + 
-						  		"	</div>\r\n" + 
-						  		"</div>	";		  
-			  }else {
-				  
-				  texto+="<div class=\"panel panel-default\">\r\n" + 
-					  		"	<div class=\"panel-body\">\r\n" +
-					  		/*Añadimos la linea imagenCodificada*/
-					  		"<img src=\"data:image/gif;base64,"+imagenCodificada+"\" class=\"fotoPerfil img-thumbnail\" style=\"width:4%;\">"+ 
-					  		"		<b> "+nombre+"</b>\r\n" +
-					  		/*Añadimos la linea imagenCodificada*/
-					  		"		<textarea name=\"txtIntroducirTexto\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
-					  		"		<br>\r\n" + 
-					  		"			<div class=\"row\">	"+
-					  		"				<div class=\"col-md-1 col-md-offset-9\">"+
+						"	</div>\r\n" + 
+						"</div>	";		  
+				}else {
+
+					texto+="<div class=\"panel panel-default\">\r\n" + 
+							"	<div class=\"panel-body\">\r\n" +
+							/*Añadimos la linea imagenCodificada*/
+							"<img src=\"data:image/gif;base64,"+imagenCodificada+"\" class=\"fotoPerfil img-thumbnail\" style=\"width:4%;\">"+ 
+							"		<b> "+nombre+"</b>\r\n" +
+							/*Añadimos la linea imagenCodificada*/
+							"		<textarea name=\"txtIntroducirTexto\" class=\"form-control\" rows=\"5\" id=\"comment\" disabled>"+ todas[i].getTexto()+"</textarea>\r\n" + 
+							"		<br>\r\n" + 
+							"			<div class=\"row\">	"+
+							"				<div class=\"col-md-1 col-md-offset-9\">"+
 							"					<form action=\"meGusta\" method=\"post\">\r\n" + 
 							"						<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"ID\">\r\n" + 
 							"						<button type=\"submit\" class=\"btn btn-primary\" title=\""+publicacion.textoMeGusta()+"\"><strong><center><span class=\"glyphicon glyphicon-thumbs-up\"></span>&nbsp;"+usuarios.size()+"</center></strong></button>\r\n" + 
 							"					</form>\r\n" +
 							"				</div>" +
-					  		"				<div class=\"col-md-1\">"+
-					  		"					<form action=\"compartir\" method=\"post\">\r\n" + 
-					  		"						<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"ID\">\r\n" + 
-					  		"						<button type=\"submit\" class=\"btn btn-primary\" title=\""+publicacion.textoCompartido()+"\"><strong><center><span class=\"glyphicon glyphicon-retweet\"></span>&nbsp; Compartir</center></strong></button>\r\n" + 
-					  		"					</form>\r\n" + 
-					  		"				</div>" +
+							"				<div class=\"col-md-1\">"+
+							"					<form action=\"compartir\" method=\"post\">\r\n" + 
+							"						<input name=\"txtIdPublicacion\" type=\"hidden\" class=\"form-control\" value=\""+todas[i].getId()+"\" id=\"ID\">\r\n" + 
+							"						<button type=\"submit\" class=\"btn btn-primary\" title=\""+publicacion.textoCompartido()+"\"><strong><center><span class=\"glyphicon glyphicon-retweet\"></span>&nbsp; Compartir</center></strong></button>\r\n" + 
+							"					</form>\r\n" + 
+							"				</div>" +
 
 					  		"			</div>" +	
 					  		"	</div>\r\n" + 
 					  		"</div>";
-			  }
-				  
-			
-				  }
-				  /*se añade a ${imagen} en bienvenido.jsp*/
-				  model.addAttribute("imagen", base64Encoded);
-				  /*se añade a ${imagen} en la vista bienvenido.jsp*/
-				  model.addAttribute("publicaciones", texto);
-				  
-				  cadenaUrl+=welcome;  
-				  return cadenaUrl;
+
+				}
+			}
+		}
+		/*se añade a ${imagen} en bienvenido.jsp*/
+		model.addAttribute("imagen", base64Encoded);
+		/*se añade a ${imagen} en la vista bienvenido.jsp*/
+		model.addAttribute("publicaciones", texto);
+
+		cadenaUrl+=welcome;  
+		return cadenaUrl;
+
 	}
- 
+
 	
 	
 	/***
