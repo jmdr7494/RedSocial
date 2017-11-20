@@ -431,8 +431,9 @@ public class UsuarioServlet {
 		}
 		System.out.println("llega a la victoria");
 		HttpSession session = request.getSession();
+		request.setAttribute("usuarioRegistro", "");
+		request.setAttribute("emailRegistro", "");
 		session.setAttribute("alertaRegistro", "Mandando alerta registro");
-		
 		return cadenaUrl+="registrar";
 
 	}
@@ -1268,6 +1269,8 @@ public class UsuarioServlet {
 		usuario.setClave(pwdNueva1);
 		usuarioDao.updatePwd(usuario);
 		HttpSession session = request.getSession();
+		request.setAttribute("usuarioNombre", usuario.getNombre());
+		request.setAttribute("usuarioEmail", usuario.getEmail());
 		session.setAttribute("alertaModificarPerfilUsuario", "Mandando alerta modificar perfil usuario");
 		return "usuario/perfilUsuario";
 
