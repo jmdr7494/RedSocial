@@ -945,15 +945,15 @@ public class UsuarioServlet {
 
 	
 	
-	/***
-	 * 
-	 * @method cambiar a la ventana "bienvenido" desde la vista de usuario
-	 *
-	 */
-	@RequestMapping(value = "/bienvenido", method = RequestMethod.GET)
-	public String bienvenido() throws Exception {
-		return "usuario/bienvenido";
-	}
+		/***
+		 * 
+		 * @method cambiar a la ventana "bienvenido" desde la vista de usuario
+		 *
+		 */
+		@RequestMapping(value = "/bienvenido", method = RequestMethod.GET)
+		public String bienvenido() throws Exception {
+			return "usuario/bienvenido";
+		}
 
 	
 	// By JA
