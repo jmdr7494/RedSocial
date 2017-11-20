@@ -149,7 +149,7 @@
 		<div class="row">
 			<div class="col-md-6 col-md-offset-3">
 				<label for="usr" style="color:white; font-size:15px">¿Cual es tu mejor amigo/a de la infancia?</label>
-				<input name="txtRespuesta" type="text" class="form-control" id="usr" placeholder="respuesta" onFocus="if(this.value!='')this.value=''">
+				<input name="txtRespuesta" type="text" class="form-control" id="usr" placeholder="respuesta">
 			</div>
 		</div>
 		

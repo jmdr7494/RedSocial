@@ -109,7 +109,7 @@ body{
    <div class="col-md-8 col-md-offset-2">
     <label for="pwd" style="color:white; font-size:15px;">Contrase&ntilde;a:</label>
     <input type="password" name="txtUsuarioClave" class="form-control" id="pwd" placeholder="password">
-    <a href="irRecuperarCredenciales" style="color: white"><em>¿Olvidó su contrase&ntilde;a?</em></a>
+    <a href="irRecuperarCredenciales" style="color: white"><em>¿Olvid&oacute; su contrase&ntilde;a?</em></a>
    </div>
  </div>   
  </div>
