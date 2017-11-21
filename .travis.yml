@@ -14,4 +14,4 @@ deploy:
 notifications:
  slack:
   rooms:
-   - intravita-g4:DCYo1QUObHAPAGOXlDWM4Bcd#general
+   - equipo1-redsocial:gHtgV5g6eQM5DkxGobKNoNIx#general
