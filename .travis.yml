@@ -11,6 +11,11 @@ deploy:
   repo: jmdr7494/RedSocial
   branch: herokuapp
   
+_browsers:
+  firefox-esr: &firefox-esr
+    addons:
+      firefox: latest-esr
+  
 notifications:
  slack:
   rooms:
