@@ -51,5 +51,15 @@ public class borrarCuentaTest {
 		publicacion.setUsuario(new Usuario("Papelera"));
 		assertTrue(publicacionDao.existe(publicacion));
 	}
+	
+	@When("^Datos incorrectos$")
+	public void Datos_incorrectos() {
+	    usuario=null;
+	}
+
+	@Then("^No se borra cuenta$")
+	public void No_se_borra_cuenta() {
+		assertTrue(usuario==null);
+	}
 
 }

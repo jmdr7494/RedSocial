@@ -5,13 +5,13 @@ jdk:
 deploy:
  provider: heroku
  api_key:
-  secure: e109a861-ecbd-4a0c-9653-c650019d489a
- app: intravitawebapp
+  secure: 00b2aadb-407c-47d2-a761-c09a6a8c0008
+ app: mantenimiento1718
  on:
-  repo: jmdr7494/RedSocial
+  repo: AlbaAM/RedSocial
   branch: herokuapp
   
 notifications:
  slack:
   rooms:
-   - intravita-g4:DCYo1QUObHAPAGOXlDWM4Bcd#general
+   - equipo1-redsocial:gHtgV5g6eQM5DkxGobKNoNIx#general

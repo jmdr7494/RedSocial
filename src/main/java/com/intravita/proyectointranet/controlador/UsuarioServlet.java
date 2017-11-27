@@ -476,7 +476,7 @@ public class UsuarioServlet {
 	
 	/***
 	 * 
-	 * @method funcion del administrador de promover un usuario a admin
+	 * @method funcion del administrador de promocionar un usuario a admin
 	 *
 	 */
 	@RequestMapping(value = "/promover", method = RequestMethod.POST)
@@ -494,7 +494,7 @@ public class UsuarioServlet {
 				Administrador admin = new Administrador(usuario.getNombre(), usuario.getClave(), usuario.getEmail());
 				administradorDao.insertSinEncrypt(admin);
 			} else {
-				model.addAttribute(alert, "El usuario que intentas promover no existe");
+				model.addAttribute(alert, "El usuario que intentas promocionar no existe");
 			}
 		}
 		listarUsuario(model);

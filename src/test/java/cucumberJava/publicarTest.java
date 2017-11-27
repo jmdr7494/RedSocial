@@ -30,4 +30,14 @@ public class publicarTest {
 	public void Mensaje_de_exito_a_la_publicacion() {
 		assertTrue(publiDao.existe(publicacion));
 	}
+	
+	@When("^Publicacion incorrecta$")
+	public void Publicacion_incorrecta() {
+		publicacion = new Publicacion(usuario, "");
+	}
+
+	@Then("^Mensaje de fallo a la publicacion$")
+	public void Mensaje_de_fallo_a_la_publicacion() {
+	    assertTrue(!publiDao.existe(publicacion));
+	}
 }
