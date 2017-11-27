@@ -382,7 +382,7 @@ public class utilidades {
 					"			<input name=\"txtNombre\" type=\"hidden\" class=\"form-control\" value=\""+aux.getNombre() +"\" id=\"usr\" placeholder=\"usuario\" >\r\n" + 
 					"		</div>\r\n" + 
 					"		<div class=\"col-md-2\">\r\n" + 
-					"			<button class=\"btn btn-success btn-block login\" formaction=\"promover\" type=\"submit\" title=\"Promover Usuario\"><strong><span class=\"glyphicon glyphicon-thumbs-up\"></span></strong></button>\r\n" +
+					"			<button class=\"btn btn-success btn-block login\" formaction=\"promocionar\" type=\"submit\" title=\"Promocionar Usuario\"><strong><span class=\"glyphicon glyphicon-thumbs-up\"></span></strong></button>\r\n" +
 					"		</div>\r\n" + 
 					"		<div class=\"col-md-2\">\r\n" + 
 					"			<button class=\"btn btn-primary btn-block login\" formaction=\"irPerfilUsuarioAdmin\" type=\"submit\" title=\"Modificar Perfil\"><strong><span class=\"glyphicon glyphicon-user\"></span></strong></button>\r\n" + 
