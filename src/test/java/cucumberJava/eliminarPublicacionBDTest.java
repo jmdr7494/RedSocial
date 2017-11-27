@@ -37,4 +37,16 @@ public class eliminarPublicacionBDTest {
 	public void Mensaje_de_exito_en_la_eliminacion_de_publicacion() {
 		assertFalse(publiDao.existe(aux));
 	}
+	
+
+	@When("^Eliminacion incorrecta$")
+	public void Eliminacion_incorrecta() {
+		assertTrue(publiDao.existe(publi));
+	    aux=publiDao.selectOne(publi);
+	}
+
+	@Then("^Mensaje de fallo en la eliminacion de publicacion$")
+	public void Mensaje_de_fallo_en_la_eliminacion_de_publicacion() {
+		assertFalse(!publiDao.existe(aux));
+	}
 }

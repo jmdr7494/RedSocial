@@ -38,4 +38,16 @@ public class editarPublicacionBDTest {
 	public void Mensaje_de_exito_en_la_edicion_de_la_publicacion() {
 		assertTrue(publiDao.selectOne(aux).getTexto().equals("Texto EDICION MODIFICADO"));
 	}
+	
+	@When("^Edicion incorrecto$")
+	public void Edicion_incorrecto() {
+		aux=publiDao.selectOne(publicacion);
+			
+	}
+
+	@Then("^Mensaje de error en la edicion de la publicacion$")
+	public void Mensaje_de_error_en_la_edicion_de_la_publicacion() {
+		assertTrue(aux.getTexto().equals("Texto a editar"));
+	}
+
 }

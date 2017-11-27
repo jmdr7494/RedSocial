@@ -109,7 +109,7 @@ body{
 					<div class="modal-body">
 						Introducir el nombre del usuario sobre el que queramos realizar una acci&oacute;n en el cuadro de texto
 						correspondiente para ello. Si quiere darle privilegios de administrador, tendr&aacute; que hacer click 
-						sobre el bot&oacute;n de Promover. Si lo que desea es quitarlo de la colecci&oacute;n de administradores, tendr&aacute;
+						sobre el bot&oacute;n de Promocionar. Si lo que desea es quitarlo de la colecci&oacute;n de administradores, tendr&aacute;
 						que hacer click sobre el bot&oacute;n Degradar. Y si lo que quiere es eliminar a un usuario o administrador
 						del sistema, tendr&aacute; que hacer click sobre el bot&oacute;n Borrar.<br><br>
 						Para consultar los usuarios y administradores del sistema tendr&aacute; que hacer click sobre el bot&oacute;n 
