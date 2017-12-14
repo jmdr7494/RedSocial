@@ -168,10 +168,10 @@ textarea {
 			</div>					
 	</div>
 	
+	<div class="container">
 	
-	 <form action="crearPublicacion" method="post" id="formlogin">    	
-    	
-    	<div class="row">
+		<form action="crearPublicacion" method="post" id="publicacion">
+			<div class="row">
 	 		<div class="col-md-1 col-md-offset-1">
 	 			<center>
 					<img src="data:image/gif;base64,${imagen}" class="fotoPerfil">
@@ -196,6 +196,7 @@ textarea {
  			</div>	  
 		</div>
 	</form>
+	</div>
 	
 	<br/>
 	<div class="row">
