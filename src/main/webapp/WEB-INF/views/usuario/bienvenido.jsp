@@ -189,22 +189,20 @@ textarea {
 	 		
 	 		<div class="col-md-8">
 			  <label for="comment">Realizar publicaci&oacute;n</label>
-			  <input name="txtPublicacion" autofocus type="text" class="form-control" id="publicacion" placeholder="Que tal el dia">
+			  <textarea name="txtIntroducirTexto" autofocus placeholder="¿Qu&eacute; tal el d&iacute;a?" class="form-control" rows="5" id="comment"></textarea>
+
 			</div>  
-		</div>
+			</div>
 		
 		<br/>
 		
-		<div class="row">
-			<div class="col-md-1 col-md-offset-8">
- 				<button class="btn btn-primary btn-block login" formaction="crearPublicacionPrivada" type="submit" title="Publicaci&oacute;n Privada"><strong><span class="glyphicon glyphicon-tag"></span>&nbsp;Borrador</strong></button>
- 			</div>	
+		
+	</form>
+	<div class="row">
  			<div class="col-md-1">
  				<button class="btn btn-primary btn-block login" type="submit" title="Publicaci&oacute;n P&uacute;blica"><strong><span class="glyphicon glyphicon-share-alt"></span>&nbsp;Publicar</strong></button>
  			</div>	  
 		</div>
-	</form>
-	
 	<br/>
 	<div class="row">
 		<div class="col-md-3 col-md-offset-8">
