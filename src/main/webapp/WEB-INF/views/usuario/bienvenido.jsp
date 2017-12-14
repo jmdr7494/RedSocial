@@ -188,9 +188,9 @@ textarea {
 		<br/>
 		
 		<div class="row">
-			<div class="col-md-1 col-md-offset-8">
+			<%-- <div class="col-md-1 col-md-offset-8">
  				<button class="btn btn-primary btn-block login" formaction="crearPublicacionPrivada" type="submit" title="Publicaci&oacute;n Privada"><strong><span class="glyphicon glyphicon-tag"></span>&nbsp;Borrador</strong></button>
- 			</div>	
+ 			</div> --%>	
  			<div class="col-md-1">
  				<button class="btn btn-primary btn-block login" type="submit" title="Publicaci&oacute;n P&uacute;blica"><strong><span class="glyphicon glyphicon-share-alt"></span>&nbsp;Publicar</strong></button>
  			</div>	  
