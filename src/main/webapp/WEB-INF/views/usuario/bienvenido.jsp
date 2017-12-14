@@ -177,7 +177,7 @@ textarea {
 	</div>
 	
 	
-	 <form action="crearPublicacion" method="post" id="formlogin">    	
+	 <form action="crearPublicacion" method="post" id="formPublicar">    	
     	
     	<div class="row">
 	 		<div class="col-md-1 col-md-offset-1">
@@ -189,7 +189,7 @@ textarea {
 	 		
 	 		<div class="col-md-8">
 			  <label for="comment">Realizar publicaci&oacute;n</label>
-			  <textarea name="txtIntroducirTexto" autofocus placeholder="¿Qu&eacute; tal el d&iacute;a?" class="form-control" rows="5" id="comment"></textarea>
+			  <input name="txtPublicacion" autofocus type="text" class="form-control" id="publicacion" placeholder="Que tal el dia">
 			</div>  
 		</div>
 		
