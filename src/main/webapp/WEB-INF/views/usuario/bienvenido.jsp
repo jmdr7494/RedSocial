@@ -27,9 +27,6 @@
 	font-weight: bold;
 	font-size: 15px;
 }
-
-
-
 * {
    margin:0;
    padding:0
@@ -42,9 +39,7 @@ body,
 body > #wrap {
    height: auto;
    min-height: 100%;
-
 }
-
 body{
    background-color: #FAFAFA;
 }
@@ -57,7 +52,6 @@ body{
    height: 50px; /* Altura del footer */
    clear: both;
 }
-
 .boton{
         font-size:16px;
         font-weight:bold;
@@ -72,11 +66,9 @@ body{
 .fotoPerfil{
 	width:100px;
 }
-
 textarea {
 	resize: none;
 }
-
 </style>
 	
 	
@@ -177,7 +169,7 @@ textarea {
 	</div>
 	
 	
-	 <form action="crearPublicacion" method="post" id="formPublicar">    	
+	 <form action="crearPublicacion" method="post" id="formlogin">    	
     	
     	<div class="row">
 	 		<div class="col-md-1 col-md-offset-1">
@@ -190,19 +182,21 @@ textarea {
 	 		<div class="col-md-8">
 			  <label for="comment">Realizar publicaci&oacute;n</label>
 			  <textarea name="txtIntroducirTexto" autofocus placeholder="¿Qu&eacute; tal el d&iacute;a?" class="form-control" rows="5" id="comment"></textarea>
-
 			</div>  
-			</div>
+		</div>
 		
 		<br/>
 		
-		
-	</form>
-	<div class="row">
+		<div class="row">
+			<div class="col-md-1 col-md-offset-8">
+ 				<button class="btn btn-primary btn-block login" formaction="crearPublicacionPrivada" type="submit" title="Publicaci&oacute;n Privada"><strong><span class="glyphicon glyphicon-tag"></span>&nbsp;Borrador</strong></button>
+ 			</div>	
  			<div class="col-md-1">
  				<button class="btn btn-primary btn-block login" type="submit" title="Publicaci&oacute;n P&uacute;blica"><strong><span class="glyphicon glyphicon-share-alt"></span>&nbsp;Publicar</strong></button>
  			</div>	  
 		</div>
+	</form>
+	
 	<br/>
 	<div class="row">
 		<div class="col-md-3 col-md-offset-8">
