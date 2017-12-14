@@ -168,10 +168,10 @@ textarea {
 			</div>					
 	</div>
 	
-	<div class="container">
 	
-		<form action="crearPublicacion" method="post" id="publicacion">
-			<div class="row">
+	 <form action="crearPublicacion" method="post" id="formlogin">    	
+    	
+    	<div class="row">
 	 		<div class="col-md-1 col-md-offset-1">
 	 			<center>
 					<img src="data:image/gif;base64,${imagen}" class="fotoPerfil">
@@ -188,15 +188,14 @@ textarea {
 		<br/>
 		
 		<div class="row">
-			<%-- <div class="col-md-1 col-md-offset-8">
+			<div class="col-md-1 col-md-offset-8">
  				<button class="btn btn-primary btn-block login" formaction="crearPublicacionPrivada" type="submit" title="Publicaci&oacute;n Privada"><strong><span class="glyphicon glyphicon-tag"></span>&nbsp;Borrador</strong></button>
- 			</div> --%>	
+ 			</div>	
  			<div class="col-md-1">
  				<button class="btn btn-primary btn-block login" type="submit" title="Publicaci&oacute;n P&uacute;blica"><strong><span class="glyphicon glyphicon-share-alt"></span>&nbsp;Publicar</strong></button>
  			</div>	  
 		</div>
 	</form>
-	</div>
 	
 	<br/>
 	<div class="row">
